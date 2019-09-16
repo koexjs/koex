@@ -2,13 +2,18 @@
   "packages": [
     "packages/*"
   ],
-  "version": "0.0.0",
+  "version": "0.0.1",
   "command": {
     "publish": {
       "npmClient": "npm",
       "registry": "https://registry.npmjs.org/",
-      "ignoreChanges": ["*.lock", "CHANGELOG.md"],
-      "allowBranch": ["master"],
+      "ignoreChanges": [
+        "*.lock",
+        "CHANGELOG.md"
+      ],
+      "allowBranch": [
+        "master"
+      ],
       "commitHooks": false,
       "message": "chore(release): publish",
       "conventionalCommits": true
