@@ -1,0 +1,15 @@
+{
+  "name": "helloworld",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "author": "Zero",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node -r tsconfig-paths/register index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "tsconfig-paths": "^3.9.0"
+  }
+}

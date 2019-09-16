@@ -1,0 +1,30 @@
+{
+  "packages": [
+    "packages/*"
+  ],
+  "version": "0.0.0",
+  "command": {
+    "publish": {
+      "npmClient": "npm",
+      "registry": "https://registry.npmjs.org/",
+      "ignoreChanges": ["*.lock", "CHANGELOG.md"],
+      "allowBranch": ["master"],
+      "commitHooks": false,
+      "message": "chore(release): publish",
+      "conventionalCommits": true
+    },
+    "bootstrap": {
+      "npmClient": "npm"
+    }
+  },
+  "changelog": {
+    "repo": "zcorky/fastapi",
+    "labels": {
+      "enchancement": ":rocket:(Enhancement)",
+      "bug": ":bug:(Bug Fix)",
+      "doc": ":doc:(Refine Doc)",
+      "feat": ":sparkles:(Feature)"
+    },
+    "cacheDir": ".changelog"
+  }
+}
