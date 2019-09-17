@@ -1,0 +1,24 @@
+{
+  "name": "helloworld",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "author": "Zero",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "ts-node -r tsconfig-paths/register index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@koex/body": "^0.0.8",
+    "@types/basic-auth": "^1.1.2",
+    "@zodash/crypto": "^0.0.3",
+    "@zodash/delay": "^0.0.11",
+    "@zodash/uuid": "^0.0.3",
+    "basic-auth": "^2.0.1"
+  }
+}
