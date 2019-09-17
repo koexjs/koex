@@ -12,8 +12,6 @@ export interface Options {
 }
 
 export class Koex extends Koa {
-  // private readonly logger = logger;
-
   constructor(private readonly options?: Options) {
     super()
   }
