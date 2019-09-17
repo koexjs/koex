@@ -32,6 +32,10 @@ export class Koex extends Koa {
     this.use(this.router.put(path, ...middlewares));
   }
 
+  public patch(path: string, ...middlewares: Middleware<Context>[]) {
+    this.use(this.router.patch(path, ...middlewares));
+  }
+
   public del(path: string, ...middlewares: Middleware<Context>[]) {
     this.use(this.router.del(path, ...middlewares));
   }
