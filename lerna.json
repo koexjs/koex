@@ -9,7 +9,7 @@
       "registry": "https://registry.npmjs.org/",
       "ignoreChanges": [
         "*.lock",
-        "CHANGELOG.md"
+        "*.md"
       ],
       "allowBranch": [
         "master"
@@ -19,9 +19,18 @@
       "conventionalCommits": true
     },
     "bootstrap": {
-      "npmClient": "npm"
+      "npmClient": "npm",
+      "bootstrap": {
+        "hoist": true
+      }
+    },
+    "version": {
+      "conventionalCommits": true
     }
   },
+  "ignoreChanges": [
+    "**/*.md"
+  ],
   "changelog": {
     "repo": "zcorky/fastapi",
     "labels": {
