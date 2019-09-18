@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 
 import App from '@koex/core';
 import body from '@koex/body';
@@ -9,7 +10,6 @@ import * as basicAuth from 'basic-auth';
 import * as base64 from '@zodash/crypto/lib/base64';
 import { md5 } from '@zodash/crypto/lib/md5';
 import * as aes from '@zodash/crypto/lib/aes';
-import { extname } from 'path';
 
 declare module '@koex/core' {
   export interface Logger {
@@ -59,11 +59,13 @@ app.use(async function json(ctx, next) {
 
 app.use(async function resource(ctx, next) {
   ctx.resource = async (filepath: string, contentType: string) => {
+    const absoluteFilePath = path.join(process.cwd(), filepath);
+
     // secure
     ctx.set('X-Content-Type-Options', 'nosniff');
 
     // fs.stat
-    const stats = await stat(filepath);
+    const stats = await stat(absoluteFilePath);
     ctx.set('Last-Modified', `${stats.mtime}`);
     ctx.set('Content-Length', `${stats.size}`);
 
@@ -72,7 +74,7 @@ app.use(async function resource(ctx, next) {
 
     // basic
     ctx.set('Content-Type', contentType);
-    ctx.body = fs.createReadStream(filepath);
+    ctx.body = fs.createReadStream(absoluteFilePath);
   }
 
   await next();
@@ -510,6 +512,8 @@ app.get('/pdf', async (ctx) => {
   await ctx.resource('./static/pdfs/img.jpeg.pdf', 'application/pdf');
 });
 
-app.listen(9999, '0.0.0.0', () => {
-  console.log('server start at http://127.0.0.1:9999.');
+const port = +process.env.PORT || 8080;
+
+app.listen(port, '0.0.0.0', () => {
+  console.log(`server start at http://127.0.0.1:${port}.`);
 });
