@@ -5,6 +5,7 @@ import App from '@koex/core';
 import body from '@koex/body';
 import { uuid } from '@zodash/uuid';
 import { delay } from '@zodash/delay';
+import { format } from '@zodash/format';
 import * as basicAuth from 'basic-auth';
 
 import * as base64 from '@zodash/crypto/lib/base64';
@@ -19,6 +20,7 @@ declare module '@koex/core' {
   export interface Context {
     json(data: object | any[]): Promise<void>;
     resource(filepath: string, contentType: string): Promise<void>;
+    render<T>(viewpath: string, context?: T): Promise<void>;
     logger: Logger;
   }
 }
@@ -46,12 +48,37 @@ const stat = (filepath: string): Promise<fs.Stats> => new Promise((resolve, reje
   });
 });
 
-
-app.use(body());
+app.use(async function error(ctx, next) {
+  try {
+    await next();
+  } catch (err) {
+    ctx.json({
+      errcode: err.code || err.status || 500,
+      errmessage: !env.prod ? err.message : 'Internal Server Error',
+    });
+  }
+});
 
 app.use(async function json(ctx, next) {
   ctx.json = async (data: any) => {
     ctx.body = data;
+  }
+
+  await next();
+});
+
+app.use(async function render(ctx, next) {
+  ctx.render = async <T>(viewpath: string, context?: T) => {
+    return new Promise<T>((resolve, reject) => {
+      const absoluteFilePath = path.join(process.cwd(), viewpath);
+      fs.readFile(absoluteFilePath, (err, text) => {
+        if (err) {
+          reject(err);
+        }
+        ctx.body = format(text.toString(), context);
+        resolve();
+      });
+    });
   }
 
   await next();
@@ -90,22 +117,19 @@ app.use(async function logger(ctx, next) {
   await next();
 });
 
+app.use(body({
+  enableTypes: ['json', 'form', 'multipart'],
+  formidable: {
+    // maxFileSize: 100 * 1024 * 1024, // 100M
+    maxFileSize: 500 * 1024 * 1024, // 500M
+  },
+}));
+
 app.use(async (ctx, next) => {
   time.start();
   ctx.logger.debug(`=> [${new Date().toUTCString()}] ${ctx.method} ${ctx.originalUrl}`);
   await next();
   ctx.logger.debug(`<= [${new Date().toUTCString()}] ${ctx.method} ${ctx.originalUrl} ${ctx.status} ${time.end()}ms`);
-});
-
-app.use(async function error(ctx, next) {
-  try {
-    await next();
-  } catch (err) {
-    ctx.json({
-      errcode: err.code || err.status || 500,
-      errmessage: !env.prod ? err.message : 'Internal Server Error',
-    });
-  }
 });
 
 app.get('/health', async (ctx) => {
@@ -176,7 +200,7 @@ app.post('/post', async (ctx) => {
     url: ctx.url,
     query: ctx.query,
     params: ctx.params,
-    body: ctx.body,
+    body: ctx.request.body,
     files: ctx.files,
     headers: ctx.headers,
     origin: ctx.origin,
@@ -192,7 +216,7 @@ app.put('/put', async (ctx) => {
     url: ctx.url,
     query: ctx.query,
     params: ctx.params,
-    body: ctx.body,
+    body: ctx.request.body,
     files: ctx.files,
     headers: ctx.headers,
     origin: ctx.origin,
@@ -208,7 +232,7 @@ app.patch('/patch', async (ctx) => {
     url: ctx.url,
     query: ctx.query,
     params: ctx.params,
-    body: ctx.body,
+    body: ctx.request.body,
     files: ctx.files,
     headers: ctx.headers,
     origin: ctx.origin,
@@ -224,7 +248,7 @@ app.del('/delete', async (ctx) => {
     url: ctx.url,
     query: ctx.query,
     params: ctx.params,
-    body: ctx.body,
+    body: ctx.request.body,
     files: ctx.files,
     headers: ctx.headers,
     origin: ctx.origin,
@@ -313,7 +337,7 @@ app.get('/delay/:delay', async (ctx) => {
     url: ctx.url,
     query: ctx.query,
     params: ctx.params,
-    body: ctx.body,
+    body: ctx.request.body,
     files: ctx.files,
     headers: ctx.headers,
     origin: ctx.origin,
@@ -511,6 +535,27 @@ app.get('/image/png', async (ctx) => {
 app.get('/pdf', async (ctx) => {
   await ctx.resource('./static/pdfs/img.jpeg.pdf', 'application/pdf');
 });
+
+app.get('/upload', async (ctx) => {
+  await ctx.render('./view/upload.html', {
+    title: 'Upload',
+  });
+});
+
+app.post('/upload', async (ctx) => {
+  console.log(ctx.request.files);
+  await ctx.json({
+    method: ctx.method,
+    url: ctx.url,
+    query: ctx.query,
+    params: ctx.params,
+    body: ctx.request.body,
+    files: ctx.request.files,
+    headers: ctx.headers,
+    origin: ctx.origin,
+  });
+});
+
 
 const port = +process.env.PORT || 8080;
 

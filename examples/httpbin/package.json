@@ -12,6 +12,7 @@
   },
   "devDependencies": {
     "@types/node": "^12.7.5",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.6.3"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "@types/basic-auth": "^1.1.2",
     "@zodash/crypto": "^0.0.3",
     "@zodash/delay": "^0.0.11",
+    "@zodash/format": "^1.0.1-alpha.11",
     "@zodash/uuid": "^0.0.3",
     "basic-auth": "^2.0.1"
   }
