@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./node_modules/.cache/dist",
+    "baseUrl": "../..",
+    "lib": ["es2018", "dom"],
+    "paths": {
+      "@koex/*": ["packages/*"]
+    }
+  },
+  "include": [
+    "."
+  ]
+ }
+ 
