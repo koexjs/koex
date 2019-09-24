@@ -8,6 +8,7 @@ import { format } from '@zodash/format';
 
 import { md5 } from '@zodash/crypto/lib/md5';
 import { map } from '@zodash/map';
+import { uuid } from '@zodash/uuid';
 import { lru as LRU } from '@zcorky/lru';
 
 import * as OSS from 'ali-oss';
@@ -81,7 +82,7 @@ app.use(async function json(ctx, next) {
 
 app.use(async function render(ctx, next) {
   ctx.render = async <T>(viewpath: string, context?: T) => {
-    return new Promise<T>((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       const absoluteFilePath = path.join(process.cwd(), viewpath);
       fs.readFile(absoluteFilePath, (err, text) => {
         if (err) {
@@ -183,20 +184,30 @@ app.post('/upload', async (ctx) => {
     }
   });
 
-  const md5Files = map(files, file => ({ ...file, md5: md5(encodeURIComponent(JSON.stringify(file))) }));
+  const md5Files = map(files, file => {
+    const filemd5 = md5(encodeURIComponent(JSON.stringify(file)));
+    const filename = `${filemd5}${path.extname(file.name)}`;
+    return { ...file, md5: filemd5, filename  };
+  });
 
   const needUploadFiles = md5Files.filter(file => !memCache.hasKey(file.md5));
 
-  const cachedRes = md5Files.filter(file => memCache.hasKey(file.md5)).map(file => memCache.get(file.md5));
+  // const cachedRes = md5Files.filter(file => memCache.hasKey(file.md5)).map(file => memCache.get(file.md5));
 
   const newRes = await Promise.all(needUploadFiles.map(file => {
-    return new Promise<OSS.PutObjectResult & { md5: string }>((resolve, reject) => {
+    return new Promise<OSS.PutObjectResult & { md5: string, filename: string }>((resolve, reject) => {
+      // using md5 as file name
+      // const filename = file.name;
+      // 
+      const hashedFilename = file.filename;
+
       client
-        .put(`${process.env.OSS_PREFIX}/${file.name}`, file.path)
+        .put(`${process.env.OSS_PREFIX}/${hashedFilename}`, file.path)
         .then(res => {
           resolve({
             ...res,
             md5: file.md5,
+            filename: hashedFilename,
           });
         })
         .catch(reject);
@@ -205,15 +216,13 @@ app.post('/upload', async (ctx) => {
 
   newRes.forEach(file => memCache.set(file.md5, file));
 
-  const res = md5Files.map(file => memCache.get(file.md5));
-
-  // await ctx.json({
-  //   uploadData,
-  //   downloadData: {
-  //     files,
-  //     // newRes,
-  //   },
-  // });
+  const res = md5Files.map(file => {
+    return {
+      md5: file.md5,
+      filename: file.filename,
+      ...memCache.get(file.md5),
+    };
+  });
 
   if (files.length > 1) {
     return await ctx.json({
@@ -266,7 +275,7 @@ app.get('/file/:filename', async (ctx) => {
     ctx.body = stream;
   } catch (err) {
     if (err.code === 'NoSuchKey') {
-      err.code = 404;
+      err.code = err.status || 404;
       err.message = 'Resource Not Found';
     }
     
