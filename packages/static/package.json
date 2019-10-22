@@ -10,20 +10,19 @@
   "scripts": {
     "build": "npm run clean && tsc",
     "clean": "rimraf -rf lib",
-    "test": "NODE_ENV=test nyc mocha test/*.spec.ts test/**/*.spec.ts --exit --timeout 10000",
-    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test": "jest -w 1",
+    "coverage": "codecov",
     "prepublish": "npm run build"
   },
   "devDependencies": {
     "@types/compressible": "^2.0.0",
     "@types/debug": "^0.0.31",
+    "@types/jest": "^24.0.19",
     "@types/koa": "^2.0.47",
     "@types/mime-types": "^2.1.0",
-    "@types/mocha": "^5.2.5",
     "@types/ms": "^0.7.30",
     "@types/mz": "^0.0.32",
     "@types/node": "^10.9.4",
-    "@types/sinon": "^5.0.2",
     "@zcorky/delay": "^1.0.1",
     "@zcorky/koa-router": "^0.0.2",
     "@zcorky/lru": "^1.0.2",
@@ -32,40 +31,55 @@
     "coveralls": "^3.0.2",
     "debug": "^4.1.0",
     "global": "^4.3.2",
+    "jest": "^24.9.0",
     "koa": "^2.6.2",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
     "rimraf": "^2.6.2",
     "should": "^13.2.3",
-    "sinon": "^6.3.4",
-    "source-map-support": "^0.5.9",
     "supertest": "^3.3.0",
-    "ts-node": "^7.0.1",
-    "tslint": "^5.10.0",
-    "tslint-eslint-rules": "^5.3.1",
-    "tslint-jsdoc-rules": "^0.1.2",
-    "typescript": "^3.1.1"
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
   },
   "files": [
     "lib/"
   ],
-  "nyc": {
-    "check-coverage": true,
-    "include": [
-      "src/**/*.ts"
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "jest": {
+    "roots": [
+      "__tests__"
     ],
-    "exclude": [
-      "**/*.d.ts"
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": ".*\\.(spec|test)\\.(ts|tsx)$",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
     ],
-    "extension": [
-      ".ts"
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
     ],
-    "require": [
-      "ts-node/register",
-      "source-map-support/register"
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
     ],
-    "sourceMap": true,
-    "instrument": true
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 90,
+        "lines": 80,
+        "statements": -10
+      }
+    },
+    "preset": "ts-jest"
   },
   "publishConfig": {
     "access": "public"

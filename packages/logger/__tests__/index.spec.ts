@@ -1,8 +1,8 @@
-import { Koex } from '../src/index';
+// import { Koex } from '../src/index';
 
 // compose vs pipe
 
-describe("@koex/core", () => {
+describe("@koex/logger", () => {
   it('ok', () => {
     expect(true).toBeTruthy();
   })

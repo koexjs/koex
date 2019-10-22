@@ -22,7 +22,7 @@ describe('koa static', () => {
 
     it('server with prefix and dir, visit /static/package.json', async () => {
 
-      await request(app.listen())
+      await request(app.callback())
         .get('/static/package.json')
         .set('Accept-Encoding', 'gzip')
         .expect('Content-Type', /json/)
@@ -39,13 +39,13 @@ describe('koa static', () => {
     });
 
     it('server with prefix and dir, visit /static//package.json', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/')
         .expect(404);
     });
 
     it('only support get/head: head', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .head('/static/package.json')
         .set('Accept-Encoding', 'gzip')
         .expect('Content-Type', /json/)
@@ -59,58 +59,58 @@ describe('koa static', () => {
     });
 
     it('only support get/head, other not support: post', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .post('/')
         .expect(404);
     });
 
     it('only support get/head, other not support: put', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .put('/')
         .expect(404);
     });
 
     it('server with prefix and dir, not allow ..', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/static/..')
         .expect(404);
     });
 
     it('server with prefix and dir, not allow ../..', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/static/../..')
         .expect(404);
     });
 
     it('server with prefix and dir, should start with dir', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/static/../../package.json')
         .expect(404);
     });
 
     it('server with prefix and dir, should exist', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/static/package.js')
         .expect(404);
     });
 
     it('server with prefix and dir, same etag', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/static/package.json')
         .set('etag', file.md5)
         .expect(304);
     });
 
     it('server with prefix and dir, same last-modified', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/static/package.json')
         .set('Last-Modified', file.mtime)
         .expect(200);
     });
 
     it('server with prefix and dir, encodeURIComponent and decodeURIComponent', async () => {
-      await request(app.listen())
-        .get(`/static/test/fixture/${encodeURIComponent('测试文件')}.js`)
+      await request(app.callback())
+        .get(`/static/__tests__/fixture/${encodeURIComponent('测试文件')}.js`)
         .expect(200);
     });
   });
@@ -141,7 +141,7 @@ describe('koa static', () => {
     }));
 
     it('match path & method, doesnot fallback koa-router:get', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get(`/static/package.json`)
         .expect(200)
         .then(response => {
@@ -150,7 +150,7 @@ describe('koa static', () => {
     });
 
     it('doesnot match path, fallback koa-router', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get(`/health`)
         .expect(200)
         .then(response => {
@@ -159,7 +159,7 @@ describe('koa static', () => {
     });
 
     it('doesnot match method, fallback koa-router:post', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .post(`/static/package.json`)
         .expect(200)
         .then(response => {

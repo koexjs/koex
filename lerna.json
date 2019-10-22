@@ -20,9 +20,8 @@
     },
     "bootstrap": {
       "npmClient": "npm",
-      "bootstrap": {
-        "hoist": true
-      }
+      "npmClientArgs": ["--no-package-lock"],
+      "hoist": true
     },
     "version": {
       "conventionalCommits": true

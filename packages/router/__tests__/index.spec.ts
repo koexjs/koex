@@ -47,81 +47,81 @@ describe('koa router', () => {
     });
 
     it('should get /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/')
         .expect(200, 'get');
     });
 
     it('should post /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .post('/')
         .expect(200, 'post');
     });
 
     it('should put /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .put('/')
         .expect(200, 'put');
     });
 
     it('should patch /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .patch('/')
         .expect(200, 'patch');
     });
 
     it('should delete /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .delete('/')
         .expect(200, 'delete');
     });
 
     it('should head /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .head('/')
         .expect(200);
     });
 
     it('should options /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .options('/')
         .expect(200);
     });
 
     it('should options /', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .options('/')
         .expect(200);
     });
 
     it('should all /all', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .options('/all')
         .expect(200);
       
-      await request(app.listen())
+      await request(app.callback())
         .get('/all')
         .expect('ALL /all');
 
-      await request(app.listen())
+      await request(app.callback())
         .post('/all')
         .expect('ALL /all');
 
-      await request(app.listen())
+      await request(app.callback())
         .put('/all')
         .expect('ALL /all');
 
-      await request(app.listen())
+      await request(app.callback())
         .patch('/all')
         .expect('ALL /all');
 
-      await request(app.listen())
+      await request(app.callback())
         .del('/all')
         .expect('ALL /all');
     });
 
     it('should fallback to the last middleware', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/xxxx')
         .expect(200, 'hello, world');
     });
@@ -147,25 +147,25 @@ describe('koa router', () => {
     });
 
     it('should parse one param', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/xxxx')
         .expect(200, { id: 'xxxx' });
     });
 
     it('should parse two params', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/a/b')
         .expect(200, { product: 'a', comment: 'b' });
     });
 
     it('should parse more params', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/a/b/c')
         .expect(200, { product: 'a', comment: 'b', user: 'c' });
     });
 
     it('should fallback to the last middleware', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/a/b/c/d')
         .expect(200, 'hello, world');
     });
@@ -201,7 +201,7 @@ describe('koa router', () => {
     }));
 
     it('should parse one param', async () => {
-      await request(app.listen())
+      await request(app.callback())
         .get('/xxxx')
         .expect('X-Post-Action1', 'mid')
         .expect('X-Post-Action2', 'post')
