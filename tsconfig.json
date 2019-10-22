@@ -4,13 +4,12 @@
     "declaration": true,
     "noImplicitAny": false,
     "removeComments": true,
-    "noLib": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6",
-    "sourceMap": true,
+    "target": "esnext",
+    "sourceMap": false,
     "lib": [
-      "es6"
+      "es2018"
     ],
     "resolveJsonModule": true,
     "baseUrl": ".",
