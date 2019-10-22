@@ -1,6 +1,6 @@
 {
   "name": "@koex/logger",
-  "version": "0.0.0",
+  "version": "0.0.8",
   "description": "koex core logger",
   "keywords": [
     "koex",
@@ -67,7 +67,7 @@
     "url": "https://github.com/zcorky/zodash/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.0.7",
+    "@koex/core": "^0.0.8",
     "@types/jest": "^24.0.19",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
