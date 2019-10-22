@@ -1,0 +1,78 @@
+{
+  "name": "@koex/router",
+  "version": "0.0.7",
+  "description": "router for koa extend",
+  "main": "lib/index.js",
+  "repository": "https://github.com/koexjs/router",
+  "author": "Zero",
+  "license": "MIT",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "build": "npm run clean && tsc",
+    "clean": "rimraf -rf lib",
+    "test": "NODE_ENV=test nyc mocha test/*.spec.ts test/**/*.spec.ts --exit --timeout 10000",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "prepublish": "npm run build"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.31",
+    "@types/koa": "^2.0.47",
+    "@types/koa-compose": "^3.2.2",
+    "@types/mocha": "^5.2.5",
+    "@types/ms": "^0.7.30",
+    "@types/node": "^10.9.4",
+    "@types/sinon": "^5.0.2",
+    "@zcorky/delay": "^1.0.1",
+    "chai": "^4.1.2",
+    "chai-spies": "^1.0.0",
+    "coveralls": "^3.0.2",
+    "global": "^4.3.2",
+    "husky": "^1.2.0",
+    "koa": "^2.6.2",
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0",
+    "rimraf": "^2.6.2",
+    "should": "^13.2.3",
+    "sinon": "^6.3.4",
+    "source-map-support": "^0.5.9",
+    "supertest": "^3.3.0",
+    "ts-node": "^7.0.1",
+    "tslint": "^5.10.0",
+    "tslint-eslint-rules": "^5.3.1",
+    "tslint-jsdoc-rules": "^0.1.2",
+    "typescript": "^3.5.3"
+  },
+  "files": [
+    "lib/"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test"
+    }
+  },
+  "nyc": {
+    "check-coverage": true,
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "**/*.d.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register",
+      "source-map-support/register"
+    ],
+    "sourceMap": true,
+    "instrument": true
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "koa-compose": "^4.1.0",
+    "path-to-regexp": "^2.4.0"
+  }
+}

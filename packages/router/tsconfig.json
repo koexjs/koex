@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "target": "es2018",
+        "strictNullChecks": true,
+        "noImplicitThis": false,
+        "noUnusedLocals": true,
+        "noImplicitAny": false,
+        "outDir": "lib",
+        "lib": ["es2018"],
+        "declaration": true,
+        "sourceMap": false,
+        "removeComments": true,
+        "baseUrl": "./",
+        "paths": {
+            "@/*": ["src/*"],
+            "lib/*": ["src/*"]
+        }
+    },
+    "include": ["src/**/*.ts"]
+}
