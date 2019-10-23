@@ -13,16 +13,21 @@
   "devDependencies": {
     "@types/jest": "^24.0.19",
     "@types/lodash": "^4.14.134",
-    "@types/node": "^11.13.14",
+    "@types/node": "^12.7.5",
     "@types/statuses": "^1.5.0",
+    "codecov": "^3.5.0",
+    "husky": "^3.0.9",
     "jest": "^24.9.0",
     "lerna": "^3.15.0",
     "lerna-changelog": "^0.8.2",
     "lodash": "^4.17.11",
-    "ts-jest": "^24.0.2",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
   },
-  "dependencies": {
-    "codecov": "^3.5.0"
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm test",
+      "pre-push": "npm test"
+    }
   }
 }
