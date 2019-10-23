@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.0.12](https://github.com/koexjs/koex/compare/v0.0.11...v0.0.12) (2019-10-23)
+
+**Note:** Version bump only for package root
+
+
+
+
+
 ## 0.0.11 (2019-10-23)
 
 **Note:** Version bump only for package root
