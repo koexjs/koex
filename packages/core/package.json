@@ -7,7 +7,7 @@
     "core"
   ],
   "author": "zero <tobewhatwewant@gmail.com>",
-  "homepage": "https://github.com/zcorky/zodash#readme",
+  "homepage": "https://github.com/koexjs/koex#readme",
   "license": "MIT",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
@@ -56,7 +56,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zcorky/zodash.git"
+    "url": "git+https://github.com/koexjs/koex.git"
   },
   "scripts": {
     "build": "tsc",
@@ -64,7 +64,7 @@
     "coverage": "codecov"
   },
   "bugs": {
-    "url": "https://github.com/zcorky/zodash/issues"
+    "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
     "@koex/router": "^0.0.10",
