@@ -1,5 +1,5 @@
 import Koex, { Context } from '@koex/core';
-import passport, { Strategy } from '@koex/passport';
+import passport, { OauthStrategy, IGetUserByStrategyProfile } from '@koex/passport';
 
 import * as qs from '@zcorky/query-string';
 import fetch from 'node-fetch';
@@ -10,68 +10,41 @@ export interface GithubStrategyOptions {
   redirect_uri: string;
 }
 
-export class GithubStrategy extends Strategy {
-  constructor(private readonly options: GithubStrategyOptions) {
-    super();
+export class GithubStrategy extends OauthStrategy {
+  constructor(private readonly _options: GithubStrategyOptions, public readonly getUserByStrategyProfile: IGetUserByStrategyProfile) {
+    super({
+      ..._options,
+      response_type: 'code',
+      grant_type: 'authorization_code',
+      authorize_url: 'https://github.com/login/oauth/authorize',
+      token_url: 'https://github.com/login/oauth/access_token',
+      user_info_url: 'https://api.github.com/user',
+    }, getUserByStrategyProfile);
   }
 
-  public async user(id: string) {
-    return {
-      id,
-    };
-  }
+  // public async user(id: string) {
+  //   return {
+  //     id,
+  //   };
+  // }
 
   public async authenticate(ctx: Context) {
-    const { client_id, redirect_uri } = this.options;
-    const scope = '';
-    const response_type = 'code';
-    const payload = {
-      client_id,
-      redirect_uri,
-      response_type,
-      scope,
-    };
-
-    const authorize_url = `https://github.com/login/oauth/authorize?${qs.stringify(payload)}`;
-
-    ctx.redirect(authorize_url);
+    const auth_server_url = await this.getAuthorizeUrl();
+    ctx.redirect(auth_server_url);
   }
 
   public async callback(ctx: Context) {
     const code = ctx.query.code;
-    const { client_id, client_secret, redirect_uri } = this.options;
-    const scope = '';
-    const grant_type = 'authorization_code';
-    
-    const payload = {
-      client_id,
-      client_secret,
-      redirect_uri,
-      scope,
-      grant_type,
-      code,
+
+    const token = await this.getAccessToken(code);
+
+    const user = await this.getAccessUser(token.access_token);
+
+    console.log(token, user);
+
+    return {
+      id: user.login,
     };
-
-    const token = await fetch('https://github.com/login/oauth/access_token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    }).then(res => res.json());
-
-    const user = await fetch('https://api.github.com/user', {
-      headers: {
-        'Context-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${token.access_token}`,
-      },
-    }).then(res => res.json());
-
-    console.log(payload, token, user);
-
-    return user.login;
   }
 }
 

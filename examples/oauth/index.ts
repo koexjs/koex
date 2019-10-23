@@ -130,6 +130,14 @@ passport.use('github', new GithubStrategy({
   client_id: 'b62379e3450c08ddc687',
   client_secret: '4f697887f937b51e6770f870cd1a2fac01d8538a',
   redirect_uri: `http://${host}:${port}/oauth/github/callback`,
+}, async (ctx, strategy, profile, stage) => {
+
+  return {
+    id: profile.id,
+    strategy,
+    stage,
+    profile,
+  };
 }));
 
 app.use(passport.initialize({
