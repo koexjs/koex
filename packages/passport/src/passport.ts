@@ -81,7 +81,7 @@ export class Passport implements IPassport {
 
     return async (ctx, next) => {
       this.session = new Session(ctx, {
-        async getUser(strategy, id) {
+        getUser: async (strategy, id) => {
           const _strategy = this.strategies[strategy];
 
           return _strategy.user(id);

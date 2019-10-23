@@ -33,7 +33,7 @@ export class Session {
     const value = ctx.cookies.get(key, getOption);
     if (!value) return ;
 
-    const [id, strategy] = value.split(':'); // @TODO
+    const [strategy, id] = value.split(':'); // @TODO
     return { id, strategy };
   }
 
