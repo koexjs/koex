@@ -1,7 +1,7 @@
 import { Context, Middleware } from '@koex/core';
 import * as pathToRegexp from 'path-to-regexp';
 
-import { IStrategy } from './strategy';
+import { Strategy } from './strategy';
 import { Session } from './session';
 
 declare module '@koex/core' {
@@ -34,7 +34,7 @@ export interface LogoutOptions extends LoginOptions {
 }
 
 export interface IPassport {
-  use(name: string, strategy: IStrategy): void;
+  use(name: string, strategy: Strategy): void;
   initialize(options: InitializeOptions): Middleware<Context>;
   authenticate(): Middleware<Context>;
   callback(): Middleware<Context>;
@@ -69,10 +69,10 @@ export interface IPassport {
  *  app.use(passport.router());
  */
 export class Passport implements IPassport {
-  private strategies: Record<string, IStrategy> = {};
+  private strategies: Record<string, Strategy> = {};
   private session: Session;
 
-  public use(name: string, strategy: IStrategy) {
+  public use(name: string, strategy: Strategy) {
     this.strategies[name] = strategy;
   }
 

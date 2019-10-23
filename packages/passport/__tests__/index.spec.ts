@@ -1,8 +1,8 @@
 import * as request from 'supertest';
 import App, { Context } from '@koex/core';
-import passport, { IStrategy } from '../src/index';
+import passport, { Strategy } from '../src/index';
 
-class LocalStrategy implements IStrategy {
+class LocalStrategy extends Strategy {
   public async user(id: string) {
     return {
       id,
