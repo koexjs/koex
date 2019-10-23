@@ -12,18 +12,23 @@ class LocalStrategy extends Strategy {
   public async authenticate(ctx: Context) {
     console.log('in authenticate');
     ctx.redirect(`/auth/local/callback?code=code`);
+    // @TODO should request
+    // ctx.request('/auth/local/callback', { username, passport })
   }
 
   public async callback(ctx: Context) {
-    console.log('in callback');
-    return '666';
+    return {
+      id: 'user id',
+    };
   }
 }
 
 describe("@koex/passport", () => {
   const app = new App();
 
-  passport.use('local', new LocalStrategy());
+  passport.use('local', new LocalStrategy(async (ctx, strategy, profile, stage) => {
+    return profile;
+  }));
 
   app.keys = ['secret'];
 
@@ -187,7 +192,9 @@ describe("@koex/passport", () => {
 describe("@koex/passport with options", () => {
   const app = new App();
 
-  passport.use('local', new LocalStrategy());
+  passport.use('local', new LocalStrategy(async (ctx, strategy, profile, stage) => {
+    return profile;
+  }));
 
   app.keys = ['secret'];
 

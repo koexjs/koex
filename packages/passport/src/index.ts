@@ -1,12 +1,14 @@
-import { passport, Passport, IPassport } from './passport';
-import { IGetUserByStrategyProfile, Strategy, OauthStrategy, IOauthStrategyOptions } from './strategy';
+import { passport, Passport, Stage, IPassport } from './passport';
+import {
+  IGetUserByStrategyProfile,
+  Strategy,
+} from './strategy';
 
 export {
   IPassport,
   IGetUserByStrategyProfile,
-  IOauthStrategyOptions,
+  Stage,
   Strategy,
-  OauthStrategy,
   Passport,
   passport,
 };
