@@ -1,9 +1,9 @@
 import { passport, Passport, IPassport } from './passport';
-import { Strategy, OauthStrategy, IStrategyOptions, IOauthStrategyOptions } from './strategy';
+import { IGetUserByStrategyProfile, Strategy, OauthStrategy, IOauthStrategyOptions } from './strategy';
 
 export {
   IPassport,
-  IStrategyOptions,
+  IGetUserByStrategyProfile,
   IOauthStrategyOptions,
   Strategy,
   OauthStrategy,

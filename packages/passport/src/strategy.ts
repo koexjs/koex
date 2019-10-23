@@ -8,52 +8,37 @@ export type IStrategyProfile = {
   id: string;
 };
 
-export interface IStrategyOptions {
-  /**
-   * get user by strategy unique id, used for ctx.user when authorized
-   * 
-   * @param ctx context
-   * @param strategy strategy name
-   * @param profile user profile from oauth server, profile.id should be unique id
-   * @param stage passport stage
-   * 
-   * @example
-   *   new Strategy({
-   *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
-   *        return UserModel.findOneOrCreate(...);
-   *     },
-   *   });
-   * 
-   *   new Strategy({
-   *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
-   *        // authorize stage
-   *        if (stage === Stage.authorize) {
-   *          return UserModel.findOneOrCreate(...);
-   *        }
-   *        
-   *        // verify stage
-   *        return UserModel.findOne(...);
-   *     },
-   *   });
-   */
-  getUserByStrategyProfile(ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage): Promise<User>;
-}
+/**
+ * get user by strategy unique id, used for ctx.user when authorized
+ * 
+ * @param ctx context
+ * @param strategy strategy name
+ * @param profile user profile from oauth server, profile.id should be unique id
+ * @param stage passport stage
+ * 
+ * @example
+ *   new Strategy({
+ *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
+ *        return UserModel.findOneOrCreate(...);
+ *     },
+ *   });
+ * 
+ *   new Strategy({
+ *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
+ *        // authorize stage
+ *        if (stage === Stage.authorize) {
+ *          return UserModel.findOneOrCreate(...);
+ *        }
+ *        
+ *        // verify stage
+ *        return UserModel.findOne(...);
+ *     },
+ *   });
+ */
+export type IGetUserByStrategyProfile = (ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage) => Promise<User>;
 
 export abstract class Strategy {
-  constructor(private readonly strategyOptions: IStrategyOptions) {}
-  /**
-   * get user by strategy profile
-   *  which is the same as strategyOptions.getUserByStrategyProfile, but strategyOptions type is private
-   *  @TODO
-   * 
-   * @param ctx context
-   * @param strategy strategy name
-   * @param profile stategyprofile
-   * @param stage passport stage
-   */
-  public getUserByStrategyProfile(ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage): Promise<User> {
-    return this.strategyOptions.getUserByStrategyProfile(ctx, strategy, profile, stage);
-  }
+  constructor(public readonly getUserByStrategyProfile: IGetUserByStrategyProfile) {}
 
   /**
    * authenticate logic, will go to the real auth server
@@ -71,7 +56,7 @@ export abstract class Strategy {
   public abstract callback(ctx: Context): Promise<IStrategyProfile>;
 }
 
-export interface IOauthStrategyOptions extends IStrategyOptions {
+export interface IOauthStrategyOptions {
   /**
    * Client ID
    */
@@ -121,8 +106,8 @@ export interface IOauthStrategyOptions extends IStrategyOptions {
 }
 
 export abstract class OauthStrategy extends Strategy {
-  constructor(private readonly oauthStrategyOptions: IOauthStrategyOptions) {
-    super(oauthStrategyOptions);
+  constructor(private readonly oauthStrategyOptions: IOauthStrategyOptions, public readonly getUserByStrategyProfile: IGetUserByStrategyProfile) {
+    super(getUserByStrategyProfile);
   }
 
   protected async getAuthorizeUrl() {
