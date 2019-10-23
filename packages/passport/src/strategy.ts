@@ -79,7 +79,7 @@ export abstract class OauthStrategy extends Strategy {
     super();
   }
 
-  public authorize() {
+  public async getAuthorizeUrl() {
     const {
       authorize_url,
       client_id,
@@ -100,7 +100,7 @@ export abstract class OauthStrategy extends Strategy {
     return url;
   }
 
-  public async token(code: string) {
+  public async getAccessToken(code: string) {
     const {
       token_url,
       client_id,
@@ -141,7 +141,7 @@ export abstract class OauthStrategy extends Strategy {
     return response.json();
   }
 
-  public async user(access_token: string) {
+  public async getAccessUser(access_token: string) {
     const {
       user_info_url,
     } = this.options;
