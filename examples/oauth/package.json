@@ -20,6 +20,7 @@
     "@koex/core": "^0.0.10",
     "@koex/logger": "^0.0.10",
     "@koex/passport": "^0.0.10",
+    "@koex/passport-github": "^0.0.11",
     "@types/basic-auth": "^1.1.2",
     "@types/node-fetch": "^2.5.2",
     "@zcorky/query-string": "^1.0.2",
