@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport",
-  "version": "0.0.0",
+  "version": "0.0.9",
   "description": "koex passport",
   "keywords": [
     "koex",
@@ -67,7 +67,7 @@
     "url": "https://github.com/zcorky/zodash/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.0.8",
+    "@koex/core": "^0.0.9",
     "@types/jest": "^24.0.19",
     "@types/supertest": "^2.0.8",
     "jest": "^24.9.0",
