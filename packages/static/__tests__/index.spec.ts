@@ -104,7 +104,7 @@ describe('koa static', () => {
     it('server with prefix and dir, same last-modified', async () => {
       await request(app.callback())
         .get('/static/package.json')
-        .set('Last-Modified', file.mtime)
+        .set('Last-Modified', file.mtime.toString())
         .expect(200);
     });
 
