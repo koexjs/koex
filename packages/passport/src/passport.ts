@@ -85,11 +85,11 @@ export class Passport implements IPassport {
 
     return async (ctx, next) => {
       this.session = new Session(ctx, {
-        getUser: async (strategyName, profileId) => {
+        getUserBySessionProfile: async (strategyName, profileId) => {
           const strategy = this.strategies[strategyName];
 
           const profile = { id: profileId };
-          return strategy.getUser(ctx, strategyName, profile, Stage.verify);
+          return strategy.getUserByStrategyProfile(ctx, strategyName, profile, Stage.verify);
         },
       });
 
@@ -144,7 +144,7 @@ export class Passport implements IPassport {
 
       this.session.set(strategyName, profile.id);
 
-      const user = await strategy.getUser(ctx, strategyName, profile, Stage.authorize);
+      const user = await strategy.getUserByStrategyProfile(ctx, strategyName, profile, Stage.authorize);
 
       ctx.user = user;
 

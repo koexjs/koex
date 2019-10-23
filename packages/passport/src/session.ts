@@ -2,7 +2,7 @@ import { Context, User } from '@koex/core';
 import { SetOption, GetOption } from 'cookies';
 
 export interface SessionOptions {
-  getUser(strategy: string, id: string): Promise<User>;
+  getUserBySessionProfile(strategy: string, id: string): Promise<User>;
 }
 
 export class Session {
@@ -45,7 +45,7 @@ export class Session {
   async user() {
     const { id, strategy } = this.get();
 
-    return this.options.getUser(strategy, id);
+    return this.options.getUserBySessionProfile(strategy, id);
   }
 
   get isAuthenticated() {

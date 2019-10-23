@@ -15,6 +15,7 @@ export interface IStrategyOptions {
    * @param ctx context
    * @param strategy strategy name
    * @param profile user profile from oauth server, profile.id should be unique id
+   * @param stage passport stage
    * 
    * @example
    *   new Strategy({
@@ -41,14 +42,16 @@ export interface IStrategyOptions {
 export abstract class Strategy {
   constructor(private readonly strategyOptions: IStrategyOptions) {}
   /**
-   * get user instance, used for ctx.user when authorized
+   * get user by strategy profile
+   *  which is the same as strategyOptions.getUserByStrategyProfile, but strategyOptions type is private
+   *  @TODO
    * 
    * @param ctx context
    * @param strategy strategy name
    * @param profile stategyprofile
    * @param stage passport stage
    */
-  public getUser(ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage): Promise<User> {
+  public getUserByStrategyProfile(ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage): Promise<User> {
     return this.strategyOptions.getUserByStrategyProfile(ctx, strategy, profile, stage);
   }
 
@@ -122,7 +125,7 @@ export abstract class OauthStrategy extends Strategy {
     super(oauthStrategyOptions);
   }
 
-  public async getAuthorizeUrl() {
+  protected async getAuthorizeUrl() {
     const {
       authorize_url,
       client_id,
@@ -143,7 +146,7 @@ export abstract class OauthStrategy extends Strategy {
     return url;
   }
 
-  public async getAccessToken<Token>(code: string): Promise<Token> {
+  protected async getAccessToken<Token = any>(code: string): Promise<Token> {
     const {
       token_url,
       client_id,
@@ -184,7 +187,7 @@ export abstract class OauthStrategy extends Strategy {
     return response.json();
   }
 
-  public async getAccessUser<Profile = any>(access_token: string): Promise<Profile> {
+  protected async getAccessUser<Profile = any>(access_token: string): Promise<Profile> {
     const {
       user_info_url,
     } = this.oauthStrategyOptions;
