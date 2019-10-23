@@ -2,13 +2,55 @@ import { Context, User } from '@koex/core';
 import fetch from 'node-fetch';
 import * as qs from '@zcorky/query-string';
 
-export abstract class Strategy {
+import { Stage } from './passport';
+
+export type IStrategyProfile = {
+  id: string;
+};
+
+export interface IStrategyOptions {
   /**
-   * get user instance
+   * get user by strategy unique id, used for ctx.user when authorized
    * 
-   * @param id user id
+   * @param ctx context
+   * @param strategy strategy name
+   * @param profile user profile from oauth server, profile.id should be unique id
+   * 
+   * @example
+   *   new Strategy({
+   *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
+   *        return UserModel.findOneOrCreate(...);
+   *     },
+   *   });
+   * 
+   *   new Strategy({
+   *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
+   *        // authorize stage
+   *        if (stage === Stage.authorize) {
+   *          return UserModel.findOneOrCreate(...);
+   *        }
+   *        
+   *        // verify stage
+   *        return UserModel.findOne(...);
+   *     },
+   *   });
    */
-  public abstract user(id: User['id']): Promise<User>;
+  getUserByStrategyProfile(ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage): Promise<User>;
+}
+
+export abstract class Strategy {
+  constructor(private readonly strategyOptions: IStrategyOptions) {}
+  /**
+   * get user instance, used for ctx.user when authorized
+   * 
+   * @param ctx context
+   * @param strategy strategy name
+   * @param profile stategyprofile
+   * @param stage passport stage
+   */
+  public getUser(ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage): Promise<User> {
+    return this.strategyOptions.getUserByStrategyProfile(ctx, strategy, profile, stage);
+  }
 
   /**
    * authenticate logic, will go to the real auth server
@@ -21,11 +63,12 @@ export abstract class Strategy {
    * callback logic, match the redirect_uri
    * 
    * @param ctx context
+   * @returns user profile from auth server, tips: the user profile is not equal to the getUser, but it is for getUser
    */
-  public abstract callback(ctx: Context): Promise<User['id']>;
+  public abstract callback(ctx: Context): Promise<IStrategyProfile>;
 }
 
-export interface IOauthStrategyOptions {
+export interface IOauthStrategyOptions extends IStrategyOptions {
   /**
    * Client ID
    */
@@ -75,8 +118,8 @@ export interface IOauthStrategyOptions {
 }
 
 export abstract class OauthStrategy extends Strategy {
-  constructor(private readonly options: IOauthStrategyOptions) {
-    super();
+  constructor(private readonly oauthStrategyOptions: IOauthStrategyOptions) {
+    super(oauthStrategyOptions);
   }
 
   public async getAuthorizeUrl() {
@@ -86,7 +129,7 @@ export abstract class OauthStrategy extends Strategy {
       response_type,
       redirect_uri,
       scope,
-    } = this.options;
+    } = this.oauthStrategyOptions;
 
     const data = {
       client_id,
@@ -100,7 +143,7 @@ export abstract class OauthStrategy extends Strategy {
     return url;
   }
 
-  public async getAccessToken(code: string) {
+  public async getAccessToken<Token>(code: string): Promise<Token> {
     const {
       token_url,
       client_id,
@@ -108,7 +151,7 @@ export abstract class OauthStrategy extends Strategy {
       grant_type,
       redirect_uri,
       scope,
-    } = this.options;
+    } = this.oauthStrategyOptions;
 
     const data = {
       client_id,
@@ -141,10 +184,10 @@ export abstract class OauthStrategy extends Strategy {
     return response.json();
   }
 
-  public async getAccessUser(access_token: string) {
+  public async getAccessUser<Profile = any>(access_token: string): Promise<Profile> {
     const {
       user_info_url,
-    } = this.options;
+    } = this.oauthStrategyOptions;
 
     const method = 'GET';
 

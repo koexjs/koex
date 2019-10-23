@@ -16,7 +16,6 @@ declare module '@koex/core' {
   export interface Context {
     user: User;
   }
-
 }
 
 export interface InitializeOptions {
@@ -32,6 +31,11 @@ export interface LoginOptions {
 export interface LogoutOptions extends LoginOptions {
  
 }
+
+export enum Stage {
+  authorize = 'authorize',
+  verify = 'verify',
+};
 
 export interface IPassport {
   use(name: string, strategy: Strategy): void;
@@ -81,10 +85,11 @@ export class Passport implements IPassport {
 
     return async (ctx, next) => {
       this.session = new Session(ctx, {
-        getUser: async (strategy, id) => {
-          const _strategy = this.strategies[strategy];
+        getUser: async (strategyName, profileId) => {
+          const strategy = this.strategies[strategyName];
 
-          return _strategy.user(id);
+          const profile = { id: profileId };
+          return strategy.getUser(ctx, strategyName, profile, Stage.verify);
         },
       });
 
@@ -135,9 +140,13 @@ export class Passport implements IPassport {
         ctx.throw(500, `No Passport Strategy provided named ${strategyName}`);
       }
 
-      const uid = await strategy.callback(ctx);
+      const profile = await strategy.callback(ctx);
 
-      this.session.set(strategyName, uid);
+      this.session.set(strategyName, profile.id);
+
+      const user = await strategy.getUser(ctx, strategyName, profile, Stage.authorize);
+
+      ctx.user = user;
 
       await next();
     };
