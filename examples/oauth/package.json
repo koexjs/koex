@@ -1,0 +1,33 @@
+{
+  "name": "helloworld",
+  "version": "0.0.0",
+  "main": "index.ts",
+  "author": "Zero",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.prod.json",
+    "dev": "ts-node -r tsconfig-paths/register index.ts",
+    "prod": "node dist/index.js"
+  },
+  "devDependencies": {
+    "@types/node": "^12.7.5",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.6.3"
+  },
+  "dependencies": {
+    "@koex/body": "^0.0.8",
+    "@koex/core": "^0.0.10",
+    "@koex/logger": "^0.0.10",
+    "@koex/passport": "^0.0.10",
+    "@types/basic-auth": "^1.1.2",
+    "@types/node-fetch": "^2.5.2",
+    "@zcorky/query-string": "^1.0.2",
+    "@zodash/crypto": "^0.0.3",
+    "@zodash/delay": "^0.0.11",
+    "@zodash/format": "^1.0.1-alpha.11",
+    "@zodash/uuid": "^0.0.3",
+    "basic-auth": "^2.0.1",
+    "node-fetch": "^2.6.0"
+  }
+}
