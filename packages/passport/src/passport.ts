@@ -23,6 +23,11 @@ export interface InitializeOptions {
    * passport exclude paths
    */
   excludePaths: string[];
+  
+  /**
+   * Max Session Age, Unit: milliseconds, Default: 7 days
+   */
+  maxAge?: number;
 
   /**
    * On Unauthorized
@@ -98,6 +103,7 @@ export class Passport implements IPassport {
 
     return async (ctx, next) => {
       this.session = new Session(ctx, {
+        maxAge: options.maxAge,
         getUserBySessionProfile: async (strategyName, profileId) => {
           const strategy = this.strategies[strategyName];
 
