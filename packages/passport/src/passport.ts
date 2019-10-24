@@ -19,8 +19,21 @@ declare module '@koex/core' {
 }
 
 export interface InitializeOptions {
+  /**
+   * passport exclude paths
+   */
   excludePaths: string[];
-  onUnauthorization(ctx: Context): Promise<void>;
+
+  /**
+   * On Unauthorization
+   *  which means it requires login, so you can do
+   *    if acceptJSON, return 401, Unauthorized Message
+   *    else return 302, go to login page to ask authorize
+   * 
+   * @param ctx context
+   * @param acceptJSON client wants to json response
+   */
+  onUnauthorization(ctx: Context, acceptJSON: boolean): Promise<void>;
 }
 
 export interface LoginOptions {
@@ -97,9 +110,14 @@ export class Passport implements IPassport {
         return next();
       }
 
-      // go to login
+      // need login
+      //  @1 accept html => go /login
+      //  @2 accept json => show 401
       if (!this.session.isAuthenticated) {
-        return options.onUnauthorization(ctx);
+        // @TODO
+        const acceptJSON = ctx.accepts(['html', 'json']) === 'json';
+
+        return options.onUnauthorization(ctx, acceptJSON);
       }
 
       ctx.user = await this.session.user();
