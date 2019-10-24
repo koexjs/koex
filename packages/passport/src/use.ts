@@ -26,6 +26,11 @@ export interface IUsePassport {
   excludePaths?: string[];
 
   /**
+   * Max Session Age, Unit: milliseconds, Default: 7 days
+   */
+  maxAge?: number;
+
+  /**
    * Render Login Page
    */
   renderLoginPage(ctx: Context, options: IUsePassport): Promise<any>;
@@ -84,6 +89,7 @@ export function usePassport(app: App, options: IUsePassport) {
   const authenticatePath = format(authenticatePathPattern, { prefix: authPathPrefix });
   const callbackPath = format(callbackPathPattern, { prefix: authPathPrefix });
   const excludePaths = _options.excludePaths || [];
+  const maxAge = _options.maxAge;
 
   const onUnauthorized = _options.onUnauthorized || defaultOnUnauthorized;
   const onAuthorized = _options.onAuthorized || defaultOnAuthorized;
@@ -96,6 +102,7 @@ export function usePassport(app: App, options: IUsePassport) {
       logoutPath,
       ...excludePaths,
     ],
+    maxAge,
     onUnauthorized,
   }));
 
