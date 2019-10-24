@@ -1,18 +1,7 @@
-import { passport, Passport, Stage, IPassport } from './passport';
-import {
-  IStrategyProfile,
-  IGetUserByStrategyProfile,
-  Strategy,
-} from './strategy';
+import { passport } from './passport';
 
-export {
-  IPassport,
-  IStrategyProfile,
-  IGetUserByStrategyProfile,
-  Stage,
-  Strategy,
-  Passport,
-  passport,
-};
+export * from './passport';
+export * from './strategy';
+export * from './use';
 
 export default passport;

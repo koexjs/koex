@@ -59,7 +59,7 @@ describe("@koex/passport", () => {
       '/login',
       '/logout',
     ],
-    async onUnauthorization(ctx) {
+    async onUnauthorized(ctx) {
       ctx.redirect('/login');
     },
   }));
@@ -208,7 +208,7 @@ describe("@koex/passport with options", () => {
       '/login',
       '/logout',
     ],
-    async onUnauthorization(ctx) {
+    async onUnauthorized(ctx) {
       ctx.redirect('/login');
     },
   }));

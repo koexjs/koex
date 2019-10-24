@@ -25,7 +25,7 @@ export interface InitializeOptions {
   excludePaths: string[];
 
   /**
-   * On Unauthorization
+   * On Unauthorized
    *  which means it requires login, so you can do
    *    if acceptJSON, return 401, Unauthorized Message
    *    else return 302, go to login page to ask authorize
@@ -33,7 +33,7 @@ export interface InitializeOptions {
    * @param ctx context
    * @param acceptJSON client wants to json response
    */
-  onUnauthorization(ctx: Context, acceptJSON: boolean): Promise<void>;
+  onUnauthorized(ctx: Context, acceptJSON: boolean): Promise<void>;
 }
 
 export interface LoginOptions {
@@ -117,7 +117,7 @@ export class Passport implements IPassport {
         // @TODO
         const acceptJSON = ctx.accepts(['html', 'json']) === 'json';
 
-        return options.onUnauthorization(ctx, acceptJSON);
+        return options.onUnauthorized(ctx, acceptJSON);
       }
 
       ctx.user = await this.session.user();
