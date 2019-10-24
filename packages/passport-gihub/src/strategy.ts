@@ -1,10 +1,19 @@
 import { Context } from '@koex/core';
-import { Strategy, IGetUserByStrategyProfile } from '@koex/passport-oauth2';
+import {
+  Strategy, IGetUserByStrategyProfile,
+  IGetAuthorizeUrlData,
+  IGetAccessTokenData,
+  Profile,
+} from '@koex/passport-oauth2';
 
 export interface GithubStrategyOptions {
   client_id: string;
   client_secret: string;
   redirect_uri: string;
+}
+
+export interface Token {
+  access_token: string;
 }
 
 export class GithubStrategy extends Strategy {
@@ -15,32 +24,62 @@ export class GithubStrategy extends Strategy {
       grant_type: 'authorization_code',
       authorize_url: 'https://github.com/login/oauth/authorize',
       token_url: 'https://github.com/login/oauth/access_token',
-      user_info_url: 'https://api.github.com/user',
+      user_profile_url: 'https://api.github.com/user',
     }, getUserByStrategyProfile);
   }
 
-  // public async user(id: string) {
-  //   return {
-  //     id,
-  //   };
-  // }
-
-  public async authenticate(ctx: Context) {
-    const auth_server_url = await this.getAuthorizeUrl();
-    ctx.redirect(auth_server_url);
+  protected async getAuthorizeUrl(authorize_url: string, data: IGetAuthorizeUrlData) {
+    return `${authorize_url}?${this.utils.qs.stringify(data as {})}`;
   }
 
-  public async callback(ctx: Context) {
-    const code = ctx.query.code;
+  protected async getAccessToken(token_url: string, data: IGetAccessTokenData): Promise<Token> {
+    const method = 'POST';
 
-    const token = await this.getAccessToken(code);
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
 
-    const user = await this.getAccessUser(token.access_token);
+    const response = await this.utils.fetch(token_url, {
+      method,
+      headers,
+      body: JSON.stringify(data),
+    });
 
-    console.log(token, user);
+    if (!response.ok) {
+      const status = response.status;
+      const message = await response.text();
+      throw new Error(`[oauth.token][${status}] ${message}`);
+    }
+
+    return response.json();
+  }
+
+  protected async getAccessUser(user_profile_url: string, access_token: Token): Promise<Profile> {
+    const method = 'GET';
+
+    const headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'Authorization': `Bearer ${access_token.access_token}`,
+    };
+
+    const response = await this.utils.fetch(user_profile_url, {
+      method,
+      headers,
+    });
+
+    if (!response.ok) {
+      const status = response.status;
+      const message = await response.text();
+      throw new Error(`[oauth.user][${status}] ${message}`);
+    }
+
+    const data = await response.json();
 
     return {
-      id: user.login,
+      ...data,
+      id: data.login,
     };
   }
 }
