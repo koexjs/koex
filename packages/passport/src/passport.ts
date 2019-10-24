@@ -14,7 +14,7 @@ declare module '@koex/core' {
   }
 
   export interface Context {
-    user: User;
+    readonly user: User;
   }
 }
 
@@ -120,7 +120,9 @@ export class Passport implements IPassport {
         return options.onUnauthorized(ctx, acceptJSON);
       }
 
-      ctx.user = await this.session.user();
+      const user = await this.session.user();
+      // readonly, use it instead of ctx.user = user
+      defineReadonlyProperties(ctx, { user });
 
       return next();
     };
@@ -164,7 +166,8 @@ export class Passport implements IPassport {
 
       const user = await strategy.getUserByStrategyProfile(ctx, strategyName, profile, Stage.authorize);
 
-      ctx.user = user;
+      // readonly, use it instead of ctx.user = user
+      defineReadonlyProperties(ctx, { user });
 
       await next();
     };
@@ -196,3 +199,14 @@ export class Passport implements IPassport {
 }
 
 export const passport = new Passport();
+
+function defineReadonlyProperties(target: Object, properties: Record<string, any>) {
+  for (const propertyKey in properties) {
+    Object.defineProperty(target, propertyKey, {
+      enumerable: true,
+      get() {
+        return properties[propertyKey];
+      },
+    })
+  }
+}
