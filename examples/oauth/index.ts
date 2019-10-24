@@ -1,10 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-import App from '@koex/core';
+import App, { Context } from '@koex/core';
 import body from '@koex/body';
 import logger from '@koex/logger';
-import passport from '@koex/passport';
+import passport, { usePassport, IUsePassport } from '@koex/passport';
 import { format } from '@zodash/format';
 
 import { GithubStrategy } from './passport';
@@ -140,31 +140,37 @@ passport.use('github', new GithubStrategy({
   };
 }));
 
-app.use(passport.initialize({
-  excludePaths: [
-    '/oauth/(.*)',
-    '/login',
-    '/logout',
-  ],
-  async onUnauthorization(ctx) {
-    ctx.redirect('/login');
+usePassport(app, {
+  async renderLoginPage(ctx: Context, options: IUsePassport) {
+    ctx.redirect('/oauth/github');
   },
-}))
-app.get('/oauth/:strategy', passport.authenticate());
-app.get('/oauth/:strategy/callback', passport.callback(), async (ctx) => {
-  ctx.redirect('/');
 });
-app.get('/login', passport.login({
-  redirect: '/oauth/github',
-  // async render(ctx) {
-  //   ctx.body = {
-  //     message: 'render login',
-  //   };
-  // },
-}));
-app.get('/logout', passport.login({
-  redirect: '/login',
-}));
+
+// app.use(passport.initialize({
+//   excludePaths: [
+//     '/oauth/(.*)',
+//     '/login',
+//     '/logout',
+//   ],
+//   async onUnauthorization(ctx) {
+//     ctx.redirect('/login');
+//   },
+// }))
+// app.get('/oauth/:strategy', passport.authenticate());
+// app.get('/oauth/:strategy/callback', passport.callback(), async (ctx) => {
+//   ctx.redirect('/');
+// });
+// app.get('/login', passport.login({
+//   redirect: '/oauth/github',
+//   // async render(ctx) {
+//   //   ctx.body = {
+//   //     message: 'render login',
+//   //   };
+//   // },
+// }));
+// app.get('/logout', passport.logout({
+//   redirect: '/login',
+// }));
 
 app.get('/', async ctx => {
   ctx.body = {
