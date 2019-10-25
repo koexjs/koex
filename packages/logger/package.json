@@ -1,6 +1,6 @@
 {
   "name": "@koex/logger",
-  "version": "0.0.17",
+  "version": "0.0.18",
   "description": "koex core logger",
   "keywords": [
     "koex",
@@ -67,7 +67,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.0.17",
+    "@koex/core": "^0.0.18",
     "@types/jest": "^24.0.19",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
