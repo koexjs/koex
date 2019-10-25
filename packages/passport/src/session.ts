@@ -11,7 +11,7 @@ const DEFAULT_SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 export class Session {
   // private key = 'strategy:id';
   // private key = '@koex/passport#strategy:id'
-  private key = 'kpsi';
+  protected key = 'kpsi';
   private signed = true;
   // private encrypted = true;
 
@@ -56,5 +56,39 @@ export class Session {
 
   get isAuthenticated() {
     return !!this.get();
+  }
+}
+
+export class RedirectSession {
+  protected key = 'kpre';
+  private signed = true;
+  // private encrypted = true;
+
+  private setOption: SetOption = {
+    maxAge: DEFAULT_SESSION_MAX_AGE, // @TODO
+    httpOnly: true,
+    signed: this.signed,
+  };
+
+  private getOption: GetOption = {
+    signed: this.signed,
+  };
+
+  constructor(private readonly ctx: Context) {}
+
+  set(uri: string) {
+    const { ctx, key, setOption } = this;
+    ctx.cookies.set(key, uri, setOption);
+  }
+
+  get() {
+    const { ctx, key, getOption, setOption } = this;
+    const uri = ctx.cookies.get(key, getOption);
+    if (!uri) return ;
+
+    // use only once
+    ctx.cookies.set(key, null, setOption);
+
+    return uri;
   }
 }

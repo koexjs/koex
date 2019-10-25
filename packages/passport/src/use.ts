@@ -1,6 +1,7 @@
 import App, { Context } from '@koex/core';
 import { format } from '@zodash/format';
 import { passport, InitializeOptions } from './passport';
+import { RedirectSession } from './session';
 
 export interface IUsePassport {
   /**
@@ -36,14 +37,14 @@ export interface IUsePassport {
   renderLoginPage(ctx: Context, options: IUsePassport): Promise<any>;
 
   /**
-   * On Unauthorized
+   * On Unauthorized, verify login
    */
   onUnauthorized?: InitializeOptions['onUnauthorized'];
 
   /**
    * On Authorized
    */
-  onAuthorized?(ctx: Context): Promise<any>;
+  onAuthorized?(ctx: Context, options: IUsePassport): Promise<any>;
 }
 
 const defaultOnUnauthorized = async (ctx: Context, acceptJSON: boolean) => {
@@ -57,11 +58,38 @@ const defaultOnUnauthorized = async (ctx: Context, acceptJSON: boolean) => {
     return ;
   }
 
-  return ctx.redirect('/login');
+  // use ctx.url instead of ctx.path, should keep path + search
+  const ref = ctx.url;
+  // @REDIRECT_1 remember referer uri
+  const redirectSession = new RedirectSession(ctx);
+  redirectSession.set(ref);
+
+  return ctx.redirect(`/login?ref=${ref}`);
 }
 
-const defaultOnAuthorized = async (ctx: Context) => {
-  ctx.redirect('/');
+const defaultOnAuthorized = async (ctx: Context, options: IUsePassport) => {
+  // @REDIRECT_2 get referer uri, need to be redirect
+  const redirectSession = new RedirectSession(ctx);
+  const ref = redirectSession.get();
+
+  const ignores = [
+    options.loginPath,
+    options.logoutPath,
+    options.authPathPrefix, // @TODO
+  ];
+
+  // if ref not starts with /, maybe attack
+  // @TODO but which ref set is ctx.url, it is not able to do not starts with /
+  if (!ref.startsWith('/')) {
+    return ctx.redirect('/');
+  }
+
+  // if ignores hits, go home
+  if (ignores.includes(ref)) {
+    return ctx.redirect('/');
+  }
+
+  return ctx.redirect(ref);
 }
 
 /**
@@ -81,7 +109,7 @@ const callbackPathPattern = '{prefix}/:strategy/callback';
  * @param options use passport options
  */
 export function usePassport(app: App, options: IUsePassport) {
-  const _options = options || {} as IUsePassport;
+  let _options = options || {} as IUsePassport;
 
   const authPathPrefix = _options.authPathPrefix || '/oauth';
   const loginPath = _options.loginPath || '/login';
@@ -93,6 +121,18 @@ export function usePassport(app: App, options: IUsePassport) {
 
   const onUnauthorized = _options.onUnauthorized || defaultOnUnauthorized;
   const onAuthorized = _options.onAuthorized || defaultOnAuthorized;
+
+  // @TODO
+  _options = {
+    ..._options,
+    authPathPrefix,
+    loginPath,
+    logoutPath,
+    excludePaths,
+    maxAge,
+    onUnauthorized,
+    onAuthorized,
+  };
 
   // initilaize
   app.use(passport.initialize({
@@ -111,13 +151,13 @@ export function usePassport(app: App, options: IUsePassport) {
   app.get(authenticatePath, passport.authenticate());
   //  @S2 callback flow
   app.get(callbackPath, passport.callback(), async (ctx: Context) => {
-    await onAuthorized(ctx);
+    await onAuthorized(ctx, _options);
   });
 
   // passport login url, you can act redirect or render page
   app.get(loginPath, passport.login({
     async render(ctx) {
-      await _options.renderLoginPage(ctx, options);
+      await _options.renderLoginPage(ctx, _options);
     },
   }));
   // passport logout url, you can act redirect or render page
