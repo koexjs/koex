@@ -8,7 +8,6 @@
       "npmClient": "npm",
       "registry": "https://registry.npmjs.org/",
       "ignoreChanges": [
-        "*.lock",
         "*.md"
       ],
       "allowBranch": [
@@ -20,9 +19,6 @@
     },
     "bootstrap": {
       "npmClient": "npm",
-      "npmClientArgs": [
-        "--no-package-lock"
-      ],
       "hoist": true
     },
     "version": {
