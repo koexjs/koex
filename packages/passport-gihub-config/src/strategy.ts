@@ -26,6 +26,14 @@ export class GithubStrategy extends Strategy {
     }, getUserByStrategyProfile);
   }
 
-  protected config: Config = {};
+  protected config: Config = {
+    callback: {
+      user_profile: {
+        profile: {
+          id: '{login}',
+        },
+      },
+    },
+  };
 }
 
