@@ -8,6 +8,7 @@
       "npmClient": "npm",
       "registry": "https://registry.npmjs.org/",
       "ignoreChanges": [
+        "*.lock",
         "*.md"
       ],
       "allowBranch": [
