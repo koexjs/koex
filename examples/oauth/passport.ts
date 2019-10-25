@@ -48,4 +48,6 @@
 //   }
 // }
 
-export { GithubStrategy } from '@koex/passport-gihub';
+// export { GithubStrategy } from '@koex/passport-gihub';
+
+export { GithubStrategy } from '@koex/passport-gihub-config';
