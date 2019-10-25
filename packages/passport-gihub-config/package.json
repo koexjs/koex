@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-github-config",
-  "version": "0.0.0",
+  "version": "0.0.16",
   "description": "koex passport-github",
   "keywords": [
     "koex",
@@ -69,8 +69,8 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.0.15",
-    "@koex/passport": "^0.0.15",
+    "@koex/core": "^0.0.16",
+    "@koex/passport": "^0.0.16",
     "@types/jest": "^24.0.19",
     "@types/node-fetch": "^2.5.2",
     "@types/supertest": "^2.0.8",
@@ -80,8 +80,8 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@koex/passport-oauth2": "^0.0.15",
-    "@koex/passport-oauth2-config": "^0.0.0",
+    "@koex/passport-oauth2": "^0.0.16",
+    "@koex/passport-oauth2-config": "^0.0.16",
     "@zcorky/query-string": "^1.0.2",
     "node-fetch": "^2.6.0"
   }
