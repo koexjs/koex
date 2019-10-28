@@ -1,12 +1,7 @@
 declare module 'koa' {
   export interface Context {
-    params?: Params;
+    params?: any;
     routePath?: string;
-  }
-
-
-  export interface Params {
-    [key: string]: string;
   }
 }
 
