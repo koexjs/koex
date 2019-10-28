@@ -1,6 +1,6 @@
 {
   "name": "@koex/core",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "koex is a fast api",
   "keywords": [
     "koex",
@@ -68,7 +68,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
-    "@koex/router": "^0.0.19",
+    "@koex/router": "^0.0.20",
     "@types/koa": "^2.0.49",
     "@types/koa-compose": "^3.2.4",
     "@zodash/compose": "^0.0.2",
