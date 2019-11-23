@@ -78,6 +78,11 @@ const defaultOnAuthorized = async (ctx: Context, options: IUsePassport) => {
     options.authPathPrefix, // @TODO
   ];
 
+  // no ref
+  if (!ref) {
+    return ctx.redirect('/');
+  }
+
   // if ref not starts with /, maybe attack
   // @TODO but which ref set is ctx.url, it is not able to do not starts with /
   if (!ref.startsWith('/')) {
