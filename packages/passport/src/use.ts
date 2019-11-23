@@ -50,9 +50,9 @@ export interface IUsePassport {
 const defaultOnUnauthorized = async (ctx: Context, acceptJSON: boolean) => {
   if (acceptJSON) {
     // @TODO
-    ctx.status = 403;
+    ctx.status = 401;
     ctx.body = {
-      code: 403,
+      code: 401,
       message: 'Unauthorized', 
     };
     return ;
@@ -113,7 +113,7 @@ export function usePassport(app: App, options: IUsePassport) {
 
   const authPathPrefix = _options.authPathPrefix || '/oauth';
   const loginPath = _options.loginPath || '/login';
-  const logoutPath = _options.logoutPath || '/login';
+  const logoutPath = _options.logoutPath || '/logout';
   const authenticatePath = format(authenticatePathPattern, { prefix: authPathPrefix });
   const callbackPath = format(callbackPathPattern, { prefix: authPathPrefix });
   const excludePaths = _options.excludePaths || [];
