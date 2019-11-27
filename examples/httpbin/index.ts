@@ -505,6 +505,25 @@ app.get('/image', async (ctx) => {
 });
 
 /**
+ * Returns a simple image of the type suggest by the Accept header.
+ * 
+ * using post
+ */
+app.post('/image', async (ctx) => {
+  if (ctx.accepts('image/webp')) {
+    return await ctx.resource('./static/images/wolf_1.webp', 'image/webp');
+  } else if (ctx.accepts('image/svg+xml')) {
+    return await ctx.resource('./static/images/svg_logo.svg', 'image/svg+xml');
+  } else if (ctx.accepts('image/jpeg')) {
+    return await ctx.resource('./static/images/jackal.jpg', 'image/jpeg');
+  } else if (ctx.accepts('image/png')) {
+    return await ctx.resource('./static/images/pig_icon.png', 'image/png');
+  } else {
+    ctx.status = 406; // Unsupported media type
+  }
+});
+
+/**
  * Returns a simple WEBP image.
  */
 app.get('/image/webp', async (ctx) => {
@@ -533,6 +552,10 @@ app.get('/image/png', async (ctx) => {
 });
 
 app.get('/pdf', async (ctx) => {
+  await ctx.resource('./static/pdfs/img.jpeg.pdf', 'application/pdf');
+});
+
+app.post('/pdf', async (ctx) => {
   await ctx.resource('./static/pdfs/img.jpeg.pdf', 'application/pdf');
 });
 
