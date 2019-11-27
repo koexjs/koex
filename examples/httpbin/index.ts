@@ -3,6 +3,7 @@ import * as path from 'path';
 
 import App from '@koex/core';
 import body from '@koex/body';
+import cors from '@koex/cors';
 import { uuid } from '@zodash/uuid';
 import { delay } from '@zodash/delay';
 import { format } from '@zodash/format';
@@ -47,6 +48,8 @@ const stat = (filepath: string): Promise<fs.Stats> => new Promise((resolve, reje
     return resolve(stats);
   });
 });
+
+app.use(cors());
 
 app.use(async function error(ctx, next) {
   try {

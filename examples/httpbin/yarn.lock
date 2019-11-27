@@ -23,6 +23,13 @@
     "@zodash/compose" "^0.0.2"
     koa "^2.8.1"
 
+"@koex/cors@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@koex/cors/-/cors-0.0.2.tgz#65e46b672647677ba5ec1207fc424bf47f4e554e"
+  integrity sha512-qeIu5vHLrkZkrNAnRJheMJA5qiNKp7GycB8RlYIVPj0eIjspoMt6KccTFgq68hN/vC/ZtYHU6/lIcbGmd0SAmw==
+  dependencies:
+    "@zcorky/is" "^1.0.1"
+
 "@koex/router@^0.0.6":
   version "0.0.6"
   resolved "https://registry.yarnpkg.com/@koex/router/-/router-0.0.6.tgz#380ae78a8a24c9ddffb2dd689cf6a54e1fa06aa6"
@@ -162,7 +169,7 @@
   resolved "https://registry.yarnpkg.com/@zcorky/delay/-/delay-1.0.1.tgz#0c968f03a8f732bb0e9a5160456a40d67232283c"
   integrity sha512-W8gLIx/bMrXydaFZYpdMcHSqjx6Z4EwEdFRIZD/f5p66apGsKi9Y4B/y/Wa0iI5bcdiGIeetqsg4WhmUijozVw==
 
-"@zcorky/is@^1.0.6":
+"@zcorky/is@^1.0.1", "@zcorky/is@^1.0.6":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@zcorky/is/-/is-1.0.6.tgz#81eaae678eefed93c5f6820b5a1d46613e45579d"
   integrity sha512-+C3ePfnEilAVCBMZkOqv0/L86Evm8x465MoMYKVPAe8Wk5E2qp1TOVK1CwUptcbG0+tTsN21328ElhHzJfmCfg==

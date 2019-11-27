@@ -18,6 +18,7 @@
   "dependencies": {
     "@koex/body": "^0.0.8",
     "@koex/core": "^0.0.3",
+    "@koex/cors": "^0.0.2",
     "@types/basic-auth": "^1.1.2",
     "@zodash/crypto": "^0.0.3",
     "@zodash/delay": "^0.0.11",
