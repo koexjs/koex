@@ -75,6 +75,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@zodash/logger": "^0.0.1"
+    "@zodash/logger": "^0.0.10"
   }
 }

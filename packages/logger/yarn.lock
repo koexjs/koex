@@ -287,21 +287,21 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@koex/core@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@koex/core/-/core-0.0.17.tgz#4d79f92eedb7d054a69022c95f22e0e29007fd1d"
-  integrity sha512-Y6VJUSnagUA7FBOyQ7S37U6C5zL4H5dnr7HBlTp7mplOi9zbYbOtxcTq21Nc6EHFCLwPH7oAZkMpVDJQMZsOyQ==
+"@koex/core@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/@koex/core/-/core-0.0.24.tgz#ad1489e429996dd1052288fd37979cf640c68cab"
+  integrity sha512-pbEt95Gg+PgZ3CeR5XV4xJrYh/L+cvDZArXXSTVnvBwvLWV4uRYT8s9XqIgsH/kQB06KFbIyt9iwLeigZSAFuQ==
   dependencies:
-    "@koex/router" "^0.0.17"
+    "@koex/router" "^0.0.24"
     "@types/koa" "^2.0.49"
     "@types/koa-compose" "^3.2.4"
     "@zodash/compose" "^0.0.2"
     koa "^2.8.1"
 
-"@koex/router@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@koex/router/-/router-0.0.17.tgz#9ceb153559e1e9e4ee26f57c24dc6af8b0eb9eed"
-  integrity sha512-oXDOt1waGqoQKvk/DVx1AMWAeV/Xcsovp8c8jlhbUmp9/s6RZTHj4GGkdLD3AsB/DkRDQj+UxGTpJ/Ky40nU2g==
+"@koex/router@^0.0.24":
+  version "0.0.24"
+  resolved "https://registry.yarnpkg.com/@koex/router/-/router-0.0.24.tgz#99c8d868137acde9c6481d1151dce78d834be933"
+  integrity sha512-310YBqVj60MZWWQON0DDolx8ux+8wte4PABE7yjafI0gZaI6WkkYlSJYBbhRbmUYq5U+qVw8aMcGIO4ZpmXQfg==
   dependencies:
     koa-compose "^4.1.0"
     path-to-regexp "^3.1.0"
@@ -506,31 +506,31 @@
   resolved "https://registry.npm.taobao.org/@zodash/compose/download/@zodash/compose-0.0.2.tgz#d84d8c9b4bccefae9976c6c6edc01f8eef874a5b"
   integrity sha1-2E2Mm0vM766ZdsbG7cAfju+HSls=
 
-"@zodash/compose@^0.0.5":
-  version "0.0.5"
-  resolved "https://registry.npm.taobao.org/@zodash/compose/download/@zodash/compose-0.0.5.tgz#af05927073773a6139456ec64351a09240b75f93"
-  integrity sha1-rwWScHN3OmE5RW7GQ1GgkkC3X5M=
+"@zodash/compose@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.yarnpkg.com/@zodash/compose/-/compose-0.0.7.tgz#57cbe48a9c951e1e396a3e5e11b540b082ebcec2"
+  integrity sha512-p3aWXDZig2mN375X2r59Mh7uoQ0DrH9BQhZMYhqBkrg9AmdBZ7Pxmpy2dj1eXTJiXZGSn1dzSb3oD9uIsdox4w==
 
-"@zodash/format@^1.0.1-alpha.13":
-  version "1.0.1-alpha.13"
-  resolved "https://registry.npm.taobao.org/@zodash/format/download/@zodash/format-1.0.1-alpha.13.tgz#09f22f04ba4b70bec5e3df70e2a59fdd4c31b3d3"
-  integrity sha1-CfIvBLpLcL7F499w4qWf3Uwxs9M=
+"@zodash/format@^1.0.1-alpha.15":
+  version "1.0.1-alpha.15"
+  resolved "https://registry.yarnpkg.com/@zodash/format/-/format-1.0.1-alpha.15.tgz#39e2d2e0c9153718014edc085e8d13ec43b474c7"
+  integrity sha512-Rv5M1HEgwDKFjRvQ0PW3IBiIKsw8puuLx7KwWtG0F5lwT2tfSc03sPNkUIEhqslMjquHXJ85nzWVkD5GHGJCLg==
 
-"@zodash/logger@^0.0.1":
-  version "0.0.1"
-  resolved "https://registry.npm.taobao.org/@zodash/logger/download/@zodash/logger-0.0.1.tgz#0d91d8fb797ca427187a483a7eb662677f688e2b"
-  integrity sha1-DZHY+3l8pCcYekg6frZiZ39ojis=
+"@zodash/logger@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@zodash/logger/-/logger-0.0.10.tgz#cb255f23c9ed96f69306f5da435c40b9457f85cd"
+  integrity sha512-V/MtxmWJKKa0McpphBW8BZfqanyiFOtORbg5A8YPPpTumm+JVuFWnclNd0UztCqaD2LbJR3qS8RCkdmed6Sfiw==
   dependencies:
     "@zcorky/moment" "^1.0.12"
-    "@zodash/format" "^1.0.1-alpha.13"
-    "@zodash/onion" "^0.0.7"
+    "@zodash/format" "^1.0.1-alpha.15"
+    "@zodash/onion" "^0.0.15"
 
-"@zodash/onion@^0.0.7":
-  version "0.0.7"
-  resolved "https://registry.npm.taobao.org/@zodash/onion/download/@zodash/onion-0.0.7.tgz#ab53d0cb4446c439fb0256ab906efc268a5d078e"
-  integrity sha1-q1PQy0RGxDn7AlarkG78JopdB44=
+"@zodash/onion@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@zodash/onion/-/onion-0.0.15.tgz#c872c9cb4708440e8cdb378d102e5509a3c73eee"
+  integrity sha512-3YpsdiTBOAuIXJ/FqCTfQbSvAsuQx+i69YKpxciKkbybJTtRxR/9cwAmQRRR7Zn00rwxTOgS5fkhcJBSlRegug==
   dependencies:
-    "@zodash/compose" "^0.0.5"
+    "@zodash/compose" "^0.0.7"
 
 abab@^2.0.0:
   version "2.0.1"
