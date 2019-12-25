@@ -4,6 +4,7 @@ import * as path from 'path';
 import App from '@koex/core';
 import body from '@koex/body';
 import logger from '@koex/logger';
+import compress from '@koex/compress';
 
 import { File } from 'formidable';
 import { format } from '@zodash/format';
@@ -119,6 +120,8 @@ app.use(async function error(ctx, next) {
     });
   }
 });
+
+app.use(compress());
 
 app.use(body({
   enableTypes: ['json', 'form', 'multipart'],
