@@ -3,6 +3,8 @@ import * as path from 'path';
 
 import App from '@koex/core';
 import body from '@koex/body';
+import logger from '@koex/logger';
+
 import { File } from 'formidable';
 import { format } from '@zodash/format';
 
@@ -16,15 +18,10 @@ import * as OSS from 'ali-oss';
 require('dotenv').config();
 
 declare module '@koex/core' {
-  export interface Logger {
-    debug(...args: any): void;
-  }
-
   export interface Context {
     json(data: object | any[]): Promise<void>;
     resource(filepath: string, contentType: string): Promise<void>;
     render<T>(viewpath: string, context?: T): Promise<void>;
-    logger: Logger;
   }
 }
 
@@ -58,18 +55,6 @@ const stat = (filepath: string): Promise<fs.Stats> => new Promise((resolve, reje
     if (err) return reject(err);
     return resolve(stats);
   });
-});
-
-app.use(async function error(ctx, next) {
-  try {
-    await next();
-  } catch (err) {
-    console.log(err);
-    ctx.json({
-      errcode: err.code || err.status || 500,
-      errmessage: !env.prod ? err.message : 'Internal Server Error',
-    });
-  }
 });
 
 app.use(async function json(ctx, next) {
@@ -120,14 +105,21 @@ app.use(async function resource(ctx, next) {
   await next();
 });
 
-app.use(async function logger(ctx, next) {
-  ctx.logger = {
-    debug(...args: any) {
-      console.log(...args);
-    },
-  }
+app.use(logger());
 
-  await next();
+app.use(async function error(ctx, next) {
+  try {
+    const a = 1;
+    (a as any) = 2;
+    await next();
+  } catch (err) {
+    ctx.logger.debug(err.stack);
+
+    ctx.json({
+      errcode: err.code || err.status || 500,
+      errmessage: !env.prod ? err.message : 'Internal Server Error',
+    });
+  }
 });
 
 app.use(body({
@@ -141,9 +133,9 @@ app.use(body({
 
 app.use(async (ctx, next) => {
   time.start();
-  ctx.logger.debug(`=> [${new Date().toUTCString()}] ${ctx.method} ${ctx.originalUrl}`);
+  ctx.logger.log(`=> ${ctx.method} ${ctx.originalUrl}`);
   await next();
-  ctx.logger.debug(`<= [${new Date().toUTCString()}] ${ctx.method} ${ctx.originalUrl} ${ctx.status} ${time.end()}ms`);
+  ctx.logger.log(`<= ${ctx.method} ${ctx.originalUrl} ${ctx.status} ${time.end()}ms`);
 });
 
 app.get('/health', async (ctx) => {

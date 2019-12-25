@@ -19,6 +19,7 @@
   "dependencies": {
     "@koex/body": "^0.0.8",
     "@koex/core": "^0.0.3",
+    "@koex/logger": "^0.0.25",
     "@types/ali-oss": "^6.0.4",
     "@types/basic-auth": "^1.1.2",
     "@zcorky/lru": "^1.0.3",

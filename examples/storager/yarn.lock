@@ -23,6 +23,13 @@
     "@zodash/compose" "^0.0.2"
     koa "^2.8.1"
 
+"@koex/logger@^0.0.25":
+  version "0.0.25"
+  resolved "https://registry.npm.taobao.org/@koex/logger/download/@koex/logger-0.0.25.tgz#5b83cf4bb43967f80bc2ca854e5efc26f59c89fe"
+  integrity sha1-W4PPS7Q5Z/gLwsqFTl78JvWcif4=
+  dependencies:
+    "@zodash/logger" "^0.0.10"
+
 "@koex/router@^0.0.6":
   version "0.0.6"
   resolved "https://registry.npm.taobao.org/@koex/router/download/@koex/router-0.0.6.tgz#380ae78a8a24c9ddffb2dd689cf6a54e1fa06aa6"
@@ -326,6 +333,13 @@
   resolved "https://registry.npm.taobao.org/@zcorky/lru/download/@zcorky/lru-1.0.3.tgz#60e73fed9ebbf512c7dc7bac24e5e9104bb1f5a7"
   integrity sha1-YOc/7Z679RLH3HusJOXpEEux9ac=
 
+"@zcorky/moment@^1.0.12":
+  version "1.0.12"
+  resolved "https://registry.npm.taobao.org/@zcorky/moment/download/@zcorky/moment-1.0.12.tgz#5fcf8613dd88f9ae4ed9ff1cb047de00e70ef9bc"
+  integrity sha1-X8+GE92I+a5O2f8csEfeAOcO+bw=
+  dependencies:
+    "@zcorky/is" "^1.0.6"
+
 "@zodash/camel-case@^0.0.8":
   version "0.0.8"
   resolved "https://registry.npm.taobao.org/@zodash/camel-case/download/@zodash/camel-case-0.0.8.tgz#7ee09c89fad8051eaf4979211e41892fcd70f8e7"
@@ -343,6 +357,11 @@
   resolved "https://registry.npm.taobao.org/@zodash/compose/download/@zodash/compose-0.0.2.tgz#d84d8c9b4bccefae9976c6c6edc01f8eef874a5b"
   integrity sha1-2E2Mm0vM766ZdsbG7cAfju+HSls=
 
+"@zodash/compose@^0.0.7":
+  version "0.0.7"
+  resolved "https://registry.npm.taobao.org/@zodash/compose/download/@zodash/compose-0.0.7.tgz#57cbe48a9c951e1e396a3e5e11b540b082ebcec2"
+  integrity sha1-V8vkipyVHh45aj5eEbVAsILrzsI=
+
 "@zodash/crypto@^0.0.3":
   version "0.0.3"
   resolved "https://registry.npm.taobao.org/@zodash/crypto/download/@zodash/crypto-0.0.3.tgz#020abe9890530bb998573110706a79051371c77a"
@@ -355,15 +374,31 @@
   dependencies:
     "@zcorky/delay" "^1.0.1"
 
-"@zodash/format@^1.0.1-alpha.11":
+"@zodash/format@^1.0.1-alpha.11", "@zodash/format@^1.0.1-alpha.15":
   version "1.0.1-alpha.20"
   resolved "https://registry.npm.taobao.org/@zodash/format/download/@zodash/format-1.0.1-alpha.20.tgz#b94e73a21aefa6a875b04a12faad778b493e2cac"
   integrity sha1-uU5zohrvpqh1sEoS+q13i0k+LKw=
+
+"@zodash/logger@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.npm.taobao.org/@zodash/logger/download/@zodash/logger-0.0.10.tgz#cb255f23c9ed96f69306f5da435c40b9457f85cd"
+  integrity sha1-yyVfI8ntlvaTBvXaQ1xAuUV/hc0=
+  dependencies:
+    "@zcorky/moment" "^1.0.12"
+    "@zodash/format" "^1.0.1-alpha.15"
+    "@zodash/onion" "^0.0.15"
 
 "@zodash/map@^1.0.12":
   version "1.0.21"
   resolved "https://registry.npm.taobao.org/@zodash/map/download/@zodash/map-1.0.21.tgz#29d2566e220cb0d137894307485e4448aea84938"
   integrity sha1-KdJWbiIMsNE3iUMHSF5ESK6oSTg=
+
+"@zodash/onion@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.npm.taobao.org/@zodash/onion/download/@zodash/onion-0.0.15.tgz#c872c9cb4708440e8cdb378d102e5509a3c73eee"
+  integrity sha1-yHLJy0cIRA6M2zeNEC5VCaPHPu4=
+  dependencies:
+    "@zodash/compose" "^0.0.7"
 
 "@zodash/uuid@^0.0.5":
   version "0.0.5"
