@@ -4,14 +4,16 @@ WORKDIR /app
 
 COPY package.json .
 
-RUN npm i
+COPY yarn.lock .
+
+RUN yarn # --production
 
 COPY . .
 
-RUN npm run build
+RUN yarn run build
 
 ENV PORT=8080
 
 EXPOSE 8080
 
-CMD ["npm", "run", "prod"]
+CMD npm run prod

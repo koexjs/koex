@@ -42,7 +42,7 @@ const client = new OSS({
   bucket: process.env.OSS_BUCKET,
 });
 
-const memCache = new LRU(1024);
+const memCache = new LRU<string, any>(1024);
 
 const time = {
   _start: 0,
@@ -166,13 +166,13 @@ app.post('/upload', async (ctx) => {
     url: ctx.url,
     query: ctx.query,
     params: ctx.params,
-    body: ctx.request.body,
-    files: ctx.request.files,
+    body: (ctx.request as any).body, // @TODO
+    files: (ctx.request as any).files, // @TODO
     headers: ctx.headers,
     origin: ctx.origin,
   };
 
-  const requestFiles = ctx.request.files;
+  const requestFiles = (ctx.request as any).files;
 
   let files: File[] = [];
   Object.keys(requestFiles).forEach(key => {
