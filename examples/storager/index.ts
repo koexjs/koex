@@ -172,7 +172,12 @@ app.post('/upload', async (ctx) => {
     origin: ctx.origin,
   };
 
+  const { filepath, filedir } = (ctx.request as any).body; // filepath | filedir
   const requestFiles = (ctx.request as any).files;
+
+  if (!filepath && !filedir) {
+    return ctx.throw(400, 'filepath or filedir is need');
+  }
 
   let files: File[] = [];
   Object.keys(requestFiles).forEach(key => {
@@ -200,9 +205,11 @@ app.post('/upload', async (ctx) => {
       // const filename = file.name;
       // 
       const hashedFilename = file.filename;
+      const finalFilepath = filepath ? filepath : path.join(filedir, hashedFilename)
+      const osspath = path.join(process.env.OSS_PREFIX, finalFilepath);
 
       client
-        .put(`${process.env.OSS_PREFIX}/${hashedFilename}`, file.path)
+        .put(osspath, file.path)
         .then(res => {
           resolve({
             ...res,
@@ -235,11 +242,11 @@ app.post('/upload', async (ctx) => {
   });
 });
 
-app.get('/file/:filename', async (ctx) => {
-  const filename = decodeURIComponent(ctx.params.filename);
+app.get('(.*)', async (ctx) => {
+  const filepath = decodeURIComponent(ctx.path);
   
   try {
-    const { res, stream } = await client.getStream(`${process.env.OSS_PREFIX}/${filename}`);
+    const { res, stream } = await client.getStream(path.join(process.env.OSS_PREFIX, filepath));
     const { status } = res;
   
     if (status !== 200) {

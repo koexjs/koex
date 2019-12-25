@@ -54,24 +54,24 @@
         <div class="boards">
           <div class="card">
             <form action="/upload" enctype="multipart/form-data" method="post">
-              <input type="text" name="username" placeholder="username"><br>
-              <input type="text" name="title" placeholder="tile of film"><br>
+              <input type="text" name="filepath" placeholder="filepath"><br>
+              <!-- <input type="text" name="filename" placeholder="filename"><br> -->
               <input type="file" name="upload" multiple="multiple"><br>
               <button type="submit">Native Form Upload(multiple file)</button>
             </form>
           </div>
           <div class="card">
             <form action="/upload" enctype="multipart/form-data" method="post">
-              <input type="text" name="username" placeholder="username"><br>
-              <input type="text" name="title" placeholder="tile of film"><br>
+              <input type="text" name="filepath" placeholder="filepath"><br>
+              <!-- <input type="text" name="filename" placeholder="tile of film"><br> -->
               <input type="file" name="uploads"><br>
               <button type="submit">Native Form Upload(single file)</button>
             </form>
           </div>
           <div class="card ajax-form">
             <form>
-              <input type="text" name="username" placeholder="username"><br>
-              <input type="text" name="title" placeholder="tile of film"><br>
+              <input type="text" name="filepath" placeholder="filepath"><br>
+              <!-- <input type="text" name="filename" placeholder="tile of film"><br> -->
               <input type="file" name="uploads" multiple="multiple"><br>
             </form>
             <button id="ajax">Ajax Form Upload(multiple + single on FormData)</button>
@@ -83,19 +83,19 @@
         <!-- <img src="http://127.0.0.1:8080/file/img1.jpeg" /> -->
         <script>
           const $ajaxBtn = document.querySelector('#ajax');
-          const $username = document.querySelector('.ajax-form input[name="username"]');
-          const $title = document.querySelector('.ajax-form input[name="title"]');
+          const $filepath = document.querySelector('.ajax-form input[name="filepath"]');
+          const $filename = document.querySelector('.ajax-form input[name="filename"]');
           const $uploads = document.querySelector('.ajax-form input[name="uploads"]');
           const $result = document.querySelector('.result pre');
 
           $ajaxBtn.addEventListener('click', function (event) {
-            const username = $username.value;
-            const title = $username.value;
+            const filepath = $filepath.value;
+            const filename = $filepath.value;
             const files = $uploads.files;
 
             const data = new FormData();
-            data.append('username', username);
-            data.append('title', title);
+            data.append('filepath', filepath);
+            data.append('filename', filename);
             data.append('upload1', files[0]);
             data.append('upload2', files[1]);
 
