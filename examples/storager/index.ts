@@ -235,11 +235,18 @@ app.post('/upload', async (ctx) => {
   });
 });
 
+/**
+ * OSS 图片处理:
+ *  https://help.aliyun.com/document_detail/44703.html?spm=a2c4g.11186623.2.12.53b562bbaZThLO#concept-mf3-md5-vdb
+ *  
+ */
 app.get('(.*)', async (ctx) => {
   const filepath = decodeURIComponent(ctx.path);
   
   try {
-    const { res, stream } = await client.getStream(path.join(process.env.OSS_PREFIX, filepath));
+    const { res, stream } = await client.getStream(path.join(process.env.OSS_PREFIX, filepath), {
+      process: ctx.query['process'] || ctx.query['x-oss-process'],
+    });
     const { status } = res;
   
     if (status !== 200) {
