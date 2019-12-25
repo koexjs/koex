@@ -7,6 +7,7 @@ services:
       - 18080:8080
     command: npm run dev
     volumes:
-      - ./index.ts:/app/index.ts
+      # - ./index.ts:/app/index.ts
+      - .:/app
       - ./.env:/app/.env
     
