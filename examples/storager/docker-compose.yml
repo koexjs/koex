@@ -5,7 +5,7 @@ services:
     build: .
     ports:
       - 18080:8080
-    # command: npm run dev
+    command: npm run dev
     volumes:
       - ./index.ts:/app/index.ts
       - ./.env:/app/.env
