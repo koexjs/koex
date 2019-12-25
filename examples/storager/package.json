@@ -29,6 +29,7 @@
     "@zodash/delay": "^0.0.11",
     "@zodash/format": "^1.0.1-alpha.11",
     "@zodash/map": "^1.0.12",
+    "@zodash/pick": "^1.0.21",
     "@zodash/uuid": "^0.0.5",
     "ali-oss": "^6.1.1",
     "basic-auth": "^2.0.1",

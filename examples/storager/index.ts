@@ -13,6 +13,7 @@ import { md5 } from '@zodash/crypto/lib/md5';
 import { map } from '@zodash/map';
 import { uuid } from '@zodash/uuid';
 import { lru as LRU } from '@zcorky/lru';
+import { pick } from '@zodash/pick';
 
 import * as OSS from 'ali-oss';
 
@@ -115,8 +116,8 @@ app.use(async function error(ctx, next) {
     ctx.logger.debug(err.stack);
 
     ctx.json({
-      errcode: err.code || err.status || 500,
-      errmessage: !env.prod ? err.message : 'Internal Server Error',
+      code: err.code || err.status || 500,
+      message: !env.prod ? err.message : 'Internal Server Error',
     });
   }
 });
@@ -154,16 +155,16 @@ app.get('/upload', async (ctx) => {
 });
 
 app.post('/upload', async (ctx) => {
-  const uploadData = {
-    method: ctx.method,
-    url: ctx.url,
-    query: ctx.query,
-    params: ctx.params,
-    body: (ctx.request as any).body, // @TODO
-    files: (ctx.request as any).files, // @TODO
-    headers: ctx.headers,
-    origin: ctx.origin,
-  };
+  // const uploadData = {
+  //   method: ctx.method,
+  //   url: ctx.url,
+  //   query: ctx.query,
+  //   params: ctx.params,
+  //   body: (ctx.request as any).body, // @TODO
+  //   files: (ctx.request as any).files, // @TODO
+  //   headers: ctx.headers,
+  //   origin: ctx.origin,
+  // };
 
   const { filepath, filedir } = (ctx.request as any).body; // filepath | filedir
   const requestFiles = (ctx.request as any).files;
@@ -193,7 +194,11 @@ app.post('/upload', async (ctx) => {
   // const cachedRes = md5Files.filter(file => memCache.hasKey(file.md5)).map(file => memCache.get(file.md5));
 
   const newRes = await Promise.all(needUploadFiles.map(file => {
-    return new Promise<OSS.PutObjectResult & { md5: string, filename: string }>((resolve, reject) => {
+    return new Promise<OSS.PutObjectResult & {
+      md5: string,
+      filename: string,
+      filepath: string,
+    }>((resolve, reject) => {
       // using md5 as file name
       // const filename = file.name;
       // 
@@ -208,6 +213,7 @@ app.post('/upload', async (ctx) => {
             ...res,
             md5: file.md5,
             filename: hashedFilename,
+            filepath: finalFilepath,
           });
         })
         .catch(reject);
@@ -226,12 +232,16 @@ app.post('/upload', async (ctx) => {
 
   if (files.length > 1) {
     return await ctx.json({
-      files: res,
+      code: 200,
+      message: null,
+      result: res,
     });
   }
 
   return await ctx.json({
-    file: res[0],
+    code: 200,
+    message: null,
+    result: pick(res[0], ['filename', 'filepath', 'md5'])
   });
 });
 

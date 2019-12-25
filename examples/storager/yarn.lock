@@ -409,6 +409,11 @@
   dependencies:
     "@zodash/compose" "^0.0.7"
 
+"@zodash/pick@^1.0.21":
+  version "1.0.21"
+  resolved "https://registry.npm.taobao.org/@zodash/pick/download/@zodash/pick-1.0.21.tgz#3ac34a5cf97055cbff80d9da322d39fcadecb549"
+  integrity sha1-OsNKXPlwVcv/gNnaMi05/K3stUk=
+
 "@zodash/uuid@^0.0.5":
   version "0.0.5"
   resolved "https://registry.npm.taobao.org/@zodash/uuid/download/@zodash/uuid-0.0.5.tgz#4341ad58a8018dc69a4743b91c42a346369a8523"
