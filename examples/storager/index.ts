@@ -109,8 +109,6 @@ app.use(logger());
 
 app.use(async function error(ctx, next) {
   try {
-    const a = 1;
-    (a as any) = 2;
     await next();
   } catch (err) {
     ctx.logger.debug(err.stack);
