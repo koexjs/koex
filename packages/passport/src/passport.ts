@@ -149,7 +149,7 @@ export class Passport implements IPassport {
 
       await strategy.authenticate(ctx);
 
-      await next();
+      // await next();
     };
   }
 
