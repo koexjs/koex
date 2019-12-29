@@ -47,55 +47,59 @@ export interface IUsePassport {
   onAuthorized?(ctx: Context, options: IUsePassport): Promise<any>;
 }
 
-const defaultOnUnauthorized = async (ctx: Context, acceptJSON: boolean) => {
-  if (acceptJSON) {
-    // @TODO
-    ctx.status = 401;
-    ctx.body = {
-      code: 401,
-      message: 'Unauthorized', 
-    };
-    return ;
-  }
+const createDefaultOnUnauthorized = (options: { loginPath: string }) => {
+  return async (ctx: Context, acceptJSON: boolean) => {
+    if (acceptJSON) {
+      // @TODO
+      ctx.status = 401;
+      ctx.body = {
+        code: 401,
+        message: 'Unauthorized', 
+      };
+      return ;
+    }
+  
+    // use ctx.url instead of ctx.path, should keep path + search
+    const ref = ctx.url || '/';
+    // @REDIRECT_1 remember referer uri
+    const redirectSession = new RedirectSession(ctx);
+    redirectSession.set(ref);
+  
+    return ctx.redirect(`${options.loginPath}?ref=${encodeURIComponent(ref)}`);
+  };
+};
 
-  // use ctx.url instead of ctx.path, should keep path + search
-  const ref = ctx.url || '/';
-  // @REDIRECT_1 remember referer uri
-  const redirectSession = new RedirectSession(ctx);
-  redirectSession.set(ref);
-
-  return ctx.redirect(`/login?ref=${encodeURIComponent(ref)}`);
-}
-
-const defaultOnAuthorized = async (ctx: Context, options: IUsePassport) => {
-  // @REDIRECT_2 get referer uri, need to be redirect
-  const redirectSession = new RedirectSession(ctx);
-  const ref = redirectSession.get();
-
-  const ignores = [
-    options.loginPath,
-    options.logoutPath,
-    options.authPathPrefix, // @TODO
-  ];
-
-  // no ref
-  if (!ref) {
-    return ctx.redirect('/');
-  }
-
-  // if ref not starts with /, maybe attack
-  // @TODO but which ref set is ctx.url, it is not able to do not starts with /
-  if (!ref.startsWith('/')) {
-    return ctx.redirect('/');
-  }
-
-  // if ignores hits, go home
-  if (ignores.includes(ref)) {
-    return ctx.redirect('/');
-  }
-
-  return ctx.redirect(ref);
-}
+const createDefaultOnAuthorized = (options: any) => {
+  return async (ctx: Context, options: IUsePassport) => {
+    // @REDIRECT_2 get referer uri, need to be redirect
+    const redirectSession = new RedirectSession(ctx);
+    const ref = redirectSession.get();
+  
+    const ignores = [
+      options.loginPath,
+      options.logoutPath,
+      options.authPathPrefix, // @TODO
+    ];
+  
+    // no ref
+    if (!ref) {
+      return ctx.redirect('/');
+    }
+  
+    // if ref not starts with /, maybe attack
+    // @TODO but which ref set is ctx.url, it is not able to do not starts with /
+    if (!ref.startsWith('/')) {
+      return ctx.redirect('/');
+    }
+  
+    // if ignores hits, go home
+    if (ignores.includes(ref)) {
+      return ctx.redirect('/');
+    }
+  
+    return ctx.redirect(ref);
+  };
+};
 
 /**
  * Authenticate Path Pattern
