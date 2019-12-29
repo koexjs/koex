@@ -159,9 +159,20 @@ export function usePassport(app: App, options: IUsePassport) {
   //  @S1 authenticate flow
   app.get(authenticatePath, passport.authenticate());
   //  @S2 callback flow
-  app.get(callbackPath, passport.callback(), async (ctx: Context) => {
-    await onAuthorized(ctx, _options);
-  });
+  app.get(
+    callbackPath,
+    passport.callback({
+      async onFail(error: any, ctx) {
+        // @TODO log erro
+        console.error('oauth callback error: ', error);
+        // @TODO send error to login page, should only once, login page should remove error
+        return ctx.redirect(`${loginPath}?error=${error.strategy}授权失败(来源: ${error.reasonBy})`);
+      },
+    }),
+    async (ctx: Context) => {
+      await onAuthorized(ctx, _options);
+    },
+  );
 
   // passport login url, you can act redirect or render page
   app.get(loginPath, passport.login({

@@ -41,6 +41,10 @@ export interface InitializeOptions {
   onUnauthorized(ctx: Context, acceptJSON: boolean): Promise<void>;
 }
 
+export interface CallbackOptions {
+  onFail(error: Error, ctx: Context, next: any): Promise<void>;
+}
+
 export interface LoginOptions {
   render?(ctx: Context): Promise<void>;
   redirect?: string;
@@ -59,7 +63,7 @@ export interface IPassport {
   use(name: string, strategy: Strategy): void;
   initialize(options: InitializeOptions): Middleware<Context>;
   authenticate(): Middleware<Context>;
-  callback(): Middleware<Context>;
+  callback(options: CallbackOptions): Middleware<Context>;
   login(options?: LoginOptions): Middleware<Context>;
   logout(options?: LogoutOptions): Middleware<Context>;
 }
@@ -153,29 +157,33 @@ export class Passport implements IPassport {
     };
   }
 
-  public callback(): Middleware<Context> {
+  public callback(options: CallbackOptions): Middleware<Context> {
     return async (ctx, next) => {
-      const strategyName = ctx.params.strategy; // @TODO
-      const strategy = this.strategies[strategyName];
-
-      if (!strategyName) {
-        ctx.throw(500, `No Passport Strategy Name Provided`);
+      try {
+        const strategyName = ctx.params.strategy; // @TODO
+        const strategy = this.strategies[strategyName];
+        
+        if (!strategyName) {
+          ctx.throw(500, `No Passport Strategy Name Provided`, { strategy: strategyName, reasonBy: 'self' });
+        }
+  
+        if (!strategy) {
+          ctx.throw(500, `No Passport Strategy provided named ${strategyName}`, { strategy: strategyName, reasonBy: 'self' });
+        }
+  
+        const profile = await strategy.callback(ctx);
+  
+        this.session.set(strategyName, profile.id);
+  
+        const user = await strategy.getUserByStrategyProfile(ctx, strategyName, profile, Stage.authorize);
+  
+        // readonly, use it instead of ctx.user = user
+        defineReadonlyProperties(ctx, { user });
+  
+        return await next();
+      } catch (error) {
+        return await options.onFail(error, ctx, next);
       }
-
-      if (!strategy) {
-        ctx.throw(500, `No Passport Strategy provided named ${strategyName}`);
-      }
-
-      const profile = await strategy.callback(ctx);
-
-      this.session.set(strategyName, profile.id);
-
-      const user = await strategy.getUserByStrategyProfile(ctx, strategyName, profile, Stage.authorize);
-
-      // readonly, use it instead of ctx.user = user
-      defineReadonlyProperties(ctx, { user });
-
-      await next();
     };
   }
 
