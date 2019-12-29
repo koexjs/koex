@@ -59,12 +59,12 @@ const defaultOnUnauthorized = async (ctx: Context, acceptJSON: boolean) => {
   }
 
   // use ctx.url instead of ctx.path, should keep path + search
-  const ref = ctx.url;
+  const ref = ctx.url || '/';
   // @REDIRECT_1 remember referer uri
   const redirectSession = new RedirectSession(ctx);
   redirectSession.set(ref);
 
-  return ctx.redirect(`/login?ref=${ref}`);
+  return ctx.redirect(`/login?ref=${encodeURIComponent(ref)}`);
 }
 
 const defaultOnAuthorized = async (ctx: Context, options: IUsePassport) => {
