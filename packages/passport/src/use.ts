@@ -128,8 +128,8 @@ export function usePassport(app: App, options: IUsePassport) {
   const excludePaths = _options.excludePaths || [];
   const maxAge = _options.maxAge;
 
-  const onUnauthorized = _options.onUnauthorized || defaultOnUnauthorized;
-  const onAuthorized = _options.onAuthorized || defaultOnAuthorized;
+  const onUnauthorized = _options.onUnauthorized || createDefaultOnUnauthorized({ loginPath });
+  const onAuthorized = _options.onAuthorized || createDefaultOnAuthorized({ loginPath });
 
   // @TODO
   _options = {
