@@ -9,7 +9,8 @@
       "registry": "https://registry.npmjs.org/",
       "ignoreChanges": [
         "*.lock",
-        "*.md"
+        "*.md",
+        "examples/**"
       ],
       "allowBranch": [
         "master"
