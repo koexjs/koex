@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.1.0 (2020-04-27)
+
+**Note:** Version bump only for package @koex/logger
+
+
+
+
+
 ## [0.0.29](https://github.com/koexjs/koex/compare/v0.0.28...v0.0.29) (2019-12-27)
 
 **Note:** Version bump only for package @koex/logger

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.1.0 (2020-04-27)
+
+
+### Features
+
+* **passport:** refactor passport inspired by passportjs ([0696f75](https://github.com/koexjs/koex/commit/0696f75b7d025a1141efdcc536a48d433e2d1749))
+
+
+
+
+
 ## [0.0.29](https://github.com/koexjs/koex/compare/v0.0.28...v0.0.29) (2019-12-27)
 
 **Note:** Version bump only for package @koex/passport-oauth2
