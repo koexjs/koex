@@ -1,44 +1,38 @@
-import { Context, User } from '@koex/core';
-import fetch from 'node-fetch';
-import * as qs from '@zcorky/query-string';
+import { Context } from '@koex/core';
+import { User } from './passport';
 
-import { Stage } from './passport';
-
-export type IStrategyProfile = {
-  id: string;
-};
+export type IStrategyCallback<IStrategyToken, IStrategyProfile> = {
+  token: IStrategyToken;
+  profile: IStrategyProfile;
+}
 
 /**
  * get user by strategy unique id, used for ctx.user when authorized
  * 
  * @param ctx context
- * @param strategy strategy name
+ * @param token access token
  * @param profile user profile from oauth server, profile.id should be unique id
- * @param stage passport stage
  * 
  * @example
  *   new Strategy({
- *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
+ *     async verify(ctx, token, profile) {
  *        return UserModel.findOneOrCreate(...);
  *     },
  *   });
  * 
  *   new Strategy({
- *     getUserByStrategyProfile(ctx, strategy, profile, stage) {
- *        // authorize stage
- *        if (stage === Stage.authorize) {
- *          return UserModel.findOneOrCreate(...);
- *        }
- *        
- *        // verify stage
- *        return UserModel.findOne(...);
+ *     async verify(ctx, token, profile) {
+ *        return UserModel.findOneOrCreateByConnection({
+ *          type: 'github',
+ *          value: profile.id,
+ *        });
  *     },
  *   });
  */
-export type IGetUserByStrategyProfile = (ctx: Context, strategy: string, profile: IStrategyProfile, stage: Stage) => Promise<User>;
+export type IVerify<IToken, IProfile> = (ctx: Context, token: IToken, profile: IProfile) => Promise<User>;
 
-export abstract class Strategy {
-  constructor(public readonly getUserByStrategyProfile: IGetUserByStrategyProfile) {}
+export abstract class Strategy<IToken = any, IProfile = any> {
+  constructor(public readonly verify: IVerify<IToken, IProfile>) {}
 
   /**
    * authenticate logic, will go to the real auth server
@@ -53,5 +47,5 @@ export abstract class Strategy {
    * @param ctx context
    * @returns user profile from auth server, tips: the user profile is not equal to the getUser, but it is for getUser
    */
-  public abstract callback(ctx: Context): Promise<IStrategyProfile>;
+  public abstract callback(ctx: Context): Promise<IStrategyCallback<IToken, IProfile>>;
 }

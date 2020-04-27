@@ -1,7 +1,6 @@
-export { IGetUserByStrategyProfile } from '@koex/passport';
+export { IVerify } from '@koex/passport';
 import {
   OauthStrategy,
-  Profile,
 } from './strategy';
 
 import {
@@ -16,7 +15,6 @@ export {
   IOauthStrategyOptions,
   IGetAuthorizeUrlData,
   IGetAccessTokenData,
-  Profile,
   Config,
 }
 

@@ -2,7 +2,19 @@ import * as request from 'supertest';
 import App, { Context } from '@koex/core';
 import passport, { Strategy } from '../src/index';
 
-class LocalStrategy extends Strategy {
+passport.serializeUser(async user => {
+  // serialize user to id
+  return user.id;
+});
+
+passport.descrializeUser(async id => {
+  // find(descrialize) user by id
+  return {
+    id,
+  };
+});
+
+class LocalStrategy extends Strategy<null, { username: string, password: string }> {
   public async user(id: string) {
     return {
       id,
@@ -18,7 +30,11 @@ class LocalStrategy extends Strategy {
 
   public async callback(ctx: Context) {
     return {
-      id: 'user id',
+      token: null,
+      profile: {
+        username: ((ctx.request as any).body || {}).username as string,
+        password: ((ctx.request as any).body || {}).password as string,
+      },
     };
   }
 }
@@ -26,7 +42,7 @@ class LocalStrategy extends Strategy {
 describe("@koex/passport", () => {
   const app = new App();
 
-  passport.use('local', new LocalStrategy(async (ctx, strategy, profile, stage) => {
+  passport.use('local', new LocalStrategy(async (ctx, token, profile) => {
     return profile;
   }));
 
@@ -65,13 +81,31 @@ describe("@koex/passport", () => {
   }));
 
   app.get('/auth/:strategy', passport.authenticate());
-  app.get('/auth/:strategy/callback', passport.callback(), async (ctx) => {
-    ctx.redirect('/');
-  });
+  app.get(
+    '/auth/:strategy/callback',
+    passport.callback({
+      async onFail(error, ctx, next) {
+        console.error('授权失败', error.message);
+        ctx.throw(500, '授权失败');
+      },
+    }),
+    async (ctx) => {
+      ctx.redirect('/');
+    },
+  );
   app.get('/none-auth/:none-strategy', passport.authenticate());
-  app.get('/none-auth/:none-strategy/callback', passport.callback(), async (ctx) => {
-    ctx.redirect('/');
-  });
+  app.get(
+    '/none-auth/:none-strategy/callback',
+    passport.callback({
+      async onFail(error, ctx, next) {
+        console.error('授权失败', error.message);
+        ctx.throw(500, '授权失败');
+      },
+    }),
+    async (ctx) => {
+      ctx.redirect('/');
+    },
+  );
   app.get('/login', passport.login());
   app.get('/logout', passport.logout());
 
@@ -192,7 +226,7 @@ describe("@koex/passport", () => {
 describe("@koex/passport with options", () => {
   const app = new App();
 
-  passport.use('local', new LocalStrategy(async (ctx, strategy, profile, stage) => {
+  passport.use('local', new LocalStrategy(async (ctx, token, profile) => {
     return profile;
   }));
 
@@ -214,9 +248,18 @@ describe("@koex/passport with options", () => {
   }));
 
   app.get('/auth/:strategy', passport.authenticate());
-  app.get('/auth/:strategy/callback', passport.callback(), async (ctx) => {
-    ctx.redirect('/');
-  });
+  app.get(
+    '/auth/:strategy/callback',
+    passport.callback({
+      async onFail(error, ctx, next) {
+        console.error('授权失败', error.message);
+        ctx.throw(500, '授权失败');
+      },
+    }),
+    async (ctx) => {
+      ctx.redirect('/');
+    },
+  );
   app.get('/login', passport.login({
     async render(ctx) {
       ctx.body = 'login page'

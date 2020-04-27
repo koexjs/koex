@@ -1,9 +1,8 @@
 import { Context } from '@koex/core';
 import {
-  Strategy, IGetUserByStrategyProfile,
+  Strategy, IVerify,
   IGetAuthorizeUrlData,
   IGetAccessTokenData,
-  Profile,
 } from '@koex/passport-oauth2';
 
 export interface GithubStrategyOptions {
@@ -16,8 +15,16 @@ export interface Token {
   access_token: string;
 }
 
-export class GithubStrategy extends Strategy {
-  constructor(private readonly _options: GithubStrategyOptions, public readonly getUserByStrategyProfile: IGetUserByStrategyProfile) {
+export interface Profile {
+  id: string;
+  login: string;
+  avatar_url: string;
+  url: string;
+  node_id: string;
+}
+
+export class GithubStrategy extends Strategy<Token, Profile> {
+  constructor(private readonly _options: GithubStrategyOptions, public readonly verify: IVerify<Token, Profile>) {
     super({
       ..._options,
       response_type: 'code',
@@ -25,7 +32,7 @@ export class GithubStrategy extends Strategy {
       authorize_url: 'https://github.com/login/oauth/authorize',
       token_url: 'https://github.com/login/oauth/access_token',
       user_profile_url: 'https://api.github.com/user',
-    }, getUserByStrategyProfile);
+    }, verify);
   }
 
   protected async getAuthorizeUrl(authorize_url: string, data: IGetAuthorizeUrlData) {
@@ -78,8 +85,11 @@ export class GithubStrategy extends Strategy {
     const data = await response.json();
 
     return {
-      ...data,
-      id: data.login,
+      id: data.id,
+      login: data.login,
+      avatar_url: data.avatar_url,
+      url: data.url,
+      node_id: data.node_id,
     };
   }
 }

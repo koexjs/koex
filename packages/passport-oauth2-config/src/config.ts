@@ -139,6 +139,9 @@ export interface Config {
          *  like github, you can use data.avatar_url
          */
         avatar?: string;
+
+        // allow custom key
+        [key: string]: any;
       },
     },
   },

@@ -1,18 +1,19 @@
 import { Context, Middleware } from '@koex/core';
+import * as assert from 'assert';
 import * as pathToRegexp from 'path-to-regexp';
 
 import { Strategy } from './strategy';
 import { Session } from './session';
 
-declare module '@koex/core' {
-  export interface User {
-    id: string;
-    username?: string;
-    nickname?: string;
-    email?: string;
-    [key: string]: any;
-  }
+export interface User {
+  id?: string;
+  // username?: string;
+  // nickname?: string;
+  // email?: string;
+  [key: string]: any;
+}
 
+declare module '@koex/core' {
   export interface Context {
     readonly user: User;
   }
@@ -54,11 +55,6 @@ export interface LogoutOptions extends LoginOptions {
  
 }
 
-export enum Stage {
-  authorize = 'authorize',
-  verify = 'verify',
-};
-
 export interface IPassport {
   use(name: string, strategy: Strategy): void;
   initialize(options: InitializeOptions): Middleware<Context>;
@@ -67,6 +63,10 @@ export interface IPassport {
   login(options?: LoginOptions): Middleware<Context>;
   logout(options?: LogoutOptions): Middleware<Context>;
 }
+
+export type SerializeUser = (user: User) => Promise<string>;
+
+export type DeserializeUser = (id: string) => Promise<User>;
 
 /**
  * Passport
@@ -97,6 +97,8 @@ export interface IPassport {
 export class Passport implements IPassport {
   private strategies: Record<string, Strategy> = {};
   private session: Session;
+  private _serializeUser: SerializeUser;
+  private _deserializeUser: DeserializeUser;
 
   public use(name: string, strategy: Strategy) {
     this.strategies[name] = strategy;
@@ -105,15 +107,12 @@ export class Passport implements IPassport {
   public initialize(options: InitializeOptions): Middleware<Context> {
     const exclude = options.excludePaths.map(pattern => pathToRegexp(pattern));
 
+    assert(this._serializeUser, 'You should call passport.serializeUser first');
+    assert(this._deserializeUser, 'You should call passport.deserializeUser first');
+
     return async (ctx, next) => {
       this.session = new Session(ctx, {
         maxAge: options.maxAge,
-        getUserBySessionProfile: async (strategyName, profileId) => {
-          const strategy = this.strategies[strategyName];
-
-          const profile = { id: profileId };
-          return strategy.getUserByStrategyProfile(ctx, strategyName, profile, Stage.verify);
-        },
       });
 
       if (exclude.some(regexp => !!regexp.exec(ctx.path))) {
@@ -130,7 +129,10 @@ export class Passport implements IPassport {
         return options.onUnauthorized(ctx, acceptJSON);
       }
 
-      const user = await this.session.user();
+      // @session
+      const id = this.session.get();
+      const user = await this._deserializeUser(id);
+
       // readonly, use it instead of ctx.user = user
       defineReadonlyProperties(ctx, { user });
 
@@ -152,8 +154,6 @@ export class Passport implements IPassport {
       }
 
       await strategy.authenticate(ctx);
-
-      // await next();
     };
   }
 
@@ -171,11 +171,14 @@ export class Passport implements IPassport {
           ctx.throw(500, `No Passport Strategy provided named ${strategyName}`, { strategy: strategyName, reasonBy: 'self' });
         }
   
-        const profile = await strategy.callback(ctx);
+        const { token, profile } = await strategy.callback(ctx);
   
-        this.session.set(strategyName, profile.id);
-  
-        const user = await strategy.getUserByStrategyProfile(ctx, strategyName, profile, Stage.authorize);
+        const user = await strategy.verify(ctx, token, profile);
+
+        const id = await this._serializeUser(user);
+
+        // @session
+        this.session.set(id);
   
         // readonly, use it instead of ctx.user = user
         defineReadonlyProperties(ctx, { user });
@@ -185,6 +188,14 @@ export class Passport implements IPassport {
         return await options.onFail(error, ctx, next);
       }
     };
+  }
+  
+  public serializeUser(fn: SerializeUser) {
+    this._serializeUser = fn;
+  }
+
+  public descrializeUser(fn: DeserializeUser) {
+    this._deserializeUser = fn;
   }
 
   public login(options?: LoginOptions): Middleware<Context> {
@@ -200,6 +211,7 @@ export class Passport implements IPassport {
 
   public logout(options?: LogoutOptions): Middleware<Context> {
     return async (ctx) => {
+      // @session
       this.session.remove();
 
       if (options && options.render) {

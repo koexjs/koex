@@ -1,16 +1,13 @@
-import { Context, User } from '@koex/core';
+import { Context } from '@koex/core';
 import { SetOption, GetOption } from 'cookies';
 
 export interface SessionOptions {
   maxAge?: number;
-  getUserBySessionProfile(strategy: string, id: string): Promise<User>;
 }
 
 const DEFAULT_SESSION_MAX_AGE = 7 * 24 * 60 * 60 * 1000;
 
 export class Session {
-  // private key = 'strategy:id';
-  // private key = '@koex/passport#strategy:id'
   protected key = 'kpsi';
   private signed = true;
   // private encrypted = true;
@@ -27,31 +24,21 @@ export class Session {
 
   constructor(private readonly ctx: Context, private readonly options: SessionOptions) {}
 
-  set(strategy: string, id: string) {
+  set(id: string) {
     const { ctx, key, setOption } = this;
-    const value = `${strategy}:${id}`;
 
-    ctx.cookies.set(key, value, setOption);
+    ctx.cookies.set(key, id, setOption);
   }
 
   get() {
     const { ctx, key, getOption } = this;
-    const value = ctx.cookies.get(key, getOption);
-    if (!value) return ;
 
-    const [strategy, id] = value.split(':'); // @TODO
-    return { id, strategy };
+    return ctx.cookies.get(key, getOption);
   }
 
   remove() {
     const { ctx, key, setOption } = this;
     ctx.cookies.set(key, null, setOption);
-  }
-
-  async user() {
-    const { id, strategy } = this.get();
-
-    return this.options.getUserBySessionProfile(strategy, id);
   }
 
   get isAuthenticated() {

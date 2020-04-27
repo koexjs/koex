@@ -7,8 +7,7 @@ import { get } from '@zodash/get';
 
 import {
   Strategy,
-  IStrategyProfile,
-  IGetUserByStrategyProfile,
+  IVerify,
 } from '@koex/passport';
 
 import {
@@ -18,15 +17,15 @@ import {
   Config,
 } from './config';
 
-/**
- * Access Token
- */
-export type Token = string;
+// /**
+//  * Access Token
+//  */
+// export type Token = string;
 
-/**
- * User Profile
- */
-export type Profile = IStrategyProfile;
+// /**
+//  * User Profile
+//  */
+// export type Profile = IStrategyProfile;
 
 function formatObject(obj: Record<string, any>, map: Record<string, any>) {
   if (!obj) return obj;
@@ -53,9 +52,9 @@ function formatObject(obj: Record<string, any>, map: Record<string, any>) {
  *    @Method getAccessToken(url, data): Token (@S2)
  *    @Method getAccessUser(url, data): User (@S3)
  */
-export abstract class OauthStrategy extends Strategy {
-  constructor(protected readonly oauthStrategyOptions: IOauthStrategyOptions, public readonly getUserByStrategyProfile: IGetUserByStrategyProfile) {
-    super(getUserByStrategyProfile);
+export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strategy<IToken, IProfile> {
+  constructor(protected readonly oauthStrategyOptions: IOauthStrategyOptions, public readonly verify: IVerify<IToken, IProfile>) {
+    super(verify);
   }
 
   protected abstract config: Config;
@@ -77,7 +76,7 @@ export abstract class OauthStrategy extends Strategy {
    * @param token_url base token url
    * @param data the data required to get access token
    */
-  private async getAccessToken(token_url: string, data: IGetAccessTokenData): Promise<Token> {
+  private async getAccessToken(token_url: string, data: IGetAccessTokenData): Promise<IToken> {
     const method = get(this.config, 'callback.access_token.method', 'POST');
 
     const headersPattern = get(this.config, 'callback.access_token.headers', {
@@ -110,10 +109,7 @@ export abstract class OauthStrategy extends Strategy {
       throw new Error(`[oauth.token][${status}] ${message}`);
     }
 
-    const access_token = await response.json();
-    const access_token_string_key = get(this.config, 'callback.access_token.access_token.name', 'access_token');
-
-    return get(access_token, access_token_string_key);
+    return response.json();
   }
   
   /**
@@ -122,7 +118,12 @@ export abstract class OauthStrategy extends Strategy {
    * @param user_profile_url base user info url, here, just wants to openid, or user
    * @param access_token the getAccessToken() return data
    */
-  private async getAccessUser(user_profile_url: string, access_token: Token): Promise<Profile> {
+  private async getAccessUser(user_profile_url: string, token: IToken): Promise<IProfile> {
+    // @TODO
+    const access_token_string_key = get(this.config, 'callback.access_token.access_token.name', 'access_token');
+
+    const access_token = get(token as any, access_token_string_key);
+
     const data = { access_token };
 
     const method = get(this.config, 'callback.user_profile.method', 'GET');
@@ -206,7 +207,7 @@ export abstract class OauthStrategy extends Strategy {
    * @param ctx context
    * @returns user profile
    */
-  public async callback(ctx: Context): Promise<Profile> {
+  public async callback(ctx: Context) {
     const {
       token_url,
       user_profile_url,
@@ -233,7 +234,10 @@ export abstract class OauthStrategy extends Strategy {
 
     const profile = await this.getAccessUser(user_profile_url, token);
 
-    return profile;
+    return {
+      token,
+      profile,
+    };
   }
 
   protected readonly utils = {

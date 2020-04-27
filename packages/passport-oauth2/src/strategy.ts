@@ -5,8 +5,7 @@ import * as qs from '@zcorky/query-string';
 
 import {
   Strategy,
-  IStrategyProfile,
-  IGetUserByStrategyProfile,
+  IVerify,
 } from '@koex/passport';
 
 export interface IOauthStrategyOptions {
@@ -130,11 +129,6 @@ export interface IGetAccessTokenData {
 export type Token = any;
 
 /**
- * User Profile
- */
-export type Profile = IStrategyProfile;
-
-/**
  * Oauth Passport Strategy
  *  which defined the authenticate(@S1) and callback flow(@S2),
  *  what you need do is to realize the following three methods,
@@ -143,9 +137,9 @@ export type Profile = IStrategyProfile;
  *    @Method getAccessToken(url, data): Token (@S2)
  *    @Method getAccessUser(url, data): User (@S3)
  */
-export abstract class OauthStrategy extends Strategy {
-  constructor(protected readonly oauthStrategyOptions: IOauthStrategyOptions, public readonly getUserByStrategyProfile: IGetUserByStrategyProfile) {
-    super(getUserByStrategyProfile);
+export abstract class OauthStrategy<IToken = any, Profile = any> extends Strategy<IToken, Profile> {
+  constructor(protected readonly oauthStrategyOptions: IOauthStrategyOptions, public readonly verify: IVerify<IToken, Profile>) {
+    super(verify);
   }
 
   /**
@@ -198,6 +192,7 @@ export abstract class OauthStrategy extends Strategy {
     };
 
     const auth_server_url = await this.getAuthorizeUrl(authorize_url, data);
+    
     ctx.redirect(auth_server_url);
   }
 
@@ -207,7 +202,7 @@ export abstract class OauthStrategy extends Strategy {
    * @param ctx context
    * @returns user profile
    */
-  public async callback(ctx: Context): Promise<Profile> {
+  public async callback(ctx: Context) {
     const {
       token_url,
       user_profile_url,
@@ -233,7 +228,10 @@ export abstract class OauthStrategy extends Strategy {
 
     const profile = await this.getAccessUser(user_profile_url, token);
 
-    return profile;
+    return {
+      token,
+      profile,
+    };
   }
 
   protected readonly utils = {

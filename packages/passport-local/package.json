@@ -1,10 +1,11 @@
 {
-  "name": "@koex/passport",
-  "version": "0.0.29",
-  "description": "koex passport",
+  "name": "@koex/passport-local",
+  "version": "0.0.0",
+  "description": "koex passport-local",
   "keywords": [
     "koex",
-    "passport"
+    "passport",
+    "passport-local"
   ],
   "author": "zero <tobewhatwewant@gmail.com>",
   "homepage": "https://github.com/koexjs/koex#readme",
@@ -44,9 +45,9 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 40,
-        "functions": 40,
-        "lines": 40,
+        "branches": 60,
+        "functions": 60,
+        "lines": 60,
         "statements": 0
       }
     },
@@ -68,8 +69,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.0.29",
-    "@types/cookies": "^0.7.4",
+    "@koex/core": "^0.0.10",
     "@types/jest": "^24.0.19",
     "@types/node-fetch": "^2.5.2",
     "@types/supertest": "^2.0.8",
@@ -79,8 +79,8 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
+    "@koex/passport": "^0.0.29",
     "@zcorky/query-string": "^1.0.2",
-    "@zodash/format": "^1.0.1-alpha.13",
     "node-fetch": "^2.6.0"
   }
 }
