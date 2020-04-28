@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/koexjs/koex/compare/v0.1.0...v0.2.0) (2020-04-28)
+
+
+### Features
+
+* **passport:** export serializeUser and deserializeUser the ctx ([5890b5e](https://github.com/koexjs/koex/commit/5890b5ed64c27ac2c01dbd4f235f04cf640f632c))
+
+
+
+
+
 # 0.1.0 (2020-04-27)
 
 

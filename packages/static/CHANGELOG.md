@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.2.0](https://github.com/koexjs/static/compare/v0.1.0...v0.2.0) (2020-04-28)
+
+**Note:** Version bump only for package @koex/static
+
+
+
+
+
 # 0.1.0 (2020-04-27)
 
 **Note:** Version bump only for package @koex/static

@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-local",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "koex passport-local",
   "keywords": [
     "koex",
@@ -79,7 +79,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@koex/passport": "^0.1.0",
+    "@koex/passport": "^0.2.0",
     "@zcorky/query-string": "^1.0.2",
     "node-fetch": "^2.6.0"
   }
