@@ -64,9 +64,9 @@ export interface IPassport {
   logout(options?: LogoutOptions): Middleware<Context>;
 }
 
-export type SerializeUser = (user: User) => Promise<string>;
+export type SerializeUser = (user: User, ctx: Context) => Promise<string>;
 
-export type DeserializeUser = (id: string) => Promise<User>;
+export type DeserializeUser = (id: string, ctx: Context) => Promise<User>;
 
 /**
  * Passport
@@ -131,7 +131,7 @@ export class Passport implements IPassport {
 
       // @session
       const id = this.session.get();
-      const user = await this._deserializeUser(id);
+      const user = await this._deserializeUser(id, ctx);
 
       // readonly, use it instead of ctx.user = user
       defineReadonlyProperties(ctx, { user });
@@ -175,7 +175,7 @@ export class Passport implements IPassport {
   
         const user = await strategy.verify(ctx, token, profile);
 
-        const id = await this._serializeUser(user);
+        const id = await this._serializeUser(user, ctx);
 
         // @session
         this.session.set(id);
