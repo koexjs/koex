@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/koexjs/koex/compare/v0.3.2...v0.4.0) (2020-06-25)
+
+
+### Features
+
+* **@koex/core:** add appLogger(app.logger) and contextLogger(ctx.logger) ([7c0a04d](https://github.com/koexjs/koex/commit/7c0a04d6fc35bc9341a8df53dc4e746c135d8b0b))
+* **@koex/core:** add ctx.logger ([0f2c8f7](https://github.com/koexjs/koex/commit/0f2c8f7b8ceec1d600b1a2871fb0e4da9a62b5c8))
+* **@koex/core:** add ctx.logger by [@zodash](https://github.com/zodash).logger ([978eda7](https://github.com/koexjs/koex/commit/978eda711b82b5bec93a002259d00661887c3768))
+
+
+
+
+
 ## [0.3.2](https://github.com/koexjs/koex/compare/v0.3.1...v0.3.2) (2020-06-25)
 
 **Note:** Version bump only for package @koex/core
