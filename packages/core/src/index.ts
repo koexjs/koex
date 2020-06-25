@@ -1,23 +1,38 @@
 import * as Koa from 'koa';
 import { Middleware } from 'koa-compose';
-
+import { Context, Options } from './types';
 import { router } from './router';
+import { Controller, Service } from './models';
 
 export {
   Middleware,
+  //
+  Context,
+  Options,
+  //
+  Controller,
+  Service,
 };
 
-export interface Context extends Koa.Context {
-
-}
-
-export interface Options {
-  
-}
 
 export class Koex extends Koa {
   constructor(private readonly options?: Options) {
-    super()
+    super();
+
+    this.setup();
+  }
+
+  private setup() {
+    this.injectContext();
+  }
+
+  private injectContext() {
+    this.use(async (ctx, next) => {
+      Service._setContextByProto(ctx);
+      Controller._setContextByProto(ctx);
+
+      return next();
+    });
   }
 
   public get router() {
