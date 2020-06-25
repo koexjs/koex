@@ -71,6 +71,7 @@
     "@koex/router": "^0.4.0",
     "@types/koa": "^2.0.49",
     "@types/koa-compose": "^3.2.4",
+    "@zcorky/lru": "^1.0.3",
     "@zodash/compose": "^0.0.2",
     "@zodash/logger": "^0.0.17",
     "auto-bind": "^4.0.0",
