@@ -1,6 +1,5 @@
 import * as Koa from 'koa';
 import { Middleware } from 'koa-compose';
-import logger from '@koex/logger';
 import { Context, Options } from './types';
 import { router } from './router';
 
