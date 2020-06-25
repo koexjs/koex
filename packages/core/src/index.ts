@@ -39,11 +39,7 @@ export class Koex extends Koa {
   }
 
   private mountHelpers() {
-    this.use(async (ctx: Context, next) => {
-      await createHelpers(ctx as any);
-
-      return next();
-    });
+    createHelpers(this);
   }
 
   public get router() {
