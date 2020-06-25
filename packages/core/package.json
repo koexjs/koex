@@ -68,11 +68,11 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
-    "@koex/logger": "^0.3.2",
     "@koex/router": "^0.3.2",
     "@types/koa": "^2.0.49",
     "@types/koa-compose": "^3.2.4",
     "@zodash/compose": "^0.0.2",
+    "@zodash/logger": "^0.0.17",
     "auto-bind": "^4.0.0",
     "koa": "^2.8.1"
   },

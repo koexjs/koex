@@ -3,7 +3,9 @@ import { Middleware } from 'koa-compose';
 import logger from '@koex/logger';
 import { Context, Options } from './types';
 import { router } from './router';
+
 import { Controller, Service } from './models';
+import { createHelpers } from './helpers';
 
 export {
   Middleware,
@@ -38,8 +40,11 @@ export class Koex extends Koa {
   }
 
   private mountHelpers() {
-    // mount ctx.logger
-    this.use(logger());
+    this.use(async (ctx: Context, next) => {
+      await createHelpers(ctx as any);
+
+      return next();
+    });
   }
 
   public get router() {
