@@ -133,7 +133,7 @@ describe("@koex/passport-local", () => {
     await request(app.callback())
       .get('/login')
       .expect(302)
-      .expect('Location', '/auth/local')
+      .expect('Location', '/login/local')
       .then((response) => {
         // console.log(response.header);
       });
