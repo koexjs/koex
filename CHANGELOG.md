@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/koexjs/koex/compare/v0.4.0...v0.5.0) (2020-06-25)
+
+
+### Bug Fixes
+
+* **@koex/core:** add appLogger(app.logger) and contextLogger(ctx.logger) ([09b618b](https://github.com/koexjs/koex/commit/09b618b401e2402124cf74773537d5c833adbb06))
+
+
+### Features
+
+* **@koex/core:** add appCache(app.cache) and contextCache(ctx.cache) ([7978141](https://github.com/koexjs/koex/commit/79781414f8972cbf4e0353c35cdccb0f62f57a75))
+
+
+
+
+
 # [0.4.0](https://github.com/koexjs/koex/compare/v0.3.2...v0.4.0) (2020-06-25)
 
 
