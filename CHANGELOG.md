@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/koexjs/koex/compare/v0.2.0...v0.3.0) (2020-06-25)
+
+
+### Bug Fixes
+
+* fix test ([b0afe9b](https://github.com/koexjs/koex/commit/b0afe9b671800cc33776e294586e0f5fb4c13140))
+
+
+### Features
+
+* **@koex/core:** support Controller and Service base class ([811bf9d](https://github.com/koexjs/koex/commit/811bf9d0ae305160078791e114f9bc107c5f4a0e))
+* **@koex/passport:** use /login/:strategy(/callback) as default instead of /oauth/:strategy(/callback) ([91d643d](https://github.com/koexjs/koex/commit/91d643dada97ce4a3412cfbe8dc68664787b1a06))
+
+
+
+
+
 # [0.2.0](https://github.com/koexjs/koex/compare/v0.1.0...v0.2.0) (2020-04-28)
 
 

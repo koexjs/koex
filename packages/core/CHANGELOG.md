@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/koexjs/koex/compare/v0.2.0...v0.3.0) (2020-06-25)
+
+
+### Features
+
+* **@koex/core:** support Controller and Service base class ([811bf9d](https://github.com/koexjs/koex/commit/811bf9d0ae305160078791e114f9bc107c5f4a0e))
+
+
+
+
+
 # [0.2.0](https://github.com/koexjs/koex/compare/v0.1.0...v0.2.0) (2020-04-28)
 
 **Note:** Version bump only for package @koex/core
