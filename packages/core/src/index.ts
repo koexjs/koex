@@ -1,5 +1,6 @@
 import * as Koa from 'koa';
 import { Middleware } from 'koa-compose';
+import logger from '@koex/logger';
 import { Context, Options } from './types';
 import { router } from './router';
 import { Controller, Service } from './models';
@@ -24,15 +25,21 @@ export class Koex extends Koa {
 
   private setup() {
     this.injectContext();
+    this.mountHelpers();
   }
 
   private injectContext() {
     this.use(async (ctx, next) => {
-      Service._setContextByProto(ctx);
-      Controller._setContextByProto(ctx);
+      Service._setContextByProto(ctx as any);
+      Controller._setContextByProto(ctx as any);
 
       return next();
     });
+  }
+
+  private mountHelpers() {
+    // mount ctx.logger
+    this.use(logger());
   }
 
   public get router() {
