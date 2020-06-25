@@ -286,49 +286,50 @@
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
 
-"@koex/core@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@koex/core/-/core-0.0.17.tgz#4d79f92eedb7d054a69022c95f22e0e29007fd1d"
-  integrity sha512-Y6VJUSnagUA7FBOyQ7S37U6C5zL4H5dnr7HBlTp7mplOi9zbYbOtxcTq21Nc6EHFCLwPH7oAZkMpVDJQMZsOyQ==
+"@koex/core@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@koex/core/-/core-0.3.0.tgz#fbcaa9759d8bf9a3b1a12442ec4c6a5dede571e3"
+  integrity sha512-5PaR9T1whvsLh+4KkigMKPHWbTqS0XLvfuARQ8oeK473bUyt4HoIBrL8M69A68w89hI/Uwx6YqOGBSbbnR2fUQ==
   dependencies:
-    "@koex/router" "^0.0.17"
+    "@koex/router" "^0.3.0"
     "@types/koa" "^2.0.49"
     "@types/koa-compose" "^3.2.4"
     "@zodash/compose" "^0.0.2"
+    auto-bind "^4.0.0"
     koa "^2.8.1"
 
-"@koex/passport-oauth2-config@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@koex/passport-oauth2-config/-/passport-oauth2-config-0.0.17.tgz#d1235699f1fee985bda76895170ee1bb9d6674e6"
-  integrity sha512-qDqdq4XgClx1xS8kZwxKBb0LnliLDAg1CYjl3NxfsGy6TvzqC/wbll4+ai8c009/WrImjHxbdMxLRrZBh2VZMg==
+"@koex/passport-oauth2-config@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@koex/passport-oauth2-config/-/passport-oauth2-config-0.3.0.tgz#b149ce5df34e61a3c639d842ac3f5604e69e265e"
+  integrity sha512-XZqmGmiXBqQLEsxNNgxcSUbJMr9kBBXsLUwYF0Gkn5SUM62frBdWPlyX0v0pYnldnO+qmevBd/ZB/yBOZd/+uA==
   dependencies:
-    "@koex/passport" "^0.0.17"
+    "@koex/passport" "^0.3.0"
     "@zcorky/query-string" "^1.0.2"
     "@zodash/get" "^1.0.15"
     node-fetch "^2.6.0"
 
-"@koex/passport-oauth2@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@koex/passport-oauth2/-/passport-oauth2-0.0.17.tgz#d6bab7f43da9c56b00463e92ef6bcd7e5aef3144"
-  integrity sha512-bsNiwTezLPUVZYzzWoOO8uChmm82lNzEEyZ8Lbah+SroIshzDbwFjQWhE38GPJg2l6M17iod1YlLN4qINWUtDw==
+"@koex/passport-oauth2@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@koex/passport-oauth2/-/passport-oauth2-0.3.0.tgz#7fb9c8518c9105788037653b5881c55ec302628c"
+  integrity sha512-6LamW6KnRvMCLaDBPyD+4EROp1LKA0Gj3bdtfZPT32VXdPmv5ExKqZQtzfTNiwHy3fx7oXCXSCoCuMlAh7IlEg==
   dependencies:
-    "@koex/passport" "^0.0.17"
+    "@koex/passport" "^0.3.0"
     "@zcorky/query-string" "^1.0.2"
     node-fetch "^2.6.0"
 
-"@koex/passport@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@koex/passport/-/passport-0.0.17.tgz#e76f47676a8d67b8f9f8b45f9139733249dedb5a"
-  integrity sha512-2+mq8qVrso2peaLsu0kllySe1rVdTP5duKNH2W5Kd3e9fwys66DPd9DyM0MdbKgBXbM5JDkVocR7TQpDBBSA9A==
+"@koex/passport@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@koex/passport/-/passport-0.3.0.tgz#b733312181aaad44b2acced018b887e09436b1df"
+  integrity sha512-TcteFAZgyLF+sdJ7LPOxbi6+tiYHGvAk4Jtvj4eQ5pYJKaKv2v21+alJBP88Cfkb47yT1AqEBN3d3fBe5n2TaQ==
   dependencies:
     "@zcorky/query-string" "^1.0.2"
     "@zodash/format" "^1.0.1-alpha.13"
     node-fetch "^2.6.0"
 
-"@koex/router@^0.0.17":
-  version "0.0.17"
-  resolved "https://registry.yarnpkg.com/@koex/router/-/router-0.0.17.tgz#9ceb153559e1e9e4ee26f57c24dc6af8b0eb9eed"
-  integrity sha512-oXDOt1waGqoQKvk/DVx1AMWAeV/Xcsovp8c8jlhbUmp9/s6RZTHj4GGkdLD3AsB/DkRDQj+UxGTpJ/Ky40nU2g==
+"@koex/router@^0.3.0":
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/@koex/router/-/router-0.3.0.tgz#895cf25d308fb3c707a31f82db0addc9d4ddfca8"
+  integrity sha512-nm2N3fofN21wk7ytMIvIRhd9kf8CqtzxmDlkULzqDivbrAolhp2CfOy7jjp3w84+9ZqVkmrv81atGHJu1e+GzQ==
   dependencies:
     koa-compose "^4.1.0"
     path-to-regexp "^3.1.0"
@@ -602,9 +603,9 @@ acorn-walk@^6.0.1:
   integrity sha512-7evsyfH1cLOCdAzZAd43Cic04yKydNx0cF+7tiA19p1XnLLPU4dpCQOqpjqwokFe//vS0QqfqqjCS2JkiIs0cA==
 
 acorn@^5.5.3:
-  version "5.7.3"
-  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.3.tgz#67aa231bf8812974b85235a96771eb6bd07ea279"
-  integrity sha512-T/zvzYRfbVojPWahDsE5evJdHb3oJoQfFbsrKM7w5Zcs++Tr257tia3BmMP8XYVjp1S9RZXQMh7gao96BlqZOw==
+  version "5.7.4"
+  resolved "https://registry.yarnpkg.com/acorn/-/acorn-5.7.4.tgz#3e8d8a9947d0599a1796d10225d7432f4a4acf5e"
+  integrity sha512-1D++VG7BhrtvQpNbBzovKNc1FLGGEE/oGe7b9xJm/RFHMBeUaUGpluV9RLjZa47YFdPcDAenEYuq9pQPcMdLJg==
 
 acorn@^6.0.1:
   version "6.3.0"
@@ -735,6 +736,11 @@ atob@^2.1.1:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/atob/-/atob-2.1.2.tgz#6d9517eb9e030d2436666651e86bd9f6f13533c9"
   integrity sha512-Wm6ukoaOGJi/73p/cl2GvLjTI5JM1k/O14isD73YML8StrH/7/lRFgmg8nICZgD3bZZvjwCGxtMOD3wWNAu8cg==
+
+auto-bind@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/auto-bind/-/auto-bind-4.0.0.tgz#e3589fc6c2da8f7ca43ba9f84fa52a744fc997fb"
+  integrity sha512-Hdw8qdNiqdJ8LqT0iK0sVzkFbzg6fhnQqqfWhBDxcHZvU75+B+ayzTy8x+k5Ix0Y92XOhOUlx74ps+bA6BeYMQ==
 
 aws-sign2@~0.7.0:
   version "0.7.0"
