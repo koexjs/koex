@@ -5,9 +5,9 @@ import { RedirectSession } from './session';
 
 export interface IUsePassport {
   /**
-   * Auth Path Prefix, default: /oauth
-   *  => 1 Authentication Path: /oauth/:strategy
-   *  => 2 Callback Path: /oauth/:strategy/callback
+   * Auth Path Prefix, default: /login
+   *  => 1 Authentication Path: /login/:strategy
+   *  => 2 Callback Path: /login/:strategy/callback
    */
   authPathPrefix?: string;
 
@@ -120,7 +120,7 @@ const callbackPathPattern = '{prefix}/:strategy/callback';
 export function usePassport(app: App, options: IUsePassport) {
   let _options = options || {} as IUsePassport;
 
-  const authPathPrefix = _options.authPathPrefix || '/oauth';
+  const authPathPrefix = _options.authPathPrefix || '/login';
   const loginPath = _options.loginPath || '/login';
   const logoutPath = _options.logoutPath || '/logout';
   const authenticatePath = format(authenticatePathPattern, { prefix: authPathPrefix });

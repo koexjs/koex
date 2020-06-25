@@ -204,7 +204,7 @@ export class Passport implements IPassport {
         return options.render(ctx);
       }
 
-      const redirect = options && options.redirect || '/auth/local'; // @TODO
+      const redirect = options && options.redirect || '/login/local'; // @TODO
       ctx.redirect(redirect);
     };
   }
