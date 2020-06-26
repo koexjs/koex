@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/koexjs/koex/compare/v0.5.0...v0.5.1) (2020-06-26)
+
+
+### Bug Fixes
+
+* **core:** fix core should not dirty global Controller and Service, which make bugs when many requests in ([aa60823](https://github.com/koexjs/koex/commit/aa60823f3f1e5cc79036b91cf68e4dcb8f037d98))
+
+
+
+
+
 # [0.5.0](https://github.com/koexjs/koex/compare/v0.4.0...v0.5.0) (2020-06-25)
 
 
