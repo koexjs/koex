@@ -6,6 +6,8 @@ import { router } from './router';
 import { Controller, Service } from './models';
 import { createHelpers } from './helpers';
 
+import { wrapController, createControllers } from './utils';
+
 export {
   Middleware,
   //
@@ -14,6 +16,9 @@ export {
   //
   Controller,
   Service,
+  //
+  wrapController,
+  createControllers,
 };
 
 

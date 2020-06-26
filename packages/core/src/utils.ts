@@ -1,9 +1,9 @@
 /**
- * Create instance of class, make method as middleware
+ * @Lazy Create instance of class, make method as middleware
  * 
  * @param Controller Controller Class
  */
-function wrapController<T>(Controller: any): T {
+export function wrapController<T>(Controller: any): T {
   let proto = Controller.prototype;
   const instance = {} as object;
 
@@ -37,4 +37,32 @@ function wrapController<T>(Controller: any): T {
   }
 }
 
-// function wrapService<T>(Service: any): T {}
+// /**
+//  * @Lazy make service lazy only instance when use
+//  * 
+//  * @param target Target
+//  * @param Service Service Class
+//  */
+// function wrapService(target: any, key: string, Service: any) {
+//   Object.defineProperty(target, key, {
+//     get() {
+//       return new Service(ctx);
+//     }
+//   })
+// }
+
+export function createControllers<T>(cts: Record<string, any>) {
+  return Object.keys(cts)
+    .reduce((all, key) => {
+      all[key] = wrapController(cts[key]);
+      return all;
+    }, {} as T);
+}
+
+// function createService<T>(cts: Record<string, any>) {
+//   return Object.keys(cts)
+//     .reduce((all, key) => {
+//       wrapService(all, key, cts[key]);
+//       return all;
+//     }, {} as T);
+// }
