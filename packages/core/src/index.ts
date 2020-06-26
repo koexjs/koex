@@ -25,17 +25,7 @@ export class Koex extends Koa {
   }
 
   private setup() {
-    this.injectContext();
     this.mountHelpers();
-  }
-
-  private injectContext() {
-    this.use(async (ctx, next) => {
-      Service._setContextByProto(ctx as any);
-      Controller._setContextByProto(ctx as any);
-
-      return next();
-    });
   }
 
   private mountHelpers() {
