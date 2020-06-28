@@ -1,3 +1,8 @@
+import App from './index';
+import { Context } from './types';
+
+const ServiceSymbol = Symbol('Service');
+
 /**
  * @Lazy Create instance of class, make method as middleware
  * 
@@ -37,20 +42,6 @@ export function wrapController<T>(Controller: any): T {
   }
 }
 
-// /**
-//  * @Lazy make service lazy only instance when use
-//  * 
-//  * @param target Target
-//  * @param Service Service Class
-//  */
-// function wrapService(target: any, key: string, Service: any) {
-//   Object.defineProperty(target, key, {
-//     get() {
-//       return new Service(ctx);
-//     }
-//   })
-// }
-
 export function createControllers<T>(cts: Record<string, any>) {
   return Object.keys(cts)
     .reduce((all, key) => {
@@ -59,10 +50,43 @@ export function createControllers<T>(cts: Record<string, any>) {
     }, {} as T);
 }
 
-// function createService<T>(cts: Record<string, any>) {
-//   return Object.keys(cts)
-//     .reduce((all, key) => {
-//       wrapService(all, key, cts[key]);
-//       return all;
-//     }, {} as T);
-// }
+export class ClassLoader {
+  private cache = new Map();
+
+  constructor(private ctx: Context, private services: Record<string, any>) {
+    for (const serviceName in services) {
+      this.define(serviceName, services[serviceName]);
+    }
+  }
+  
+  define(property: string, Cs: any) {
+    const target = this;
+
+    Object.defineProperty(target, property, {
+      get() {
+        let instance = target.cache.get(property);
+
+        if (!instance) {
+          instance = new Cs(target.ctx);
+          target.cache.set(property, instance);
+        }
+
+        return instance;
+      },
+    });
+  }
+}
+
+export function createServices(app: App, sc: Record<string, any>) {
+  Object.defineProperty(app.context, 'services', {
+    get() {
+      if (this[ServiceSymbol]) {
+        return this[ServiceSymbol];
+      }
+
+      this[ServiceSymbol] = new ClassLoader(this, sc);
+
+      return this[ServiceSymbol];
+    },
+  });
+}

@@ -1,5 +1,20 @@
-import { Context } from '@koex/core';
+import { Context } from './types';
 import * as autoBind from 'auto-bind';
+
+declare module '.' {
+  export interface Context {
+    services: Services;
+    controllers: Controllers;
+  }
+
+  export interface Services {
+
+  }
+
+  export interface Controllers {
+    
+  }
+}
 
 export class BaseClass {
   constructor(protected readonly ctx: Context) {
