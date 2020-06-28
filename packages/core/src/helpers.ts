@@ -3,6 +3,8 @@ import { Koex } from './index';
 import { Logger } from '@zodash/logger';
 import { lru as LRU } from '@zcorky/lru';
 
+import { extendsApplication, extendsContext } from './utils';
+
 declare module '.' {
   export interface Koex {
     logger: Logger;
@@ -23,13 +25,19 @@ export function createHelpers(app: Koex) {
   const appCache = new LRU<string, any>();
   const contextCache = new LRU<string, any>();
 
-  app.logger = appLogger;
-  app.cache = appCache;
+  // app.logger = appLogger;
+  // app.cache = appCache;
 
-  app.use(async (ctx, next) => {
-    ctx.logger = contextLogger;
-    ctx.cache = contextCache;
+  // app.use(async (ctx, next) => {
+  //   ctx.logger = contextLogger;
+  //   ctx.cache = contextCache;
 
-    return next();
-  });
+  //   return next();
+  // });
+
+  extendsApplication(app, 'logger', appLogger);
+  extendsApplication(app, 'cache', appCache);
+
+  extendsContext(app, 'logger', contextLogger);
+  extendsContext(app, 'cache', contextCache);
 }

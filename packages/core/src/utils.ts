@@ -77,16 +77,32 @@ export class ClassLoader {
   }
 }
 
-export function createServices(app: App, sc: Record<string, any>) {
+export function createServices(app: App, serviceClasses: Record<string, any>) {
   Object.defineProperty(app.context, 'services', {
     get() {
       if (this[ServiceSymbol]) {
         return this[ServiceSymbol];
       }
 
-      this[ServiceSymbol] = new ClassLoader(this, sc);
+      this[ServiceSymbol] = new ClassLoader(this, serviceClasses);
 
       return this[ServiceSymbol];
+    },
+  });
+}
+
+export function extendsContext<T>(app: App, proterty: string, value: T) {
+  Object.defineProperty(app.context, proterty, {
+    get() {
+      return value;
+    },
+  });
+}
+
+export function extendsApplication<T>(app: App, proterty: string, value: T) {
+  Object.defineProperty(app, proterty, {
+    get() {
+      return value;
     },
   });
 }
