@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.6.0](https://github.com/koexjs/koex/compare/v0.5.2...v0.6.0) (2020-06-28)
+
+
+### Features
+
+* **@koex/core:** support createServices ([f65c474](https://github.com/koexjs/koex/commit/f65c474d3b9741d2a4da7ab49098dc9a8c611ffe))
+* **@koex/core:** support extendsApplication and extendsContext ([a17a887](https://github.com/koexjs/koex/commit/a17a887c0bfaca16e1a31cd21a96add990aac0e2))
+
+
+
+
+
 ## [0.5.2](https://github.com/koexjs/koex/compare/v0.5.1...v0.5.2) (2020-06-26)
 
 **Note:** Version bump only for package root
