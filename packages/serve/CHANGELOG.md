@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/koexjs/koex/compare/v0.8.0...v0.9.0) (2020-07-03)
+
+
+### Features
+
+* **@koex/serve:** support qrcode in terminal, better for mobile ([3eb0a66](https://github.com/koexjs/koex/commit/3eb0a66f2409853d7dd8b3946eb357567b13df8a))
+
+
+
+
+
 # [0.8.0](https://github.com/koexjs/koex/compare/v0.7.0...v0.8.0) (2020-07-03)
 
 
