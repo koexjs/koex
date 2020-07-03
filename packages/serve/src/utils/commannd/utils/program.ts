@@ -13,6 +13,7 @@ program
   .option('-d, --dir <DIRECTORY>', 'Listen directory')
   .option('-c, --cors', 'Enable CORS')
   .option('-s, --single', 'Rewrite alk not-found requests to `index.html`')
-  .option('-C, --cache', 'Cache files');
+  .option('-C, --cache', 'Cache files')
+  .option('-S, --suffix <SUFFIXS>', 'Try File Suffixs');
 
 export default program;

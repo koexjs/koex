@@ -27,6 +27,7 @@ const config: Config = {
   cors: !!api.program.cors,
   single: !!api.program.single,
   cache: !!api.program.cache,
+  suffix: api.program.suffix,
 };
 
 

@@ -43,6 +43,7 @@ export default function createApp(config: Config) {
     dir: config.dir,
     index: true,
     maxAge: 0 as any,
+    suffix: config.suffix,
   }));
 
   app.get('(.*)', async (ctx, next) => {

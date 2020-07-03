@@ -28,4 +28,12 @@ export interface Config {
    * Cache Files
    */
   cache?: boolean;
+
+  /**
+   * File Suffix
+   * 
+   * @example json
+   * @example json,csv,xml
+   */
+  suffix?: string;
 }
