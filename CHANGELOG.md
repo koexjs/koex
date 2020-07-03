@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.8.0](https://github.com/koexjs/koex/compare/v0.7.0...v0.8.0) (2020-07-03)
+
+
+### Bug Fixes
+
+* **@koex/serve:** fix not found file error by stat exception ([fb97fb5](https://github.com/koexjs/koex/commit/fb97fb5b2a7f44de4001395116b611c7917e7194))
+
+
+### Features
+
+* **@koex/serve:** support suffix with -S, --suffix json,yml, which is to try files with suffix ([a6941c3](https://github.com/koexjs/koex/commit/a6941c3ab9e557226d02b674987c95d5ae390ee6))
+* **@koex/static:** support suffix to try file with suffix ([8e41699](https://github.com/koexjs/koex/commit/8e41699a014bb48da4ad97813ef53cf2e33dd6d0))
+
+
+
+
+
 # [0.7.0](https://github.com/koexjs/koex/compare/v0.6.0...v0.7.0) (2020-07-03)
 
 
