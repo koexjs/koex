@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <title>Koex Files Server</title>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1922114_y2kijdi09s.css" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      a {
+        color: rgba(0,0,0,.85);
+        text-decoration: none;
+        cursor: pointer;
+        outline: none;
+        transition: color .3s ease;
+      }
+
+      .icon {
+        font-size: 24px;
+      }
+
+      .app {
+        padding: 40px;
+      }
+
+      .list {
+
+      }
+
+      .list .item {
+        display: block;
+        height: 40px;
+        line-height: 40px;
+
+        display: flex;
+        align-items: center;
+      }
+
+      .list .item .icon {
+        margin-right: 8px;
+      }
+
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <div class="list">
+        <% files.forEach(function (file) { %>
+          <a class="item" href="<%= file.path %>">
+            <i class="icon <%= "icon-" + file.icon %>"></i>
+            <span class="name"><%= file.name %></span>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  </body>
+</html>

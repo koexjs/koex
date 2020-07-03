@@ -1,0 +1,95 @@
+{
+  "name": "@koex/serve",
+  "version": "0.0.0",
+  "description": "a simple commandline static server",
+  "keywords": [
+    "koex",
+    "serve"
+  ],
+  "author": "zero <tobewhatwewant@gmail.com>",
+  "homepage": "https://github.com/koexjs/koex#readme",
+  "license": "MIT",
+  "main": "./lib/index.js",
+  "typings": "lib/index.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "bin": {
+    "serve": "./lib/index.js",
+    "koex-serve": "./lib/index.js"
+  },
+  "files": [
+    "lib",
+    "yarn.lock"
+  ],
+  "jest": {
+    "roots": [
+      "__tests__"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": ".*\\.(spec|test)\\.(ts|tsx)$",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 90,
+        "lines": 80,
+        "statements": -10
+      }
+    },
+    "preset": "ts-jest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/koexjs/koex.git"
+  },
+  "scripts": {
+    "dev": "tsc-watch -p tsconfig.json --onSuccess \"node lib/app.js\"",
+    "build": "tsc",
+    "test": "jest -w 1",
+    "coverage": "codecov"
+  },
+  "bugs": {
+    "url": "https://github.com/koexjs/koex/issues"
+  },
+  "dependencies": {
+    "@koex/core": "^0.6.0",
+    "@koex/cors": "^0.0.2",
+    "@koex/ejs": "^0.0.1",
+    "@koex/static": "^0.6.0",
+    "boxen": "^4.2.0",
+    "chalk": "^4.1.0",
+    "commander": "^5.1.0",
+    "lodash": "^4.17.15"
+  },
+  "devDependencies": {
+    "@types/boxen": "^3.0.1",
+    "@types/chalk": "^2.2.0",
+    "@types/jest": "^24.0.19",
+    "@types/lodash": "^4.14.157",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "tsc-watch": "^4.2.9",
+    "typescript": "^3.6.3"
+  }
+}
