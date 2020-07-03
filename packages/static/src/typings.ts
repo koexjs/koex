@@ -9,6 +9,9 @@ export interface Options {
   // attributes
   cacheControl?: string;
   maxAge?: string;
+
+  // index
+  index?: true | string;
 }
 
 export interface File {

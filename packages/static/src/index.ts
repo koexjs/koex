@@ -6,15 +6,17 @@ import { Options, File } from './typings';
 import { FileManager, loadFile, safeDecodeURIComponent } from './utils';
 
 const compressible = require('compressible');
-const debug = require('debug')('koa-static');
+const debug = require('debug')('@koex/static');
 
 export default (prefix: string, options: Options) => {
-  const { dir, gzip = true, md5 = true } = options || {} as Options;
+  const { dir, gzip = true, md5 = true, index } = options || {} as Options;
 
   const files = new FileManager<File>();
 
   const gzipOn = !!gzip;
   const md5On = !!md5;
+  const indexFile = index === true ? 'index.html' : index;
+  debug('indexFile:', index);
 
   return async function staticCache(ctx: Context, next: () => Promise<void>) {
     // only accept HEAD and GET
@@ -28,7 +30,12 @@ export default (prefix: string, options: Options) => {
 
     // load file
     if (!file) {
-      const fileName = path.slice(prefix.length);
+      let fileName = path.slice(prefix.length);
+
+      if ((fileName === '' || fileName === '/') && !!indexFile) {
+        fileName = indexFile;
+      }
+
       const filePath = join(dir, fileName);
 
       // basename cannot start with .
