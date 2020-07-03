@@ -3,7 +3,7 @@ import { Context } from 'koa';
 import { fs, zlib } from 'mz';
 
 import { Options, File } from './typings';
-import { FileManager, loadFile, safeDecodeURIComponent } from './utils';
+import { FileManager, loadFile, safeDecodeURIComponent, isFileWithSuffix } from './utils';
 
 const compressible = require('compressible');
 const debug = require('debug')('@koex/static');
@@ -16,7 +16,9 @@ export default (prefix: string, options: Options) => {
   const gzipOn = !!gzip;
   const md5On = !!md5;
   const indexFile = index === true ? 'index.html' : index;
-  debug('indexFile:', index);
+
+  debug('option.index:', index);
+  debug('options.suffix: ', options.suffix);
 
   return async function staticCache(ctx: Context, next: () => Promise<void>) {
     // only accept HEAD and GET
@@ -46,16 +48,17 @@ export default (prefix: string, options: Options) => {
         return await next()
       }
 
-      let s: fs.Stats;
+      let s: { isFile: boolean, realpath: string };
       try {
-        s = await fs.stat(filePath);
+        s = await isFileWithSuffix(filePath, options);
       } catch (error) {
+        // try with suffix
         return await next();
       }
 
-      if (!s.isFile()) return await next();
+      if (!s.isFile) return await next();
 
-      file = loadFile(filePath, options);
+      file = loadFile(s.realpath, options);
 
       files.set(path, file);
     }

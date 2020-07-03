@@ -12,6 +12,9 @@ export interface Options {
 
   // index
   index?: true | string;
+
+  // try file suffix
+  suffix?: string;
 }
 
 export interface File {
