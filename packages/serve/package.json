@@ -80,7 +80,8 @@
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "qrcode-terminal": "^0.12.0"
   },
   "devDependencies": {
     "@types/boxen": "^3.0.1",

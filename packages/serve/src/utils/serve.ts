@@ -3,13 +3,14 @@ import * as boxen from 'boxen';
 import * as chalk from 'chalk';
 
 import network from './network';
+import qrcode from './qrcode';
 import { Config } from '../type';
 
 const PORT = Number(process.env.PORT) || 9000;
 const HOST = process.env.HOST || '0.0.0.0';
 
-export default (app: Koex, config: Config) => {
-  const server = app.listen(config.port, config.port, () => {
+export default async (app: Koex, config: Config) => {
+  const server = app.listen(config.port, config.port, async () => {
   const details = server.address();
   const address = {
     local: `http://${config.host}:${config.port}`,
@@ -33,7 +34,8 @@ ${chalk.green('Serving!')}
 - ${chalk.bold('On Your Network')}: ${address.network}
 
 ${chalk.grey('Copied local address to clipboard!')}
-    `;
+
+${await qrcode(address.network)}`;
     
     console.log(boxen(message, {
       padding: 1,

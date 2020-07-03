@@ -111,5 +111,5 @@ export default function createApp(config: Config) {
     });
   });
 
-  serve(app, config);
+  return serve(app, config);
 }
