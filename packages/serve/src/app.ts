@@ -30,15 +30,19 @@ export default function createApp(config: Config) {
 
   app.use(async (ctx, next) => {
     const start = Date.now();
-    await next();
-    const delta = Date.now() - start;
 
-    ctx.logger.info(`${ctx.method} ${ctx.path} +${delta}`);
+    try {
+      await next();
+    } finally {
+      const delta = Date.now() - start;
+      ctx.logger.info(`${ctx.method} ${ctx.path} ${ctx.status} +${delta}`);
+    }
   });
 
   app.use(assets('/', {
     dir: config.dir,
     index: true,
+    maxAge: 0 as any,
   }));
 
   app.get('(.*)', async (ctx, next) => {
@@ -77,6 +81,11 @@ export default function createApp(config: Config) {
         default:
           return 'unknown';
       }
+    }
+
+    if(!await fs.isDir(dir)) {
+      ctx.status = 404;
+      return ;
     }
 
     const _files = await fs.listDir(dir);
