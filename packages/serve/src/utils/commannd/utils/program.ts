@@ -14,6 +14,6 @@ program
   .option('-c, --cors', 'Enable CORS')
   .option('-s, --single', 'Rewrite alk not-found requests to `index.html`')
   .option('-C, --cache', 'Cache files')
-  .option('-S, --suffix <SUFFIXS>', 'Try File Suffixs');
+  .option('-S, --suffix <SUFFIXS>', 'Try File Suffixs, such as json,yml,.lock');
 
 export default program;
