@@ -1,6 +1,6 @@
 {
   "name": "@koex/serve",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "a simple commandline static server",
   "keywords": [
     "koex",
@@ -73,10 +73,10 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
-    "@koex/core": "^0.9.0",
+    "@koex/core": "^0.10.0",
     "@koex/cors": "^0.0.2",
     "@koex/ejs": "^0.0.1",
-    "@koex/static": "^0.9.0",
+    "@koex/static": "^0.10.0",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "commander": "^5.1.0",

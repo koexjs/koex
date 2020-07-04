@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/koexjs/static/compare/v0.9.0...v0.10.0) (2020-07-04)
+
+
+### Features
+
+* **@koex/static:** support showHidden option ([d81e3dd](https://github.com/koexjs/static/commit/d81e3dd608a41493631c7c365ea733b37c9a02ad))
+
+
+
+
+
 # [0.9.0](https://github.com/koexjs/static/compare/v0.8.0...v0.9.0) (2020-07-03)
 
 **Note:** Version bump only for package @koex/static

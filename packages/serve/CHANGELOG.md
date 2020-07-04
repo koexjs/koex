@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/koexjs/koex/compare/v0.9.0...v0.10.0) (2020-07-04)
+
+
+### Bug Fixes
+
+* **@koex/serve:** fix show hidden files and directory ([7a4b376](https://github.com/koexjs/koex/commit/7a4b37615854bf39be32b643364d0ceb98ba5f5a))
+
+
+
+
+
 # [0.9.0](https://github.com/koexjs/koex/compare/v0.8.0...v0.9.0) (2020-07-03)
 
 
