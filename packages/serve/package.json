@@ -16,8 +16,8 @@
     "test": "__tests__"
   },
   "bin": {
-    "serve": "./lib/index.js",
-    "koex-serve": "./lib/index.js"
+    "serve": "./lib/bin/index.js",
+    "koex-serve": "./lib/bin/index.js"
   },
   "files": [
     "lib",
@@ -64,7 +64,7 @@
     "url": "git+https://github.com/koexjs/koex.git"
   },
   "scripts": {
-    "dev": "tsc-watch -p tsconfig.json --onSuccess \"node lib/app.js\"",
+    "dev": "tsc-watch -p tsconfig.json --onSuccess \"node lib/bin/index.js\"",
     "build": "tsc",
     "test": "jest -w 1",
     "coverage": "codecov"
