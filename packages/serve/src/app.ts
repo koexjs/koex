@@ -44,6 +44,7 @@ export default function createApp(config: Config) {
     index: true,
     maxAge: 0 as any,
     suffix: config.suffix,
+    showHidden: true,
   }));
 
   app.get('(.*)', async (ctx, next) => {
