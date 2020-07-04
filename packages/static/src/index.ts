@@ -41,7 +41,14 @@ export default (prefix: string, options: Options) => {
       const filePath = join(dir, fileName);
 
       // basename cannot start with .
-      if (basename(path)[0] === '.') return await next();
+      if (!options.showHidden && basename(path)[0] === '.') {
+        return await next();
+      }
+
+      // disable visit ..
+      if (basename(path).slice(0, 2) === '..') {
+        return await next();
+      }
 
       // files that can be accessd should be under options.dir
       if (filePath.indexOf(dir) !== 0) {
