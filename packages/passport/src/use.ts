@@ -166,7 +166,8 @@ export function usePassport(app: App, options: IUsePassport) {
         // @TODO log erro
         console.error('oauth callback error: ', error);
         // @TODO send error to login page, should only once, login page should remove error
-        return ctx.redirect(`${loginPath}?error=${error.strategy}授权失败(来源: ${error.reasonBy})`);
+        const { code = 500, message = 'Passport failed' } = error;
+        return ctx.redirect(`${loginPath}?error=${encodeURIComponent(code)}&message=${encodeURIComponent(message)}`);
       },
     }),
     async (ctx: Context) => {

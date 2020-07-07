@@ -1,0 +1,20 @@
+<html>
+  <head> 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"/>
+    <title>You</title>
+   <script src="https://res.wx.qq.com/open/js/jweixin-1.6.0.js"></script>
+   <!-- <script src="/static/vconsole.min.js"></script> -->
+  </head>
+
+  <body>
+   <h3>Hi, Z.</h3>
+   <!-- <script src="/static/index.js"></script> -->
+   <script>
+    //  var vConsole = new VConsole();
+
+     var script = document.createElement('script');
+     script.src = '/static/index.js?_t=' + (+new Date());
+     document.body.appendChild(script);
+   </script>
+  </body>
+</html>
