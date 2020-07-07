@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.2](https://github.com/koexjs/koex/compare/v0.10.1...v0.10.2) (2020-07-07)
+
+
+### Bug Fixes
+
+* **@koex/passport:** show correct error in url when token_url or user_info_url throw error ([9688ccd](https://github.com/koexjs/koex/commit/9688ccdf9e953ce3c7ac61c6d5fbedcd2db2c443))
+
+
+
+
+
 # [0.10.0](https://github.com/koexjs/koex/compare/v0.9.0...v0.10.0) (2020-07-04)
 
 **Note:** Version bump only for package @koex/passport
