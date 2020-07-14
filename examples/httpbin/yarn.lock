@@ -12,15 +12,18 @@
     co-body "^6.0.0"
     formidable "^1.2.1"
 
-"@koex/core@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@koex/core/-/core-0.0.3.tgz#4a991680abb65a7529198be83651ebe10c3a0ef5"
-  integrity sha512-yBmTOj+kzrhVDE2i1/idq1LIvBja/GjQpdDt8SSajw+AHbk3PB+icyjl+Y4guhotNRmFU7Srujhw2hCYyeqbPw==
+"@koex/core@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.npm.taobao.org/@koex/core/download/@koex/core-0.10.0.tgz#8ca609339dd22940e02e2da9dede4bfde58e00a3"
+  integrity sha1-jKYJM53SKUDgLi2p3t5L/eWOAKM=
   dependencies:
-    "@koex/router" "^0.0.6"
+    "@koex/router" "^0.10.0"
     "@types/koa" "^2.0.49"
     "@types/koa-compose" "^3.2.4"
+    "@zcorky/lru" "^1.0.3"
     "@zodash/compose" "^0.0.2"
+    "@zodash/logger" "^0.0.17"
+    auto-bind "^4.0.0"
     koa "^2.8.1"
 
 "@koex/cors@^0.0.2":
@@ -30,13 +33,13 @@
   dependencies:
     "@zcorky/is" "^1.0.1"
 
-"@koex/router@^0.0.6":
-  version "0.0.6"
-  resolved "https://registry.yarnpkg.com/@koex/router/-/router-0.0.6.tgz#380ae78a8a24c9ddffb2dd689cf6a54e1fa06aa6"
-  integrity sha512-Q6TP6sNWdYEe2KPo2mYvMMRazydoe5HvK+9dv363mWrrT3ThDrVvHcPUisNXEY8kZ2g5458FpSgjzRnEOG7mbw==
+"@koex/router@^0.10.0":
+  version "0.10.0"
+  resolved "https://registry.npm.taobao.org/@koex/router/download/@koex/router-0.10.0.tgz#a0843ec634da55f2c432e4e264cec209ce533da6"
+  integrity sha1-oIQ+xjTaVfLEMuTiZM7CCc5TPaY=
   dependencies:
     koa-compose "^4.1.0"
-    path-to-regexp "^2.4.0"
+    path-to-regexp "^3.1.0"
 
 "@types/accepts@*":
   version "1.3.5"
@@ -46,9 +49,9 @@
     "@types/node" "*"
 
 "@types/basic-auth@^1.1.2":
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/@types/basic-auth/-/basic-auth-1.1.2.tgz#810fbded879f14327fc1d3413bdb92cfe9e24f73"
-  integrity sha512-NzkkcC+gkkILWaBi3+/z/3do6Ybk6TWeTqV5zCVXmG2KaBoT5YqlJvfqP44HCyDA+Cu58pp7uKAxy/G58se/TA==
+  version "1.1.3"
+  resolved "https://registry.npm.taobao.org/@types/basic-auth/download/@types/basic-auth-1.1.3.tgz#a787ede8310804174fbbf3d6c623ab1ccedb02cd"
+  integrity sha1-p4ft6DEIBBdPu/PWxiOrHM7bAs0=
   dependencies:
     "@types/node" "*"
 
@@ -146,7 +149,12 @@
   resolved "https://registry.yarnpkg.com/@types/mime/-/mime-2.0.1.tgz#dc488842312a7f075149312905b5e3c0b054c79d"
   integrity sha512-FwI9gX75FgVBJ7ywgnq/P7tw+/o1GUbtP0KzbtusLigAOgIgNISRK0ZPl4qertvXSIE8YbsVJueQ90cDt9YYyw==
 
-"@types/node@*", "@types/node@^12.7.5":
+"@types/node@*":
+  version "14.0.23"
+  resolved "https://registry.npm.taobao.org/@types/node/download/@types/node-14.0.23.tgz#676fa0883450ed9da0bb24156213636290892806"
+  integrity sha1-Z2+giDRQ7Z2guyQVYhNjYpCJKAY=
+
+"@types/node@^12.7.5":
   version "12.7.5"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-12.7.5.tgz#e19436e7f8e9b4601005d73673b6dc4784ffcc2f"
   integrity sha512-9fq4jZVhPNW8r+UYKnxF1e2HkDWOWKM5bC2/7c9wPV835I0aOrVbS/Hw/pWPk2uKrNXQqg9Z959Kz+IYDd5p3w==
@@ -174,6 +182,23 @@
   resolved "https://registry.yarnpkg.com/@zcorky/is/-/is-1.0.6.tgz#81eaae678eefed93c5f6820b5a1d46613e45579d"
   integrity sha512-+C3ePfnEilAVCBMZkOqv0/L86Evm8x465MoMYKVPAe8Wk5E2qp1TOVK1CwUptcbG0+tTsN21328ElhHzJfmCfg==
 
+"@zcorky/lru@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.npm.taobao.org/@zcorky/lru/download/@zcorky/lru-1.0.3.tgz#60e73fed9ebbf512c7dc7bac24e5e9104bb1f5a7"
+  integrity sha1-YOc/7Z679RLH3HusJOXpEEux9ac=
+
+"@zcorky/moment@^1.0.12":
+  version "1.1.0"
+  resolved "https://registry.npm.taobao.org/@zcorky/moment/download/@zcorky/moment-1.1.0.tgz#7125d7bb5fde0b013ac18fb42e6a0b609708a127"
+  integrity sha1-cSXXu1/eCwE6wY+0LmoLYJcIoSc=
+  dependencies:
+    "@zcorky/is" "^1.0.6"
+
+"@zodash/compose@^0.0.12":
+  version "0.0.12"
+  resolved "https://registry.npm.taobao.org/@zodash/compose/download/@zodash/compose-0.0.12.tgz#98bcb6b0ef6524c49b71a74401a1d1a64b95555e"
+  integrity sha1-mLy2sO9lJMSbcadEAaHRpkuVVV4=
+
 "@zodash/compose@^0.0.2":
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@zodash/compose/-/compose-0.0.2.tgz#d84d8c9b4bccefae9976c6c6edc01f8eef874a5b"
@@ -191,10 +216,26 @@
   dependencies:
     "@zcorky/delay" "^1.0.1"
 
-"@zodash/format@^1.0.1-alpha.11":
-  version "1.0.1-alpha.11"
-  resolved "https://registry.yarnpkg.com/@zodash/format/-/format-1.0.1-alpha.11.tgz#d761e386ee7d0b7fdb8c152033129e75b427f816"
-  integrity sha512-Z6NoTYKpXXi0dDDV2r8VzRG8gK5dDktUwaeU/zRFZOWTQqkeDES4QGk5CdVC48kx5m8VUVzBQ1UZtJyxgN1W+A==
+"@zodash/format@^1.0.1-alpha.11", "@zodash/format@^1.0.1-alpha.20":
+  version "1.0.1-alpha.20"
+  resolved "https://registry.npm.taobao.org/@zodash/format/download/@zodash/format-1.0.1-alpha.20.tgz#b94e73a21aefa6a875b04a12faad778b493e2cac"
+  integrity sha1-uU5zohrvpqh1sEoS+q13i0k+LKw=
+
+"@zodash/logger@^0.0.17":
+  version "0.0.17"
+  resolved "https://registry.npm.taobao.org/@zodash/logger/download/@zodash/logger-0.0.17.tgz#de605823f55be31bbc65221ce34e98377ed86220"
+  integrity sha1-3mBYI/Vb4xu8ZSIc406YN37YYiA=
+  dependencies:
+    "@zcorky/moment" "^1.0.12"
+    "@zodash/format" "^1.0.1-alpha.20"
+    "@zodash/onion" "^0.0.20"
+
+"@zodash/onion@^0.0.20":
+  version "0.0.20"
+  resolved "https://registry.npm.taobao.org/@zodash/onion/download/@zodash/onion-0.0.20.tgz#7404d7ba50716a4ed88e0523c0c2877fd233c564"
+  integrity sha1-dATXulBxak7YjgUjwMKHf9IzxWQ=
+  dependencies:
+    "@zodash/compose" "^0.0.12"
 
 "@zodash/uuid@^0.0.3":
   version "0.0.3"
@@ -213,6 +254,11 @@ any-promise@^1.1.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/any-promise/-/any-promise-1.3.0.tgz#abc6afeedcea52e809cdc0376aed3ce39635d17f"
   integrity sha1-q8av7tzqUugJzcA3au0845Y10X8=
+
+auto-bind@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.npm.taobao.org/auto-bind/download/auto-bind-4.0.0.tgz#e3589fc6c2da8f7ca43ba9f84fa52a744fc997fb"
+  integrity sha1-41ifxsLaj3ykO6n4T6UqdE/Jl/s=
 
 basic-auth@^2.0.1:
   version "2.0.1"
@@ -478,10 +524,10 @@ parseurl@^1.3.2:
   resolved "https://registry.yarnpkg.com/parseurl/-/parseurl-1.3.3.tgz#9da19e7bee8d12dff0513ed5b76957793bc2e8d4"
   integrity sha512-CiyeOxFT/JZyN5m0z9PfXw4SCBJ6Sygz1Dpl0wqjlhDEGGBP1GnsUVEL0p63hoG1fcj3fHynXi9NYO4nWOL+qQ==
 
-path-to-regexp@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/path-to-regexp/-/path-to-regexp-2.4.0.tgz#35ce7f333d5616f1c1e1bfe266c3aba2e5b2e704"
-  integrity sha512-G6zHoVqC6GGTQkZwF4lkuEyMbVOjoBKAEybQUypI1WTkqinCOrq2x6U2+phkJ1XsEMTy4LjtwPI7HW+NVrRR2w==
+path-to-regexp@^3.1.0:
+  version "3.2.0"
+  resolved "https://registry.npm.taobao.org/path-to-regexp/download/path-to-regexp-3.2.0.tgz#fa7877ecbc495c601907562222453c43cc204a5f"
+  integrity sha1-+nh37LxJXGAZB1YiIkU8Q8wgSl8=
 
 qs@^6.5.2:
   version "6.8.0"

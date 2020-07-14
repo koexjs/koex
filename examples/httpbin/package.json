@@ -1,6 +1,6 @@
 {
   "name": "helloworld",
-  "version": "0.0.0",
+  "version": "0.0.4",
   "main": "index.ts",
   "author": "Zero",
   "license": "MIT",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@koex/body": "^0.0.8",
-    "@koex/core": "^0.0.3",
+    "@koex/core": "^0.10.0",
     "@koex/cors": "^0.0.2",
     "@types/basic-auth": "^1.1.2",
     "@zodash/crypto": "^0.0.3",

@@ -13,25 +13,35 @@ import * as base64 from '@zodash/crypto/lib/base64';
 import { md5 } from '@zodash/crypto/lib/md5';
 import * as aes from '@zodash/crypto/lib/aes';
 
+// declare module '@koex/core' {
+//   interface Request {
+//       body: any;
+//       rawBody: string;
+//       // files: any[];
+//   }
+// }
+
 declare module '@koex/core' {
-  export interface Logger {
-    debug(...args: any): void;
-  }
+  // export interface Logger {
+  //   debug(...args: any): void;
+  // }
 
   export interface Context {
     json(data: object | any[]): Promise<void>;
     resource(filepath: string, contentType: string): Promise<void>;
     render<T>(viewpath: string, context?: T): Promise<void>;
-    logger: Logger;
+    // logger: Logger;
   }
 }
 
 const app = new App();
+
 const env = {
   value: process.env.NODE_ENV,
   prod: process.env.NODE_ENV === 'production',
 }
 
+app.proxy = env.prod && true;
 
 const time = {
   _start: 0,
@@ -110,21 +120,23 @@ app.use(async function resource(ctx, next) {
   await next();
 });
 
-app.use(async function logger(ctx, next) {
-  ctx.logger = {
-    debug(...args: any) {
-      console.log(...args);
-    },
-  }
+// app.use(async function logger(ctx, next) {
+//   ctx.logger = {
+//     debug(...args: any) {
+//       console.log(...args);
+//     },
+//   }
 
-  await next();
-});
+//   await next();
+// });
 
 app.use(body({
   enableTypes: ['json', 'form', 'multipart'],
   formidable: {
     // maxFileSize: 100 * 1024 * 1024, // 100M
     maxFileSize: 500 * 1024 * 1024, // 500M
+    hash: 'md5',
+    // uploadDir: path.join(__dirname, 'temp'),
   },
 }));
 
