@@ -29,7 +29,6 @@ export {
   extendsContext,
 };
 
-
 export class Koex extends Koa {
   constructor(private readonly options?: Options) {
     super();
@@ -48,6 +47,10 @@ export class Koex extends Koa {
   public get router() {
     return router;
   }
+
+  // public use(md: Middleware<Context>) {
+  //   super.use(md as any);
+  // }
 
   public all(path: string, ...middlewares: Middleware<Context>[]) {
     this.use(this.router.all(path, ...middlewares));

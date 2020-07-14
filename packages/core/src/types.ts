@@ -1,5 +1,11 @@
 import * as Koa from 'koa';
 
+// declare module 'koa' {
+//   export class Application {
+//     use(md: any): void;
+//   }
+// }
+
 export interface Context extends Koa.Context {
   request: Request;
   response: Response;
