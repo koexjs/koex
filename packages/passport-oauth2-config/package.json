@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-oauth2-config",
-  "version": "0.10.0",
+  "version": "0.10.2",
   "description": "koex passport-oauth2-config",
   "keywords": [
     "koex",
@@ -81,7 +81,7 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@koex/passport": "^0.10.0",
+    "@koex/passport": "^0.10.2",
     "@zcorky/query-string": "^1.0.2",
     "@zodash/get": "^1.0.15",
     "node-fetch": "^2.6.0"
