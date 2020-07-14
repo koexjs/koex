@@ -155,12 +155,12 @@ export default (options: Options = {}) => {
     if (ctx.disableBodyParser) return await next();
     try {
       const res = await parseBody(ctx);
-      ctx.request.body = 'parsed' in res ? res.parsed! : {};
-      if (res.raw && isUndef(ctx.request.rawBody)) {
-        ctx.request.rawBody = res.raw;
+      (ctx.request as any).body = 'parsed' in res ? res.parsed! : {};
+      if (res.raw && isUndef((ctx.request as any).rawBody)) {
+        (ctx.request as any).rawBody = res.raw;
       }
-      if (res.files && isUndef(ctx.request.files)) {
-        ctx.request.files = res.files;
+      if (res.files && isUndef((ctx.request as any).files)) {
+        (ctx.request as any).files = res.files;
       }
     } catch (err) {
       if (onerror) {
