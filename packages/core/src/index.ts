@@ -1,6 +1,6 @@
 import * as Koa from 'koa';
 import { Middleware } from 'koa-compose';
-import { Context, Options } from './types';
+import { Context, Request, Response, Options } from './types';
 import { router } from './router';
 
 import { Controller, Service } from './models';
@@ -15,6 +15,8 @@ export {
   Middleware,
   //
   Context,
+  Request,
+  Response,
   Options,
   //
   Controller,
@@ -22,6 +24,9 @@ export {
   //
   createControllers,
   createServices,
+  //
+  extendsApplication,
+  extendsContext,
 };
 
 
