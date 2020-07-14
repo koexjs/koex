@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/koexjs/koex/compare/v0.10.2...v0.11.0) (2020-07-14)
+
+
+### Features
+
+* **core:** export type Request and Response for custom, because koa cannot extend Request nest ([ea3d210](https://github.com/koexjs/koex/commit/ea3d210fba61adee862c7267a6761f3b0a0d2d0f))
+
+
+
+
+
 # [0.10.0](https://github.com/koexjs/koex/compare/v0.9.0...v0.10.0) (2020-07-04)
 
 **Note:** Version bump only for package @koex/core
