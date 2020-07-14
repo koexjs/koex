@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 0.12.0 (2020-07-14)
+
+
+### Bug Fixes
+
+* **body:** emmm ts bad ([051800d](https://github.com/koexjs/koex/commit/051800d53c886893fe07f833b6b939e320148d6a))
+* **body:** emmm ts bad ([fc92d67](https://github.com/koexjs/koex/commit/fc92d677a73354cf7bf14cdfddd3782dee8637cd))
+* **body:** fix body dev dependency ([7046a1d](https://github.com/koexjs/koex/commit/7046a1d55c53ef3c33890bd0b9421bb2bbefd375))
+
+
+### Features
+
+* **body:** move @koex/body in lerna ([f39944f](https://github.com/koexjs/koex/commit/f39944f3ce69ca720af96378429f16b8357eac8a))
+
+
+
+
+
 ## [0.11.1](https://github.com/koexjs/koex/compare/v0.11.0...v0.11.1) (2020-07-14)
 
 **Note:** Version bump only for package root
