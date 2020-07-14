@@ -1,11 +1,11 @@
-declare module 'koa' {
+declare module '@koex/core' {
   export interface Context {
     params?: any;
     routePath?: string;
   }
 }
 
-import { Context, Middleware } from 'koa';
+import { Context, Middleware } from '@koex/core';
 import * as compose from 'koa-compose';
 import * as pathToRegexp from 'path-to-regexp';
 
@@ -19,7 +19,7 @@ export type Next = () => Promise<any>;
 
 export type Handler = (ctx: Context, next: Next) => Promise<void>;
 
-const routesCache = new Map<string, Middleware>();
+const routesCache = new Map<string, Middleware<any>>();
 
 const createMethod = (method: Method) => {
   return (path: string, ...handlers: Handler[]) => {

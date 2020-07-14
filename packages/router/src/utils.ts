@@ -1,5 +1,5 @@
 
-import { Context } from 'koa';
+import { Context } from '@koex/core';
 
 export function match(ctx: Context, method: string) {
   if (!method) return true;
