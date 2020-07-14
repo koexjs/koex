@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@koex/onerror": "^0.0.3",
+    "@koex/core": "^0.11.1",
     "@types/co-body": "^5.1.0",
     "@types/debug": "^0.0.31",
     "@types/jest": "^24.0.19",
