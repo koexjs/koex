@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.1](https://github.com/koexjs/koex/compare/v0.12.0...v0.12.1) (2020-07-18)
+
+
+### Bug Fixes
+
+* **@koex/passport:** fix passport deserializeUser maybe 401 when get user from other service ([af222c3](https://github.com/koexjs/koex/commit/af222c3d4ed72ae0e0286b574a306c5f1fa1d5c7))
+
+
+
+
+
 # 0.12.0 (2020-07-14)
 
 
