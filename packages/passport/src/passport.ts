@@ -131,12 +131,22 @@ export class Passport implements IPassport {
 
       // @session
       const id = this.session.get();
-      const user = await this._deserializeUser(id, ctx);
 
-      // readonly, use it instead of ctx.user = user
-      defineReadonlyProperties(ctx, { user });
+      // deserializeUser maybe 401 when get user from remote
+      try {
+        const user = await this._deserializeUser(id, ctx);
+        // readonly, use it instead of ctx.user = user
+        defineReadonlyProperties(ctx, { user });
 
-      return next();
+        return next();
+      } catch (error) {
+        if (error.status === 401) {
+          const acceptJSON = ctx.accepts(['html', 'json']) === 'json';
+          return options.onUnauthorized(ctx, acceptJSON);
+        }
+
+        throw error;
+      }
     };
   }
 
