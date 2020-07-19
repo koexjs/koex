@@ -1,6 +1,6 @@
 {
   "name": "@koex/serve",
-  "version": "0.12.0",
+  "version": "0.12.2",
   "description": "a simple commandline static server",
   "keywords": [
     "koex",
@@ -76,7 +76,7 @@
     "@koex/core": "^0.12.0",
     "@koex/cors": "^0.0.2",
     "@koex/ejs": "^0.0.1",
-    "@koex/static": "^0.12.0",
+    "@koex/static": "^0.12.2",
     "boxen": "^4.2.0",
     "chalk": "^4.1.0",
     "commander": "^5.1.0",
