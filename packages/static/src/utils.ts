@@ -1,9 +1,9 @@
-import { join } from 'path';
 import * as crypto from 'crypto';
 import LRU from '@zcorky/lru';
 
 import { fs } from 'mz';
 import * as mime from 'mime-types';
+import * as sendToWormhole from 'stream-wormhole';
 
 import { Options } from './typings';
 
@@ -67,9 +67,9 @@ export async function isFileWithSuffix(path: string, options: Options) {
   }; 
 }
 
-export function loadFile(path: string, options: Options) {
-  const stats = fs.statSync(path);
-  const buffer = fs.readFileSync(path);
+export async function loadFile(path: string, options: Options) {
+  const stats = await fs.stat(path);
+  const stream = fs.createReadStream(path);
   const maxAge = options.maxAge || 0;
 
   return {
@@ -79,12 +79,24 @@ export function loadFile(path: string, options: Options) {
     type: mime.lookup(path) || 'application/octet-stream',
     mtime: stats.mtime,
     length: stats.size,
-    md5: md5(buffer),
+    md5: await md5(stream),
   };
 }
 
-export function md5(buffer: Buffer) {
-  return crypto.createHash('md5').update(buffer).digest('base64');
+export function md5(stream: fs.ReadStream): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const hash = crypto.createHash('md5');
+
+    stream.on('error', reject);
+    stream.on('data', hash.update.bind(hash));
+    stream.on('end', function () {
+      const _md5 = hash.digest('base64');
+
+      sendToWormhole(stream, true)
+        .then(() => resolve(_md5))
+        .catch(reject);
+    });
+  });
 }
 
 export function safeDecodeURIComponent(text: string) {

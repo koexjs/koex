@@ -65,7 +65,7 @@ export default (prefix: string, options: Options) => {
 
       if (!s.isFile) return await next();
 
-      file = loadFile(s.realpath, options);
+      file = await loadFile(s.realpath, options);
 
       files.set(path, file);
     }

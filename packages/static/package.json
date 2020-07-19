@@ -87,6 +87,7 @@
   "dependencies": {
     "compressible": "^2.0.15",
     "mime-types": "^2.1.21",
-    "mz": "^2.7.0"
+    "mz": "^2.7.0",
+    "stream-wormhole": "^1.1.0"
   }
 }

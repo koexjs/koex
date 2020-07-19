@@ -17,10 +17,10 @@ describe('koa static', () => {
     };
 
     app.use(staticCache('/static', options));
-    const file = loadFile(path.join(__dirname, '../package.json'), options);
-    console.log(file);
 
     it('server with prefix and dir, visit /static/package.json', async () => {
+      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      console.log(file);
 
       await request(app.callback())
         .get('/static/package.json')
@@ -45,6 +45,9 @@ describe('koa static', () => {
     });
 
     it('only support get/head: head', async () => {
+      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      console.log(file);
+
       await request(app.callback())
         .head('/static/package.json')
         .set('Accept-Encoding', 'gzip')
@@ -95,6 +98,9 @@ describe('koa static', () => {
     });
 
     it('server with prefix and dir, same etag', async () => {
+      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      console.log(file);
+
       await request(app.callback())
         .get('/static/package.json')
         .set('etag', file.md5)
@@ -102,6 +108,9 @@ describe('koa static', () => {
     });
 
     it('server with prefix and dir, same last-modified', async () => {
+      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      console.log(file);
+      
       await request(app.callback())
         .get('/static/package.json')
         .set('Last-Modified', file.mtime.toString())
