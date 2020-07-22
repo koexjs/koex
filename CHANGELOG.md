@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.3](https://github.com/koexjs/koex/compare/v0.12.2...v0.12.3) (2020-07-22)
+
+
+### Bug Fixes
+
+* **@koex/body:** fix test ([1979421](https://github.com/koexjs/koex/commit/1979421f113541ac12d3d37e07c7e3d10a317c19))
+* **@koex/passport-local:** fix test ([a43c8fc](https://github.com/koexjs/koex/commit/a43c8fc6e73c6b41f7da6a861d38e23f39922802))
+
+
+
+
+
 ## [0.12.2](https://github.com/koexjs/koex/compare/v0.12.1...v0.12.2) (2020-07-19)
 
 

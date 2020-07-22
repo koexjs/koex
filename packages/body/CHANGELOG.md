@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.12.3](https://github.com/koexjs/router/compare/v0.12.2...v0.12.3) (2020-07-22)
+
+
+### Bug Fixes
+
+* **@koex/body:** fix test ([1979421](https://github.com/koexjs/router/commit/1979421f113541ac12d3d37e07c7e3d10a317c19))
+
+
+
+
+
 # 0.12.0 (2020-07-14)
 
 
