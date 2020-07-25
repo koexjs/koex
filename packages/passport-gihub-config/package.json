@@ -81,9 +81,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@koex/passport-oauth2": "^0.12.1",
-    "@koex/passport-oauth2-config": "^0.12.1",
-    "@zcorky/query-string": "^1.0.2",
-    "node-fetch": "^2.6.0"
+    "@koex/passport-oauth2-config": "^0.12.1"
   }
 }
