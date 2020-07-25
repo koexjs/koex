@@ -11,14 +11,8 @@ export interface Context extends Koa.Context {
   response: Response;
 }
 
-export interface Request extends Koa.Request {
+export interface Request extends Koa.Request {}
 
-}
+export interface Response extends Koa.Response {}
 
-export interface Response extends Koa.Response {
-
-}
-
-export interface Options {
-  
-}
+export interface Options {}

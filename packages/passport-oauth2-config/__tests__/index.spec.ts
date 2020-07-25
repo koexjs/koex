@@ -1,7 +1,7 @@
 import * as request from 'supertest';
 import App, { Context } from '@koex/core';
 
-describe("@koex/passport", () => {
+describe('@koex/passport', () => {
   const app = new App();
 
   app.keys = ['secret'];
@@ -27,8 +27,6 @@ describe("@koex/passport", () => {
   });
 
   it('health', async () => {
-    await request(app.callback())
-      .get('/health')
-      .expect(200);
+    await request(app.callback()).get('/health').expect(200);
   });
 });

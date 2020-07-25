@@ -3,30 +3,32 @@ import App, { Context } from '@koex/core';
 import passport from '@koex/passport';
 import { LocalStrategy } from '../src/index';
 
-passport.serializeUser(async user => {
+passport.serializeUser(async (user) => {
   // serialize user to id
   return user.id;
 });
 
-passport.descrializeUser(async id => {
+passport.descrializeUser(async (id) => {
   // find(descrialize) user by id
   return {
     id,
   };
 });
 
-
-describe("@koex/passport-local", () => {
+describe('@koex/passport-local', () => {
   const app = new App();
 
-  passport.use('local', new LocalStrategy(async (ctx, token, profile) => {
-    const { type, username, password } = profile;
+  passport.use(
+    'local',
+    new LocalStrategy(async (ctx, token, profile) => {
+      const { type, username, password } = profile;
 
-    // return User.findOne({ username: profile.id });
-    return {
-      username,
-    };
-  }));
+      // return User.findOne({ username: profile.id });
+      return {
+        username,
+      };
+    }),
+  );
 
   app.keys = ['secret'];
 
@@ -50,17 +52,14 @@ describe("@koex/passport-local", () => {
     }
   });
 
-  app.use(passport.initialize({
-    excludePaths: [
-      '/auth/(.*)',
-      '/none-auth/(.*)',
-      '/login',
-      '/logout',
-    ],
-    async onUnauthorized(ctx) {
-      ctx.redirect('/login');
-    },
-  }));
+  app.use(
+    passport.initialize({
+      excludePaths: ['/auth/(.*)', '/none-auth/(.*)', '/login', '/logout'],
+      async onUnauthorized(ctx) {
+        ctx.redirect('/login');
+      },
+    }),
+  );
 
   app.get('/auth/:strategy', passport.authenticate());
   app.get(
@@ -90,9 +89,7 @@ describe("@koex/passport-local", () => {
   app.get('/logout', passport.logout());
 
   it('health', async () => {
-    await request(app.callback())
-      .get('/health')
-      .expect(200);
+    await request(app.callback()).get('/health').expect(200);
   });
 
   it('home', async () => {

@@ -1,8 +1,4 @@
-import {
-  Strategy,
-  IVerify,
-  Config,
-} from '@koex/passport-oauth2-config';
+import { Strategy, IVerify, Config } from '@koex/passport-oauth2-config';
 
 export interface GithubStrategyOptions {
   client_id: string;
@@ -22,17 +18,22 @@ export interface Profile {
   node_id: string;
 }
 
-
 export class GithubStrategy extends Strategy<Token, Profile> {
-  constructor(private readonly _options: GithubStrategyOptions, public readonly verify: IVerify<Token, Profile>) {
-    super({
-      ..._options,
-      response_type: 'code',
-      grant_type: 'authorization_code',
-      authorize_url: 'https://github.com/login/oauth/authorize',
-      token_url: 'https://github.com/login/oauth/access_token',
-      user_profile_url: 'https://api.github.com/user',
-    }, verify);
+  constructor(
+    private readonly _options: GithubStrategyOptions,
+    public readonly verify: IVerify<Token, Profile>,
+  ) {
+    super(
+      {
+        ..._options,
+        response_type: 'code',
+        grant_type: 'authorization_code',
+        authorize_url: 'https://github.com/login/oauth/authorize',
+        token_url: 'https://github.com/login/oauth/access_token',
+        user_profile_url: 'https://api.github.com/user',
+      },
+      verify,
+    );
   }
 
   protected config: Config = {

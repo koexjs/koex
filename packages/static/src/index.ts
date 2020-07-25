@@ -3,13 +3,18 @@ import { Context } from 'koa';
 import { fs, zlib } from 'mz';
 
 import { Options, File } from './typings';
-import { FileManager, loadFile, safeDecodeURIComponent, isFileWithSuffix } from './utils';
+import {
+  FileManager,
+  loadFile,
+  safeDecodeURIComponent,
+  isFileWithSuffix,
+} from './utils';
 
 const compressible = require('compressible');
 const debug = require('debug')('@koex/static');
 
 export default (prefix: string, options: Options) => {
-  const { dir, gzip = true, md5 = true, index } = options || {} as Options;
+  const { dir, gzip = true, md5 = true, index } = options || ({} as Options);
 
   const files = new FileManager<File>();
 
@@ -52,10 +57,10 @@ export default (prefix: string, options: Options) => {
 
       // files that can be accessd should be under options.dir
       if (filePath.indexOf(dir) !== 0) {
-        return await next()
+        return await next();
       }
 
-      let s: { isFile: boolean, realpath: string };
+      let s: { isFile: boolean; realpath: string };
       try {
         s = await isFileWithSuffix(filePath, options);
       } catch (error) {
@@ -73,7 +78,7 @@ export default (prefix: string, options: Options) => {
     debug('request: ', ctx.method, ctx.path, ' file: ', file.path, file.md5);
 
     if (ctx.request.header.etag === file.md5) {
-      return ctx.status = 304;
+      return (ctx.status = 304);
     }
 
     ctx.status = 200;
@@ -88,7 +93,7 @@ export default (prefix: string, options: Options) => {
     if (md5On) ctx.set('etag', file.md5);
 
     if (ctx.fresh) {
-      return ctx.status = 304;
+      return (ctx.status = 304);
     }
 
     ctx.type = file.type;
@@ -96,15 +101,13 @@ export default (prefix: string, options: Options) => {
     ctx.set('Cache-Control', file.cacheControl);
 
     if (ctx.method === 'HEAD') {
-      return ;
+      return;
     }
 
     const acceptGzip = ctx.acceptsEncodings('gzip') === 'gzip';
 
-    const shouldGzip = gzipOn
-      && file.length > 1024
-      && acceptGzip
-      && compressible(file.type)
+    const shouldGzip =
+      gzipOn && file.length > 1024 && acceptGzip && compressible(file.type);
 
     const stream = fs.createReadStream(file.path);
 

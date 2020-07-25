@@ -7,8 +7,10 @@ import { Controller, Service } from './models';
 import { createHelpers } from './helpers';
 
 import {
-  createControllers, createServices,
-  extendsApplication, extendsContext,
+  createControllers,
+  createServices,
+  extendsApplication,
+  extendsContext,
 } from './utils';
 
 export {

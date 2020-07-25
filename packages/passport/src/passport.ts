@@ -24,7 +24,7 @@ export interface InitializeOptions {
    * passport exclude paths
    */
   excludePaths: string[];
-  
+
   /**
    * Max Session Age, Unit: milliseconds, Default: 7 days
    */
@@ -35,7 +35,7 @@ export interface InitializeOptions {
    *  which means it requires login, so you can do
    *    if acceptJSON, return 401, Unauthorized Message
    *    else return 302, go to login page to ask authorize
-   * 
+   *
    * @param ctx context
    * @param acceptJSON client wants to json response
    */
@@ -51,9 +51,7 @@ export interface LoginOptions {
   redirect?: string;
 }
 
-export interface LogoutOptions extends LoginOptions {
- 
-}
+export interface LogoutOptions extends LoginOptions {}
 
 export interface IPassport {
   use(name: string, strategy: Strategy): void;
@@ -70,28 +68,28 @@ export type DeserializeUser = (id: string, ctx: Context) => Promise<User>;
 
 /**
  * Passport
- * 
+ *
  * @example
  *  passport.use('local', new LocalStrategy({
-  *   client_id: 'xxx',
-  *   client_secret: 'xxx',
-  *   scope: 'xxxx',
-  * }));
-  * 
+ *   client_id: 'xxx',
+ *   client_secret: 'xxx',
+ *   scope: 'xxxx',
+ * }));
+ *
  *  passport.use('github', new GithubStrategy({
  *    client_id: 'xxx',
  *    client_secret: 'xxx',
  *    scope: 'xxxx',
  *  }));
- * 
+ *
  *  app.get('/auth/:strategy', passport.authenticate());
  *  app.get('/auth/:strategy/callback', passport.callback());
- * 
+ *
  *  app.get('/login', passport.login());
  *  app.get('/logout', passport.logout());
- * 
- *  or 
- * 
+ *
+ *  or
+ *
  *  app.use(passport.router());
  */
 export class Passport implements IPassport {
@@ -105,17 +103,22 @@ export class Passport implements IPassport {
   }
 
   public initialize(options: InitializeOptions): Middleware<Context> {
-    const exclude = options.excludePaths.map(pattern => pathToRegexp(pattern));
+    const exclude = options.excludePaths.map((pattern) =>
+      pathToRegexp(pattern),
+    );
 
     assert(this._serializeUser, 'You should call passport.serializeUser first');
-    assert(this._deserializeUser, 'You should call passport.deserializeUser first');
+    assert(
+      this._deserializeUser,
+      'You should call passport.deserializeUser first',
+    );
 
     return async (ctx, next) => {
       this.session = new Session(ctx, {
         maxAge: options.maxAge,
       });
 
-      if (exclude.some(regexp => !!regexp.exec(ctx.path))) {
+      if (exclude.some((regexp) => !!regexp.exec(ctx.path))) {
         return next();
       }
 
@@ -172,34 +175,41 @@ export class Passport implements IPassport {
       try {
         const strategyName = ctx.params.strategy; // @TODO
         const strategy = this.strategies[strategyName];
-        
+
         if (!strategyName) {
-          ctx.throw(500, `No Passport Strategy Name Provided`, { strategy: strategyName, reasonBy: 'self' });
+          ctx.throw(500, `No Passport Strategy Name Provided`, {
+            strategy: strategyName,
+            reasonBy: 'self',
+          });
         }
-  
+
         if (!strategy) {
-          ctx.throw(500, `No Passport Strategy provided named ${strategyName}`, { strategy: strategyName, reasonBy: 'self' });
+          ctx.throw(
+            500,
+            `No Passport Strategy provided named ${strategyName}`,
+            { strategy: strategyName, reasonBy: 'self' },
+          );
         }
-  
+
         const { token, profile } = await strategy.callback(ctx);
-  
+
         const user = await strategy.verify(ctx, token, profile);
 
         const id = await this._serializeUser(user, ctx);
 
         // @session
         this.session.set(id);
-  
+
         // readonly, use it instead of ctx.user = user
         defineReadonlyProperties(ctx, { user });
-  
+
         return await next();
       } catch (error) {
         return await options.onFail(error, ctx, next);
       }
     };
   }
-  
+
   public serializeUser(fn: SerializeUser) {
     this._serializeUser = fn;
   }
@@ -214,7 +224,7 @@ export class Passport implements IPassport {
         return options.render(ctx);
       }
 
-      const redirect = options && options.redirect || '/login/local'; // @TODO
+      const redirect = (options && options.redirect) || '/login/local'; // @TODO
       ctx.redirect(redirect);
     };
   }
@@ -228,7 +238,7 @@ export class Passport implements IPassport {
         return options.render(ctx);
       }
 
-      const redirect = options && options.redirect || '/'; // @TODO
+      const redirect = (options && options.redirect) || '/'; // @TODO
       ctx.redirect(redirect);
     };
   }
@@ -236,13 +246,16 @@ export class Passport implements IPassport {
 
 export const passport = new Passport();
 
-function defineReadonlyProperties(target: Object, properties: Record<string, any>) {
+function defineReadonlyProperties(
+  target: Object,
+  properties: Record<string, any>,
+) {
   for (const propertyKey in properties) {
     Object.defineProperty(target, propertyKey, {
       enumerable: true,
       get() {
         return properties[propertyKey];
       },
-    })
+    });
   }
 }

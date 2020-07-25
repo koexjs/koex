@@ -8,15 +8,15 @@ export type IProfile = {
   type?: string;
   username: string;
   password: string;
-}
+};
 
 export class LocalStrategy extends Strategy<IToken, IProfile> {
   public name = 'local';
-  
+
   constructor(public readonly verify: IVerify<IToken, IProfile>) {
     super(verify);
   }
-  
+
   // in local strategy, authenticate method is useless
   public async authenticate(ctx: Context) {
     // this.session = new Session(ctx, {
@@ -24,12 +24,9 @@ export class LocalStrategy extends Strategy<IToken, IProfile> {
     //     return this.getUserByStrategyProfile(ctx, this.strategy, { id }, Stage.authorize);
     //   },
     // });
-
     // const profile = await this.callback(ctx);
     // const user = await this.getUserByStrategyProfile(ctx, this.strategy, profile, Stage.authorize);
-
     // ctx.user = user;
-
     // this.session.set(this.strategy, profile.id);
   }
 

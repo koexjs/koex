@@ -1,6 +1,6 @@
-import { Context } from '@koex/core';
 import {
-  Strategy, IVerify,
+  Strategy,
+  IVerify,
   IGetAuthorizeUrlData,
   IGetAccessTokenData,
 } from '@koex/passport-oauth2';
@@ -24,27 +24,39 @@ export interface Profile {
 }
 
 export class GithubStrategy extends Strategy<Token, Profile> {
-  constructor(private readonly _options: GithubStrategyOptions, public readonly verify: IVerify<Token, Profile>) {
-    super({
-      ..._options,
-      response_type: 'code',
-      grant_type: 'authorization_code',
-      authorize_url: 'https://github.com/login/oauth/authorize',
-      token_url: 'https://github.com/login/oauth/access_token',
-      user_profile_url: 'https://api.github.com/user',
-    }, verify);
+  constructor(
+    private readonly _options: GithubStrategyOptions,
+    public readonly verify: IVerify<Token, Profile>,
+  ) {
+    super(
+      {
+        ..._options,
+        response_type: 'code',
+        grant_type: 'authorization_code',
+        authorize_url: 'https://github.com/login/oauth/authorize',
+        token_url: 'https://github.com/login/oauth/access_token',
+        user_profile_url: 'https://api.github.com/user',
+      },
+      verify,
+    );
   }
 
-  protected async getAuthorizeUrl(authorize_url: string, data: IGetAuthorizeUrlData) {
+  protected async getAuthorizeUrl(
+    authorize_url: string,
+    data: IGetAuthorizeUrlData,
+  ) {
     return `${authorize_url}?${this.utils.qs.stringify(data as {})}`;
   }
 
-  protected async getAccessToken(token_url: string, data: IGetAccessTokenData): Promise<Token> {
+  protected async getAccessToken(
+    token_url: string,
+    data: IGetAccessTokenData,
+  ): Promise<Token> {
     const method = 'POST';
 
     const headers = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     };
 
     const response = await this.utils.fetch(token_url, {
@@ -62,13 +74,16 @@ export class GithubStrategy extends Strategy<Token, Profile> {
     return response.json();
   }
 
-  protected async getAccessUser(user_profile_url: string, access_token: Token): Promise<Profile> {
+  protected async getAccessUser(
+    user_profile_url: string,
+    access_token: Token,
+  ): Promise<Profile> {
     const method = 'GET';
 
     const headers = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${access_token.access_token}`,
+      Accept: 'application/json',
+      Authorization: `Bearer ${access_token.access_token}`,
     };
 
     const response = await this.utils.fetch(user_profile_url, {
@@ -93,4 +108,3 @@ export class GithubStrategy extends Strategy<Token, Profile> {
     };
   }
 }
-

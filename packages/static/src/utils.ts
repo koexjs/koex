@@ -49,7 +49,9 @@ export async function isFileWithSuffix(path: string, options: Options) {
 
   const suffixs = options.suffix.split(',');
   for (const suffix of suffixs) {
-    const realpath = suffix.startsWith('.') ? `${path}${suffix}` : `${path}.${suffix}`;
+    const realpath = suffix.startsWith('.')
+      ? `${path}${suffix}`
+      : `${path}.${suffix}`;
     const _isFile = await isFile(realpath);
     debug('try suffix: ', realpath, ' isFile: ', _isFile);
 
@@ -64,7 +66,7 @@ export async function isFileWithSuffix(path: string, options: Options) {
   return {
     isFile: false,
     realpath: path,
-  }; 
+  };
 }
 
 export async function loadFile(path: string, options: Options) {
@@ -101,8 +103,8 @@ export function md5(stream: fs.ReadStream): Promise<string> {
 
 export function safeDecodeURIComponent(text: string) {
   try {
-    return decodeURIComponent(text)
+    return decodeURIComponent(text);
   } catch (e) {
-    return text
+    return text;
   }
 }

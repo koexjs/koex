@@ -11,7 +11,7 @@ export interface Options {
   /**
    * the directory for placing file uploads in
    * Default: os.tmpdir()
-   * 
+   *
    * You can move theme later by use fs.rename()
    */
   uploadDir?: string;
@@ -48,33 +48,33 @@ export interface Options {
   hash?: string | 'md5' | 'sha1' | 'sha256' | false;
 
   /**
-   * When you call the `.parse` method, the `files` argument 
+   * When you call the `.parse` method, the `files` argument
    *  (of the callback) will contain arrays of files fro inputs
-   *  which submit multiple files using the HTML5 `multiple` attribute. 
+   *  which submit multiple files using the HTML5 `multiple` attribute.
    *  Also, the `fields` argument will contain arrays of values for fields that have names ending with '[]'.
-   * 
+   *
    * Default: false
    */
   multiples?: boolean;
 
   type?: string;
-  
+
   /**
    * The amount of bytes received for this form so far.
    */
   bytesReceived?: number;
-  
+
   /**
    * The expected number of bytes in this form.
    */
   bytesExpected?: number;
-  
+
   onFileBegin?: (filename: string, file: forms.File) => any;
 }
 
 export interface Multipart {
-  parsed: forms.Fields,
-  files: forms.Files,
+  parsed: forms.Fields;
+  files: forms.Files;
 }
 
 export function formy(ctx: Context, options: Options = {}): Promise<Multipart> {
@@ -87,7 +87,7 @@ export function formy(ctx: Context, options: Options = {}): Promise<Multipart> {
         return resolve({
           parsed: fields,
           files,
-        })
+        });
       })
       .on('error', (err: Error) => {
         return reject(err);

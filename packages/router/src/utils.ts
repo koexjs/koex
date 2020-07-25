@@ -1,4 +1,3 @@
-
 import { Context } from '@koex/core';
 
 export function match(ctx: Context, method: string) {

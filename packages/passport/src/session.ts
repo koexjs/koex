@@ -22,7 +22,10 @@ export class Session {
     signed: this.signed,
   };
 
-  constructor(private readonly ctx: Context, private readonly options: SessionOptions) {}
+  constructor(
+    private readonly ctx: Context,
+    private readonly options: SessionOptions,
+  ) {}
 
   set(id: string) {
     const { ctx, key, setOption } = this;
@@ -71,7 +74,7 @@ export class RedirectSession {
   get() {
     const { ctx, key, getOption, setOption } = this;
     const uri = ctx.cookies.get(key, getOption);
-    if (!uri) return ;
+    if (!uri) return;
 
     // use only once
     ctx.cookies.set(key, null, setOption);

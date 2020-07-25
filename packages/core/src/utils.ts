@@ -5,7 +5,7 @@ const ServiceSymbol = Symbol('Service');
 
 /**
  * @Lazy Create instance of class, make method as middleware
- * 
+ *
  * @param Controller Controller Class
  */
 export function wrapController<T>(Controller: any): T {
@@ -31,7 +31,7 @@ export function wrapController<T>(Controller: any): T {
     proto = Object.getPrototypeOf(proto);
   }
 
-  return instance as any as T;
+  return (instance as any) as T;
 
   function methodToMiddleware(Controller: any, key: string) {
     return async (ctx: any, next: any) => {
@@ -43,11 +43,10 @@ export function wrapController<T>(Controller: any): T {
 }
 
 export function createControllers<T>(cts: Record<string, any>) {
-  return Object.keys(cts)
-    .reduce((all, key) => {
-      all[key] = wrapController(cts[key]);
-      return all;
-    }, {} as T);
+  return Object.keys(cts).reduce((all, key) => {
+    all[key] = wrapController(cts[key]);
+    return all;
+  }, {} as T);
 }
 
 export class ClassLoader {
@@ -58,7 +57,7 @@ export class ClassLoader {
       this.define(serviceName, services[serviceName]);
     }
   }
-  
+
   define(property: string, Cs: any) {
     const target = this;
 

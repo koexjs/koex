@@ -3,9 +3,7 @@ export interface Config {
    * Authenticate Flow
    *  all data in query to redirect
    */
-  authenticate?: {
-    
-  },
+  authenticate?: {};
 
   /**
    * Callback Flow
@@ -18,7 +16,7 @@ export interface Config {
        *  maybe some use ticket
        */
       name?: string;
-    },
+    };
 
     // @2 access token, used to get user profile
     access_token?: {
@@ -33,7 +31,7 @@ export interface Config {
        *  default:
        *    Content-Type: application/json
        *    Accept: application/json
-       * 
+       *
        *  But some use
        *    Content-Type: application/x-www-form-urlencoded
        *  and others
@@ -45,7 +43,7 @@ export interface Config {
        * But some place body in query, like coding.net
        *  { code: '{code}' }
        */
-      query?: Record<string, string>,
+      query?: Record<string, string>;
 
       /**
        * The body to get access token
@@ -68,8 +66,8 @@ export interface Config {
          *  which means the access_token string is access_token.access_token
          */
         name?: string;
-      },
-    },
+      };
+    };
 
     // @3 user profile, used to connect with local user
     user_profile?: {
@@ -84,7 +82,7 @@ export interface Config {
        *  default:
        *    Accept: application/json
        *    Authorization: Bearer {access_token} @important
-       * 
+       *
        *  But some use
        *    Authentication: {access_token}
        *  and others
@@ -97,7 +95,7 @@ export interface Config {
        *  query: ?access_token={acccess_token}
        *  here: { access_token: '{access_token}' }
        */
-      query?: Record<string, string>,
+      query?: Record<string, string>;
 
       /**
        * The body to get user profile
@@ -142,9 +140,9 @@ export interface Config {
 
         // allow custom key
         [key: string]: any;
-      },
-    },
-  },
+      };
+    };
+  };
 }
 
 export interface IOauthStrategyOptions {

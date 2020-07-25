@@ -18,7 +18,7 @@ export interface Options {
 
   // show hidden paths(include file and directory), default false
   //  such as .gitignore, .travis.yml
-  showHidden?: boolean
+  showHidden?: boolean;
 }
 
 export interface File {

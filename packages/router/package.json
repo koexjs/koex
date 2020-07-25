@@ -21,7 +21,6 @@
     "@types/koa-compose": "^3.2.4",
     "@zcorky/delay": "^1.0.1",
     "global": "^4.3.2",
-    "husky": "^1.2.0",
     "jest": "^24.9.0",
     "koa": "^2.8.1",
     "rimraf": "^2.6.2",
@@ -38,11 +37,6 @@
   "files": [
     "lib/"
   ],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm test"
-    }
-  },
   "directories": {
     "lib": "lib",
     "test": "__tests__"

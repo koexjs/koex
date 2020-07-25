@@ -56,8 +56,12 @@ describe('koa body', () => {
 
     it('should parse json patch', async () => {
       app.use(async (ctx: Context) => {
-        expect(ctx.request.body).toEqual([{op: 'add', path: '/foo', value: 'bar' }]);
-        expect(ctx.request.rawBody).toBe('[{"op": "add", "path": "/foo", "value": "bar"}]');
+        expect(ctx.request.body).toEqual([
+          { op: 'add', path: '/foo', value: 'bar' },
+        ]);
+        expect(ctx.request.rawBody).toBe(
+          '[{"op": "add", "path": "/foo", "value": "bar"}]',
+        );
         ctx.body = ctx.request.body;
       });
 
@@ -85,9 +89,11 @@ describe('koa body', () => {
 
     it('should json body error with string in strict mode', async () => {
       const _app = new Koex();
-      _app.use(onerror({
-        log: () => null,
-      }));
+      _app.use(
+        onerror({
+          log: () => null,
+        }),
+      );
 
       _app.use(bodyParser({ jsonLimit: 100 }));
 
@@ -100,14 +106,16 @@ describe('koa body', () => {
         .post('/')
         .set('Content-Type', 'application/json')
         .send('"invalid"')
-        .expect(400, { message: 'invalid JSON, only supports object and array' });
+        .expect(400, {
+          message: 'invalid JSON, only supports object and array',
+        });
     });
   });
 
   describe('options.detectJSON', () => {
     it('should parse json body on /foo.json request', async () => {
       const _app = App({
-        detectJSON: ctx => {
+        detectJSON: (ctx) => {
           return /\.json/i.test(ctx.path);
         },
       });
@@ -126,14 +134,16 @@ describe('koa body', () => {
 
     it('should not parse json body on /foo request', async () => {
       const _app = App({
-        detectJSON: ctx => {
+        detectJSON: (ctx) => {
           return /\.json/i.test(ctx.path);
         },
       });
 
       _app.use(async (ctx: Context) => {
         expect(ctx.request.type).toBe('application/x-www-form-urlencoded');
-        expect(ctx.request.is(['application/x-www-form-urlencoded'])).toBe('application/x-www-form-urlencoded');
+        expect(ctx.request.is(['application/x-www-form-urlencoded'])).toBe(
+          'application/x-www-form-urlencoded',
+        );
 
         expect(ctx.request.body).toEqual({ '{"foo":"bar"}': '' });
         expect(ctx.request.rawBody).toBe('{"foo":"bar"}');
@@ -154,7 +164,9 @@ describe('koa body', () => {
     it('should parse form body ok', async () => {
       app = App();
       app.use(async (ctx: Context) => {
-        expect(ctx.get('Content-Type')).toBe('application/x-www-form-urlencoded');
+        expect(ctx.get('Content-Type')).toBe(
+          'application/x-www-form-urlencoded',
+        );
         expect(ctx.request.body).toEqual({ foo: { bar: 'baz' } });
         expect(ctx.request.rawBody).toBe('foo%5Bbar%5D=baz');
         ctx.body = ctx.request.body;
@@ -225,7 +237,9 @@ describe('koa body', () => {
       app.use(async (ctx: Context) => {
         expect(ctx.get('Content-Type')).toBe('application/x-javascript');
         expect(ctx.request.type).toBe('application/x-javascript');
-        expect(ctx.request.is(['application/x-javascript'])).toBe('application/x-javascript');
+        expect(ctx.request.is(['application/x-javascript'])).toBe(
+          'application/x-javascript',
+        );
         ctx.body = ctx.request.body;
       });
 
@@ -265,9 +279,7 @@ describe('koa body', () => {
         ctx.body = ctx.request.body;
       });
 
-      await request(app.callback())
-        .get('/')
-        .expect(200, {});
+      await request(app.callback()).get('/').expect(200, {});
     });
   });
 
@@ -347,11 +359,13 @@ describe('koa body', () => {
       };
     });
 
-    it('should receive `multipart` requests - fields on .body object', done => {
+    it('should receive `multipart` requests - fields on .body object', (done) => {
       const app = new Koex();
-      app.use(bodyParser({
-        enableTypes: ['multipart'],
-      }));
+      app.use(
+        bodyParser({
+          enableTypes: ['multipart'],
+        }),
+      );
 
       app.use(async (ctx: Context, next) => {
         const user = ctx.request.body;
@@ -380,7 +394,10 @@ describe('koa body', () => {
           const mostRecentUser = database.users[database.users.length - 1];
 
           expect(res.body.user).toHaveProperty('name', mostRecentUser.name);
-          expect(res.body.user).toHaveProperty('followers', mostRecentUser.followers);
+          expect(res.body.user).toHaveProperty(
+            'followers',
+            mostRecentUser.followers,
+          );
 
           expect(res.body.user).toHaveProperty('name', 'daryl');
           expect(res.body.user).toHaveProperty('followers', '30');
@@ -391,12 +408,14 @@ describe('koa body', () => {
 
     it('should receive multiple fields via `multipart` on .body.files object', (done) => {
       const app = new Koex();
-      app.use(bodyParser({
-        enableTypes: ['multipart'],
-        formidable: {
-          uploadDir: path.join(__dirname, 'temp'),
-        },
-      }));
+      app.use(
+        bodyParser({
+          enableTypes: ['multipart'],
+          formidable: {
+            uploadDir: path.join(__dirname, 'temp'),
+          },
+        }),
+      );
 
       app.use(async (ctx: Context, next) => {
         const user = ctx.request.body;
@@ -421,11 +440,11 @@ describe('koa body', () => {
         .field('names', 'John')
         .field('names', 'Paul')
         .attach('firstField', path.join(__dirname, '../package.json'))
-        .attach('secondField',  path.join(__dirname, '../src/index.ts'))
-        .attach('secondField',  path.join(__dirname, '../package.json'))
-        .attach('thirdField',  path.join(__dirname, '../LICENSE'))
-        .attach('thirdField',  path.join(__dirname, '../README.md'))
-        .attach('thirdField',  path.join(__dirname, '../package.json'))
+        .attach('secondField', path.join(__dirname, '../src/index.ts'))
+        .attach('secondField', path.join(__dirname, '../package.json'))
+        .attach('thirdField', path.join(__dirname, '../LICENSE'))
+        .attach('thirdField', path.join(__dirname, '../README.md'))
+        .attach('thirdField', path.join(__dirname, '../package.json'))
         .expect(201)
         .end((err, res) => {
           if (err) return done(err);
@@ -448,10 +467,14 @@ describe('koa body', () => {
           // //   name: 'package.json',
           // // }]);
           // expect(res.body._files.secondField.map(e => e.name)).toEqual([ 'index.ts', 'package.json' ]);
-          
+
           // expect(res.body._files.secondField[1].name).toEqual('package.json');
-          expect(fs.statSync(res.body._files.secondField[0].path)).not.toBeNull();
-          expect(fs.statSync(res.body._files.secondField[1].path)).not.toBeNull();
+          expect(
+            fs.statSync(res.body._files.secondField[0].path),
+          ).not.toBeNull();
+          expect(
+            fs.statSync(res.body._files.secondField[1].path),
+          ).not.toBeNull();
           fs.unlinkSync(res.body._files.secondField[0].path);
           fs.unlinkSync(res.body._files.secondField[1].path);
 
@@ -471,11 +494,17 @@ describe('koa body', () => {
           // expect(res.body._files.thirdField[2].name).toBe('package.json');
 
           // expect(res.body._files.thirdField.map(e => e.name)).toEqual([ 'README.md', 'LICENSE', 'package.json' ]);
-          expect(fs.statSync(res.body._files.thirdField[0].path)).not.toBeNull();
+          expect(
+            fs.statSync(res.body._files.thirdField[0].path),
+          ).not.toBeNull();
           fs.unlinkSync(res.body._files.thirdField[0].path);
-          expect(fs.statSync(res.body._files.thirdField[1].path)).not.toBeNull();
+          expect(
+            fs.statSync(res.body._files.thirdField[1].path),
+          ).not.toBeNull();
           fs.unlinkSync(res.body._files.thirdField[1].path);
-          expect(fs.statSync(res.body._files.thirdField[2].path)).not.toBeNull();
+          expect(
+            fs.statSync(res.body._files.thirdField[2].path),
+          ).not.toBeNull();
           fs.unlinkSync(res.body._files.thirdField[2].path);
 
           done();

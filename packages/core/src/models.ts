@@ -7,13 +7,9 @@ declare module '.' {
     controllers: Controllers;
   }
 
-  export interface Services {
+  export interface Services {}
 
-  }
-
-  export interface Controllers {
-    
-  }
+  export interface Controllers {}
 }
 
 export class BaseClass {
@@ -38,10 +34,6 @@ export class BaseClass {
   }
 }
 
-export class Controller extends BaseClass {
+export class Controller extends BaseClass {}
 
-}
-
-export class Service extends BaseClass {
-
-}
+export class Service extends BaseClass {}

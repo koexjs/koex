@@ -20,7 +20,7 @@
       "conventionalCommits": true
     },
     "bootstrap": {
-      "npmClient": "npm",
+      "npmClient": "cnpm",
       "hoist": true
     },
     "version": {

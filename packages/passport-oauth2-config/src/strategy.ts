@@ -5,10 +5,7 @@ import * as qs from '@zcorky/query-string';
 import { format } from '@zodash/format';
 import { get } from '@zodash/get';
 
-import {
-  Strategy,
-  IVerify,
-} from '@koex/passport';
+import { Strategy, IVerify } from '@koex/passport';
 
 import {
   IOauthStrategyOptions,
@@ -52,8 +49,14 @@ function formatObject(obj: Record<string, any>, map: Record<string, any>) {
  *    @Method getAccessToken(url, data): Token (@S2)
  *    @Method getAccessUser(url, data): User (@S3)
  */
-export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strategy<IToken, IProfile> {
-  constructor(protected readonly oauthStrategyOptions: IOauthStrategyOptions, public readonly verify: IVerify<IToken, IProfile>) {
+export abstract class OauthStrategy<
+  IToken = any,
+  IProfile = any
+> extends Strategy<IToken, IProfile> {
+  constructor(
+    protected readonly oauthStrategyOptions: IOauthStrategyOptions,
+    public readonly verify: IVerify<IToken, IProfile>,
+  ) {
     super(verify);
   }
 
@@ -61,27 +64,33 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
 
   /**
    * Get Authorize Url
-   * 
+   *
    * @param authorize_base_url base authorize url
    * @param data the full authorize url required data
    * @returns the full authorize url, mostly used to redirect
    */
-  private async getAuthorizeUrl(authorize_base_url: string, data: IGetAuthorizeUrlData): Promise<string> {
+  private async getAuthorizeUrl(
+    authorize_base_url: string,
+    data: IGetAuthorizeUrlData,
+  ): Promise<string> {
     return `${authorize_base_url}?${this.utils.qs.stringify(data as {})}`;
   }
 
   /**
    * Get Access Token
-   * 
+   *
    * @param token_url base token url
    * @param data the data required to get access token
    */
-  private async getAccessToken(token_url: string, data: IGetAccessTokenData): Promise<IToken> {
+  private async getAccessToken(
+    token_url: string,
+    data: IGetAccessTokenData,
+  ): Promise<IToken> {
     const method = get(this.config, 'callback.access_token.method', 'POST');
 
     const headersPattern = get(this.config, 'callback.access_token.headers', {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     });
     const queryPatterns = get(this.config, 'callback.access_token.query', null);
     const bodyPatterns = get(this.config, 'callback.access_token.body', data);
@@ -90,12 +99,15 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
     const query = formatObject(queryPatterns, data);
     const body = formatObject(bodyPatterns, data);
 
-    const url = !queryPatterns ? token_url : `${token_url}?${qs.stringify(query)}`;
-    
+    const url = !queryPatterns
+      ? token_url
+      : `${token_url}?${qs.stringify(query)}`;
+
     const contentType = get(headers, 'Content-Type', 'application/json');
-    const bodyString = contentType.indexOf('application/x-www-form-urlencoded') !== -1
-      ? qs.stringify(body)
-      : JSON.stringify(body);
+    const bodyString =
+      contentType.indexOf('application/x-www-form-urlencoded') !== -1
+        ? qs.stringify(body)
+        : JSON.stringify(body);
 
     const response = await this.utils.fetch(url, {
       method,
@@ -111,16 +123,23 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
 
     return response.json();
   }
-  
+
   /**
    * Get Access User
-   * 
+   *
    * @param user_profile_url base user info url, here, just wants to openid, or user
    * @param access_token the getAccessToken() return data
    */
-  private async getAccessUser(user_profile_url: string, token: IToken): Promise<IProfile> {
+  private async getAccessUser(
+    user_profile_url: string,
+    token: IToken,
+  ): Promise<IProfile> {
     // @TODO
-    const access_token_string_key = get(this.config, 'callback.access_token.access_token.name', 'access_token');
+    const access_token_string_key = get(
+      this.config,
+      'callback.access_token.access_token.name',
+      'access_token',
+    );
 
     const access_token = get(token as any, access_token_string_key);
 
@@ -129,8 +148,8 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
     const method = get(this.config, 'callback.user_profile.method', 'GET');
 
     const headersPattern = get(this.config, 'callback.user_profile.headers', {
-      'Accept': 'application/json',
-      'Authorization': `Bearer ${access_token}`,
+      Accept: 'application/json',
+      Authorization: `Bearer ${access_token}`,
     });
     const queryPatterns = get(this.config, 'callback.user_profile.query', null);
     const bodyPatterns = get(this.config, 'callback.user_profile.body', null);
@@ -139,10 +158,14 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
     const query = formatObject(queryPatterns, data);
     const body = formatObject(bodyPatterns, data);
 
-    const url = !queryPatterns ? user_profile_url : `${user_profile_url}?${qs.stringify(query)}`;
-    
+    const url = !queryPatterns
+      ? user_profile_url
+      : `${user_profile_url}?${qs.stringify(query)}`;
+
     const contentType = get(headers, 'Content-Type', 'application/json');
-    const bodyString = !body ? null : contentType.indexOf('application/x-www-form-urlencoded') !== -1
+    const bodyString = !body
+      ? null
+      : contentType.indexOf('application/x-www-form-urlencoded') !== -1
       ? qs.stringify(body)
       : JSON.stringify(body);
 
@@ -174,8 +197,8 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
   }
 
   /**
-   * @S1 Authenticate Flow 
-   * 
+   * @S1 Authenticate Flow
+   *
    * @param ctx context
    * @returns redirect to authorization url
    */
@@ -188,7 +211,7 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
       scope,
       state,
     } = this.oauthStrategyOptions;
-    
+
     const data = {
       client_id,
       redirect_uri,
@@ -202,8 +225,8 @@ export abstract class OauthStrategy<IToken = any, IProfile = any> extends Strate
   }
 
   /**
-   * @S2 Callback Flow 
-   * 
+   * @S2 Callback Flow
+   *
    * @param ctx context
    * @returns user profile
    */

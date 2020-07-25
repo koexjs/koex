@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "cnpm i && lerna bootstrap",
     "build": "lerna run build",
     "test": "lerna run test",
     "coverage": "codecov",
@@ -34,8 +34,6 @@
     }
   },
   "lint-staged": {
-    "linters": {
-      "packages/**/*.{ts,tsx}": ["prettier --write", "git add"]
-    }
+    "packages/**/*.ts": "prettier --write"
   }
 }

@@ -10,7 +10,6 @@ import { loadFile } from '../src/utils';
 
 describe('koa static', () => {
   describe('only koa-static', () => {
-
     const app = new Koa();
     const options = {
       dir: path.join(__dirname, '..'),
@@ -19,7 +18,10 @@ describe('koa static', () => {
     app.use(staticCache('/static', options));
 
     it('server with prefix and dir, visit /static/package.json', async () => {
-      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      const file = await loadFile(
+        path.join(__dirname, '../package.json'),
+        options,
+      );
       console.log(file);
 
       await request(app.callback())
@@ -33,19 +35,20 @@ describe('koa static', () => {
         .expect('Last-Modified', `${file.mtime}`)
         .expect('vary', 'Accept-Encoding')
         .expect(200)
-        .then(response => {
+        .then((response) => {
           response.body.name.should.equal('@koex/static');
         });
     });
 
     it('server with prefix and dir, visit /static//package.json', async () => {
-      await request(app.callback())
-        .get('/')
-        .expect(404);
+      await request(app.callback()).get('/').expect(404);
     });
 
     it('only support get/head: head', async () => {
-      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      const file = await loadFile(
+        path.join(__dirname, '../package.json'),
+        options,
+      );
       console.log(file);
 
       await request(app.callback())
@@ -62,27 +65,19 @@ describe('koa static', () => {
     });
 
     it('only support get/head, other not support: post', async () => {
-      await request(app.callback())
-        .post('/')
-        .expect(404);
+      await request(app.callback()).post('/').expect(404);
     });
 
     it('only support get/head, other not support: put', async () => {
-      await request(app.callback())
-        .put('/')
-        .expect(404);
+      await request(app.callback()).put('/').expect(404);
     });
 
     it('server with prefix and dir, not allow ..', async () => {
-      await request(app.callback())
-        .get('/static/..')
-        .expect(404);
+      await request(app.callback()).get('/static/..').expect(404);
     });
 
     it('server with prefix and dir, not allow ../..', async () => {
-      await request(app.callback())
-        .get('/static/../..')
-        .expect(404);
+      await request(app.callback()).get('/static/../..').expect(404);
     });
 
     it('server with prefix and dir, should start with dir', async () => {
@@ -92,13 +87,14 @@ describe('koa static', () => {
     });
 
     it('server with prefix and dir, should exist', async () => {
-      await request(app.callback())
-        .get('/static/package.js')
-        .expect(404);
+      await request(app.callback()).get('/static/package.js').expect(404);
     });
 
     it('server with prefix and dir, same etag', async () => {
-      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      const file = await loadFile(
+        path.join(__dirname, '../package.json'),
+        options,
+      );
       console.log(file);
 
       await request(app.callback())
@@ -108,9 +104,12 @@ describe('koa static', () => {
     });
 
     it('server with prefix and dir, same last-modified', async () => {
-      const file = await loadFile(path.join(__dirname, '../package.json'), options);
+      const file = await loadFile(
+        path.join(__dirname, '../package.json'),
+        options,
+      );
       console.log(file);
-      
+
       await request(app.callback())
         .get('/static/package.json')
         .set('Last-Modified', file.mtime.toString())
@@ -133,27 +132,33 @@ describe('koa static', () => {
 
     app.use(staticCache('/static', options));
 
-    app.use(get('/health', async (ctx) => {
-      ctx.body = {
-        name: 'health',
-      };
-    }));
+    app.use(
+      get('/health', async (ctx) => {
+        ctx.body = {
+          name: 'health',
+        };
+      }),
+    );
 
-    app.use(get('/static/package.json', async (ctx) => {
-      ctx.body = 'package.json';
-    }));
+    app.use(
+      get('/static/package.json', async (ctx) => {
+        ctx.body = 'package.json';
+      }),
+    );
 
-    app.use(post('/static/package.json', async (ctx) => {
-      ctx.body = {
-        name: 'package.json',
-      }
-    }));
+    app.use(
+      post('/static/package.json', async (ctx) => {
+        ctx.body = {
+          name: 'package.json',
+        };
+      }),
+    );
 
     it('match path & method, doesnot fallback koa-router:get', async () => {
       await request(app.callback())
         .get(`/static/package.json`)
         .expect(200)
-        .then(response => {
+        .then((response) => {
           response.body.name.should.equal('@koex/static');
         });
     });
@@ -162,7 +167,7 @@ describe('koa static', () => {
       await request(app.callback())
         .get(`/health`)
         .expect(200)
-        .then(response => {
+        .then((response) => {
           response.body.name.should.equal('health');
         });
     });
@@ -171,7 +176,7 @@ describe('koa static', () => {
       await request(app.callback())
         .post(`/static/package.json`)
         .expect(200)
-        .then(response => {
+        .then((response) => {
           response.body.name.should.equal('package.json');
         });
     });

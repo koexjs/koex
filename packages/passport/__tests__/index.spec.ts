@@ -2,19 +2,22 @@ import * as request from 'supertest';
 import App, { Context } from '@koex/core';
 import passport, { Strategy } from '../src/index';
 
-passport.serializeUser(async user => {
+passport.serializeUser(async (user) => {
   // serialize user to id
   return user.id;
 });
 
-passport.descrializeUser(async id => {
+passport.descrializeUser(async (id) => {
   // find(descrialize) user by id
   return {
     id,
   };
 });
 
-class LocalStrategy extends Strategy<null, { username: string, password: string }> {
+class LocalStrategy extends Strategy<
+  null,
+  { username: string; password: string }
+> {
   public async user(id: string) {
     return {
       id,
@@ -39,12 +42,15 @@ class LocalStrategy extends Strategy<null, { username: string, password: string 
   }
 }
 
-describe("@koex/passport", () => {
+describe('@koex/passport', () => {
   const app = new App();
 
-  passport.use('local', new LocalStrategy(async (ctx, token, profile) => {
-    return profile;
-  }));
+  passport.use(
+    'local',
+    new LocalStrategy(async (ctx, token, profile) => {
+      return profile;
+    }),
+  );
 
   app.keys = ['secret'];
 
@@ -68,17 +74,14 @@ describe("@koex/passport", () => {
     }
   });
 
-  app.use(passport.initialize({
-    excludePaths: [
-      '/auth/(.*)',
-      '/none-auth/(.*)',
-      '/login',
-      '/logout',
-    ],
-    async onUnauthorized(ctx) {
-      ctx.redirect('/login');
-    },
-  }));
+  app.use(
+    passport.initialize({
+      excludePaths: ['/auth/(.*)', '/none-auth/(.*)', '/login', '/logout'],
+      async onUnauthorized(ctx) {
+        ctx.redirect('/login');
+      },
+    }),
+  );
 
   app.get('/auth/:strategy', passport.authenticate());
   app.get(
@@ -110,9 +113,7 @@ describe("@koex/passport", () => {
   app.get('/logout', passport.logout());
 
   it('health', async () => {
-    await request(app.callback())
-      .get('/health')
-      .expect(200);
+    await request(app.callback()).get('/health').expect(200);
   });
 
   it('home', async () => {
@@ -223,12 +224,15 @@ describe("@koex/passport", () => {
   });
 });
 
-describe("@koex/passport with options", () => {
+describe('@koex/passport with options', () => {
   const app = new App();
 
-  passport.use('local', new LocalStrategy(async (ctx, token, profile) => {
-    return profile;
-  }));
+  passport.use(
+    'local',
+    new LocalStrategy(async (ctx, token, profile) => {
+      return profile;
+    }),
+  );
 
   app.keys = ['secret'];
 
@@ -236,16 +240,14 @@ describe("@koex/passport with options", () => {
     ctx.status = 200;
   });
 
-  app.use(passport.initialize({
-    excludePaths: [
-      '/auth/(.*)',
-      '/login',
-      '/logout',
-    ],
-    async onUnauthorized(ctx) {
-      ctx.redirect('/login');
-    },
-  }));
+  app.use(
+    passport.initialize({
+      excludePaths: ['/auth/(.*)', '/login', '/logout'],
+      async onUnauthorized(ctx) {
+        ctx.redirect('/login');
+      },
+    }),
+  );
 
   app.get('/auth/:strategy', passport.authenticate());
   app.get(
@@ -260,16 +262,22 @@ describe("@koex/passport with options", () => {
       ctx.redirect('/');
     },
   );
-  app.get('/login', passport.login({
-    async render(ctx) {
-      ctx.body = 'login page'
-    },
-  }));
-  app.get('/logout', passport.logout({
-    async render(ctx) {
-      ctx.body = 'logout page';
-    },
-  }));
+  app.get(
+    '/login',
+    passport.login({
+      async render(ctx) {
+        ctx.body = 'login page';
+      },
+    }),
+  );
+  app.get(
+    '/logout',
+    passport.logout({
+      async render(ctx) {
+        ctx.body = 'logout page';
+      },
+    }),
+  );
 
   it('login', async () => {
     await request(app.callback())

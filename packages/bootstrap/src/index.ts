@@ -2,7 +2,10 @@ import { Server } from 'http';
 import * as typings from '@koex/core';
 import App from '@koex/core';
 
-function defineReadonlyProperties(target: Object, properties: Record<string, any>) {
+function defineReadonlyProperties(
+  target: Object,
+  properties: Record<string, any>,
+) {
   for (const propertyKey in properties) {
     Object.defineProperty(target, propertyKey, {
       enumerable: true,
@@ -10,41 +13,28 @@ function defineReadonlyProperties(target: Object, properties: Record<string, any
         return properties[propertyKey];
       },
       set(value: any) {
-        const targetName = target.constructor && target.constructor.name || 'unknown';
+        const targetName =
+          (target.constructor && target.constructor.name) || 'unknown';
         throw new Error(`Readonly property (${propertyKey}) in ${targetName}`);
       },
-    })
+    });
   }
 }
 
 declare module '@koex/core' {
-  export interface Config {
+  export interface Config {}
 
-  }
+  export interface Helpers {}
 
-  export interface Helpers {
+  export interface Middlewares {}
 
-  }
+  export interface Models {}
 
-  export interface Middlewares {
+  export interface Services {}
 
-  }
+  export interface Applications {}
 
-  export interface Models {
-
-  }
-
-  export interface Services {
-
-  }
-
-  export interface Applications {
-
-  }
-
-  export interface Routes {
-
-  }
+  export interface Routes {}
 
   interface Koex {
     readonly bootInfo: BootInfo;
@@ -73,10 +63,10 @@ export class Bootstrap {
 
   constructor(public readonly app = new App()) {
     if (!('bootInfo' in app)) {
-      const bootInfo = {
+      const bootInfo = ({
         bootStartedAt: new Date(),
-      } as any as BootInfo;
-  
+      } as any) as BootInfo;
+
       defineReadonlyProperties(app, {
         bootInfo,
       });
@@ -88,7 +78,7 @@ export class Bootstrap {
 
     this.composesFns.push(async () => {
       const config = await fn(app);
-      
+
       defineReadonlyProperties(app, {
         config,
       });
@@ -99,10 +89,10 @@ export class Bootstrap {
 
   loadHelpers(fn: Loader<typings.Helpers>) {
     const { app } = this;
-    
+
     this.composesFns.push(async () => {
       const helpers = await fn(app);
-      
+
       defineReadonlyProperties(app, {
         helpers,
       });
@@ -113,10 +103,10 @@ export class Bootstrap {
 
   loadMiddlewares(fn: Loader<typings.Middlewares>) {
     const { app } = this;
-    
+
     this.composesFns.push(async () => {
       const middlewares = await fn(app);
-      
+
       defineReadonlyProperties(app, {
         middlewares,
       });
@@ -127,10 +117,10 @@ export class Bootstrap {
 
   loadModels(fn: Loader<typings.Models>) {
     const { app } = this;
-    
+
     this.composesFns.push(async () => {
       const models = await fn(app);
-      
+
       defineReadonlyProperties(app, {
         models,
       });
@@ -141,10 +131,10 @@ export class Bootstrap {
 
   loadServices(fn: Loader<typings.Services>) {
     const { app } = this;
-    
+
     this.composesFns.push(async () => {
       const services = await fn(app);
-      
+
       defineReadonlyProperties(app, {
         services,
       });
@@ -155,10 +145,10 @@ export class Bootstrap {
 
   loadApplications(fn: Loader<typings.Applications>) {
     const { app } = this;
-    
+
     this.composesFns.push(async () => {
       const applications = await fn(app);
-      
+
       defineReadonlyProperties(app, {
         applications,
       });
@@ -169,10 +159,10 @@ export class Bootstrap {
 
   loadRoutes(fn: Loader<typings.Routes>) {
     const { app } = this;
-    
+
     this.composesFns.push(async () => {
       const routes = await fn(app);
-      
+
       defineReadonlyProperties(app, {
         routes,
       });
@@ -197,7 +187,7 @@ export class Bootstrap {
     return new Promise((resolve, reject) => {
       const port = ~~process.env.PORT || (app.config as any).port || 8080;
       const host = process.env.HOST || (app.config as any).host || '127.0.0.1';
-  
+
       const server = this.app.listen(port, host, () => {
         defineReadonlyProperties(app.bootInfo, {
           bootTime: (new Date() as any) - (app.bootInfo.bootStartedAt as any),
@@ -213,7 +203,7 @@ export class Bootstrap {
 
         resolve(server);
       });
-    })
+    });
   }
 }
 

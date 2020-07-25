@@ -3,10 +3,7 @@ import { Context } from '@koex/core';
 import fetch from 'node-fetch';
 import * as qs from '@zcorky/query-string';
 
-import {
-  Strategy,
-  IVerify,
-} from '@koex/passport';
+import { Strategy, IVerify } from '@koex/passport';
 
 export interface IOauthStrategyOptions {
   /**
@@ -137,39 +134,54 @@ export type Token = any;
  *    @Method getAccessToken(url, data): Token (@S2)
  *    @Method getAccessUser(url, data): User (@S3)
  */
-export abstract class OauthStrategy<IToken = any, Profile = any> extends Strategy<IToken, Profile> {
-  constructor(protected readonly oauthStrategyOptions: IOauthStrategyOptions, public readonly verify: IVerify<IToken, Profile>) {
+export abstract class OauthStrategy<
+  IToken = any,
+  Profile = any
+> extends Strategy<IToken, Profile> {
+  constructor(
+    protected readonly oauthStrategyOptions: IOauthStrategyOptions,
+    public readonly verify: IVerify<IToken, Profile>,
+  ) {
     super(verify);
   }
 
   /**
    * Get Authorize Url
-   * 
+   *
    * @param authorize_base_url base authorize url
    * @param data the full authorize url required data
    * @returns the full authorize url, mostly used to redirect
    */
-  protected abstract getAuthorizeUrl(authorize_base_url: string, data: IGetAuthorizeUrlData): Promise<string>
+  protected abstract getAuthorizeUrl(
+    authorize_base_url: string,
+    data: IGetAuthorizeUrlData,
+  ): Promise<string>;
 
   /**
    * Get Access Token
-   * 
+   *
    * @param token_url base token url
    * @param data the data required to get access token
    */
-  protected abstract getAccessToken(token_url: string, data: IGetAccessTokenData): Promise<Token>;
-  
+  protected abstract getAccessToken(
+    token_url: string,
+    data: IGetAccessTokenData,
+  ): Promise<Token>;
+
   /**
    * Get Access User
-   * 
+   *
    * @param user_profile_url base user info url, here, just wants to openid, or user
    * @param access_token the getAccessToken() return data
    */
-  protected abstract getAccessUser(user_profile_url: string, access_token: Token): Promise<Profile>;
+  protected abstract getAccessUser(
+    user_profile_url: string,
+    access_token: Token,
+  ): Promise<Profile>;
 
   /**
-   * @S1 Authenticate Flow 
-   * 
+   * @S1 Authenticate Flow
+   *
    * @param ctx context
    * @returns redirect to authorization url
    */
@@ -182,7 +194,7 @@ export abstract class OauthStrategy<IToken = any, Profile = any> extends Strateg
       scope,
       state,
     } = this.oauthStrategyOptions;
-    
+
     const data = {
       client_id,
       redirect_uri,
@@ -192,13 +204,13 @@ export abstract class OauthStrategy<IToken = any, Profile = any> extends Strateg
     };
 
     const auth_server_url = await this.getAuthorizeUrl(authorize_url, data);
-    
+
     ctx.redirect(auth_server_url);
   }
 
   /**
-   * @S2 Callback Flow 
-   * 
+   * @S2 Callback Flow
+   *
    * @param ctx context
    * @returns user profile
    */

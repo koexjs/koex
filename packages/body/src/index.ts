@@ -2,7 +2,11 @@ import { Context } from '@koex/core';
 import { undefined as isUndef } from '@zcorky/is';
 import * as parser from 'co-body';
 
-import { formy, Options as MultipartOptions, Multipart as MultipartReturn } from './formy';
+import {
+  formy,
+  Options as MultipartOptions,
+  Multipart as MultipartReturn,
+} from './formy';
 
 declare module '@koex/core' {
   export interface Request {
@@ -18,7 +22,7 @@ export interface Parsed {
   parsed?: any;
   raw?: string;
   files?: MultipartReturn['files'];
-};
+}
 
 export interface EnableTypes {
   json?: boolean;
@@ -120,15 +124,9 @@ const DEFAULTS = {
     'application/vnd.api+json',
     'application/csp-report',
   ],
-  formTypes: [
-    'application/x-www-form-urlencoded',
-  ],
-  textTypes: [
-    'text/plain',
-  ],
-  multipartTypes: [
-    'multipart/form-data',
-  ],
+  formTypes: ['application/x-www-form-urlencoded'],
+  textTypes: ['text/plain'],
+  multipartTypes: ['multipart/form-data'],
   // raw
   returnRawBody: true,
 };
@@ -140,17 +138,23 @@ export default (options: Options = {}) => {
   const detectJSON = options.detectJSON;
   const onerror = options.onerror;
   const enableTypes = isUndef(options.enableTypes)
-    ? DEFAULTS.enableTypes as EnableTypes
-    : toEnable(options.enableTypes) as EnableTypes;
+    ? (DEFAULTS.enableTypes as EnableTypes)
+    : (toEnable(options.enableTypes) as EnableTypes);
 
-  const jsonTypes =  extend(DEFAULTS.jsonTypes, options.jsonTypes);
-  const formTypes =  extend(DEFAULTS.formTypes, options.formTypes);
-  const textTypes =  extend(DEFAULTS.textTypes, options.textTypes);
-  const multipartTypes = extend(DEFAULTS.multipartTypes, options.multipartTypes)
+  const jsonTypes = extend(DEFAULTS.jsonTypes, options.jsonTypes);
+  const formTypes = extend(DEFAULTS.formTypes, options.formTypes);
+  const textTypes = extend(DEFAULTS.textTypes, options.textTypes);
+  const multipartTypes = extend(
+    DEFAULTS.multipartTypes,
+    options.multipartTypes,
+  );
 
   const returnRawBody = options.returnRawBody || DEFAULTS.returnRawBody;
 
-  return async function koexBodyParser(ctx: Context, next: () => Promise<void>) {
+  return async function koexBodyParser(
+    ctx: Context,
+    next: () => Promise<void>,
+  ) {
     if ((ctx.request as any).body !== undefined) return await next();
     if (ctx.disableBodyParser) return await next();
     try {
@@ -180,7 +184,10 @@ export default (options: Options = {}) => {
       returnRawBody,
     };
 
-    if (enableTypes.json && ((detectJSON && detectJSON(ctx)) || ctx.is(jsonTypes))) {
+    if (
+      enableTypes.json &&
+      ((detectJSON && detectJSON(ctx)) || ctx.is(jsonTypes))
+    ) {
       _options.limit = options.jsonLimit;
       return await parser.json(ctx, _options);
     }
@@ -204,7 +211,7 @@ export default (options: Options = {}) => {
 };
 
 function toEnable<T extends string>(array: T[]) {
-  return array.reduce((last, key: string) => (last[key] = !!key, last), {});
+  return array.reduce((last, key: string) => ((last[key] = !!key), last), {});
 }
 
 function extend<T, V>(defaultS: T[], extendS?: V) {
@@ -212,5 +219,5 @@ function extend<T, V>(defaultS: T[], extendS?: V) {
     return defaultS;
   }
 
-  return [...defaultS, ...extendS as any] as T[];
+  return [...defaultS, ...(extendS as any)] as T[];
 }

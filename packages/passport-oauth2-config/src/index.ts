@@ -1,7 +1,5 @@
 export { IVerify } from '@koex/passport';
-import {
-  OauthStrategy,
-} from './strategy';
+import { OauthStrategy } from './strategy';
 
 import {
   IOauthStrategyOptions,
@@ -16,6 +14,6 @@ export {
   IGetAuthorizeUrlData,
   IGetAccessTokenData,
   Config,
-}
+};
 
 export const Strategy = OauthStrategy;

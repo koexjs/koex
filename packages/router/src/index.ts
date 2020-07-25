@@ -13,7 +13,15 @@ import { match, decode } from './utils';
 
 const debug = require('debug')('koa-router');
 
-export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'ALL';
+export type Method =
+  | 'GET'
+  | 'POST'
+  | 'PUT'
+  | 'PATCH'
+  | 'DELETE'
+  | 'HEAD'
+  | 'OPTIONS'
+  | 'ALL';
 
 export type Next = () => Promise<any>;
 
@@ -27,7 +35,7 @@ const createMethod = (method: Method) => {
     const re = pathToRegexp(path, keys);
     const handler = handlers.length === 1 ? handlers[0] : compose(handlers);
     /* istanbul ignore next */
-    debug('%s %s -> %s', method || 'ALL', path, re)
+    debug('%s %s -> %s', method || 'ALL', path, re);
 
     const koexRouter = async function (ctx: Context, next: Next) {
       // method
@@ -38,9 +46,18 @@ const createMethod = (method: Method) => {
       if (matched) {
         const args = matched.slice(1).map(decode);
         ctx.routePath = path;
-        ctx.params = keys.reduce((last, item, index) => (last[item.name] = args[index], last), {});
+        ctx.params = keys.reduce(
+          (last, item, index) => ((last[item.name] = args[index]), last),
+          {},
+        );
 
-        debug('%s %s matches %s', method, path, ctx.path, JSON.stringify(ctx.params));
+        debug(
+          '%s %s matches %s',
+          method,
+          path,
+          ctx.path,
+          JSON.stringify(ctx.params),
+        );
 
         return await handler(ctx, next);
       }
@@ -65,7 +82,7 @@ export const del = createMethod('DELETE');
 export const head = createMethod('HEAD');
 export const options = createMethod('OPTIONS');
 
-export const routes = (): (ctx: Context, next: Next) => Promise<void> => {
+export const routes = (): ((ctx: Context, next: Next) => Promise<void>) => {
   const routeMiddlewares = [...routesCache.values()];
   return (compose as any)(routeMiddlewares);
 };
