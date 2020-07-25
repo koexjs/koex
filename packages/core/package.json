@@ -1,6 +1,6 @@
 {
   "name": "@koex/core",
-  "version": "0.12.0",
+  "version": "0.12.4",
   "description": "koex is a fast api",
   "keywords": [
     "koex",
@@ -68,7 +68,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
-    "@koex/router": "^0.12.0",
+    "@koex/router": "^0.12.4",
     "@types/koa": "^2.0.49",
     "@types/koa-compose": "^3.2.4",
     "@zcorky/lru": "^1.0.3",

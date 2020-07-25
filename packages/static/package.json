@@ -1,6 +1,6 @@
 {
   "name": "@koex/static",
-  "version": "0.12.2",
+  "version": "0.12.4",
   "description": "static cache for koa extend",
   "main": "lib/index.js",
   "module": "lib/index.js",
