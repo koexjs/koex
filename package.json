@@ -8,7 +8,8 @@
     "coverage": "codecov",
     "clean": "lerna clean",
     "publish": "lerna run build && lerna publish",
-    "publish:ci": "lerna run tsc && lerna publish --canary --yes"
+    "publish:ci": "lerna run tsc && lerna publish --canary --yes",
+    "prettier": "prettier --write packages/**/*.ts"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
@@ -20,14 +21,21 @@
     "jest": "^24.9.0",
     "lerna": "^3.15.0",
     "lerna-changelog": "^0.8.2",
+    "lint-staged": "^10.2.11",
     "lodash": "^4.17.11",
+    "prettier": "^2.0.5",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm test",
-      "pre-push": "npm test"
+      "pre-commit": "lint-staged && npm test",
+      "pre-push": "npm run"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "packages/**/*.{ts,tsx}": ["prettier --write", "git add"]
     }
   }
 }
