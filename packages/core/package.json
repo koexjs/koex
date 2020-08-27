@@ -60,7 +60,8 @@
     "url": "git+https://github.com/koexjs/koex.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf lib",
     "test": "jest -w 1",
     "coverage": "codecov"
   },
