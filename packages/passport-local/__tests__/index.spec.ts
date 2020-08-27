@@ -15,6 +15,18 @@ passport.descrializeUser(async (id) => {
   };
 });
 
+passport.getToken(async (ctx) => {
+  return {
+    accessToken: ctx.cookies.get('accessToken'),
+    refreshToken: ctx.cookies.get('refreshToken'),
+  };
+});
+
+passport.setToken(async (ctx, token) => {
+  ctx.cookies.set('accessToken', token.accessToken);
+  ctx.cookies.set('refreshToken', token.refreshToken);
+});
+
 describe('@koex/passport-local', () => {
   const app = new App();
 
@@ -66,7 +78,9 @@ describe('@koex/passport-local', () => {
     '/auth/:strategy/callback',
     passport.callback({
       async onFail(error, ctx, next) {
-        ctx.throw(500, '授权失败');
+        console.log('callback onFail:', error);
+
+        ctx.throw(500, error.message || '授权失败');
       },
     }),
     async (ctx) => {
@@ -119,6 +133,7 @@ describe('@koex/passport-local', () => {
       .expect(302)
       .expect('Location', '/')
       .then((response) => {
+        console.log('callback response:', response.body);
         // console.log(response.header);
         // expect(response.body).toEqual({
         //   access_token: 'xxx',
