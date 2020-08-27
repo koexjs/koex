@@ -13,6 +13,14 @@ export interface User {
   [key: string]: any;
 }
 
+export type StandardToken = {
+  accessToken: string;
+  refreshToken?: string;
+  // @TODO for extends
+  [key: string]: any;
+};
+
+
 declare module '@koex/core' {
   export interface Context {
     readonly user: User;
@@ -66,6 +74,25 @@ export type SerializeUser = (user: User, ctx: Context) => Promise<string>;
 
 export type DeserializeUser = (id: string, ctx: Context) => Promise<User>;
 
+// export type TransformToStandardToken = <StrategyToken = any>(ctx: Context, token: StrategyToken, strategy: string) => Promise<StandardToken>;
+export type GetToken = (ctx: Context) => Promise<StandardToken>;
+export type SetToken = (ctx: Context, token: StandardToken) => Promise<void>;
+
+
+// const DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN: TransformToStandardToken = async (ctx, token, strategy) => {
+//   if (!('access_token' in token)) {
+//     return ctx.throw(500, {
+//       code: 5000000,
+//       message: `access_token not in token object, maybe you should custom transformToStandardToken function for strategy(${strategy})`,
+//     });
+//   }
+
+//   return {
+//     accessToken: (token as any).access_token,
+//     refreshToken: (token as any).refresh_token,
+//   };
+// };
+
 /**
  * Passport
  *
@@ -95,8 +122,14 @@ export type DeserializeUser = (id: string, ctx: Context) => Promise<User>;
 export class Passport implements IPassport {
   private strategies: Record<string, Strategy> = {};
   private session: Session;
+
   private _serializeUser: SerializeUser;
   private _deserializeUser: DeserializeUser;
+
+  //
+  // private _transformToStandardToken: TransformToStandardToken = DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN; 
+  private _getToken: GetToken;
+  private _setToken: SetToken;
 
   public use(name: string, strategy: Strategy) {
     this.strategies[name] = strategy;
@@ -108,10 +141,9 @@ export class Passport implements IPassport {
     );
 
     assert(this._serializeUser, 'You should call passport.serializeUser first');
-    assert(
-      this._deserializeUser,
-      'You should call passport.deserializeUser first',
-    );
+    assert(this._deserializeUser, 'You should call passport.deserializeUser first');
+    assert(this._getToken, 'You should call passport.getToken first');
+    assert(this._setToken, 'You should call passport.setT_setToken first');
 
     return async (ctx, next) => {
       this.session = new Session(ctx, {
@@ -133,7 +165,7 @@ export class Passport implements IPassport {
       }
 
       // @session
-      const id = this.session.get();
+      const { id, strategy: strategyName } = this.session.get();
 
       // deserializeUser maybe 401 when get user from remote
       try {
@@ -144,6 +176,40 @@ export class Passport implements IPassport {
         return next();
       } catch (error) {
         if (error.status === 401) {
+          // try to refresh token first
+          try {
+            const { refreshToken } = await this._getToken(ctx);
+            const strategy = this.strategies[strategyName];
+
+            ctx.logger.debug('try to get refresh_token:', !!refreshToken && 'found', refreshToken, strategyName, 'has refreshToken fn:', !!strategy.refreshToken);
+
+            if (refreshToken && strategy && strategy.refreshToken) {
+              const token = await strategy.refreshToken!(ctx, refreshToken);
+              const profile = await strategy.getProfile(ctx, token);
+              ctx.logger.debug('current profile by refresh token: ', JSON.stringify(profile));
+
+              // set token should before user, because you should use token for user
+              await this._setToken(ctx, token);
+              
+              const user = await strategy.verify(ctx, token, profile);
+  
+              const id = await this._serializeUser(user, ctx);
+  
+              // @session
+              this.session.set(id, strategyName);
+  
+              // readonly, use it instead of ctx.user = user
+              defineReadonlyProperties(ctx, { user });
+  
+              return await next();
+            }
+          } catch (error) {
+            ctx.logger.debug('refreshToken error:', error.message);
+            
+            const acceptJSON = ctx.accepts(['html', 'json']) === 'json';
+            return options.onUnauthorized(ctx, acceptJSON);
+          }
+
           const acceptJSON = ctx.accepts(['html', 'json']) === 'json';
           return options.onUnauthorized(ctx, acceptJSON);
         }
@@ -159,11 +225,11 @@ export class Passport implements IPassport {
       const strategy = this.strategies[strategyName];
 
       if (!strategyName) {
-        ctx.throw(500, `No Passport Strategy Name Provided`);
+        ctx.throw(500, `No Passport Strategy Name Provided in Authencate`);
       }
 
       if (!strategy) {
-        ctx.throw(500, `No Passport Strategy provided named ${strategyName}`);
+        ctx.throw(500, `No Passport Strategy provided named ${strategyName} in Authencate`);
       }
 
       await strategy.authenticate(ctx);
@@ -177,7 +243,7 @@ export class Passport implements IPassport {
         const strategy = this.strategies[strategyName];
 
         if (!strategyName) {
-          ctx.throw(500, `No Passport Strategy Name Provided`, {
+          ctx.throw(500, `No Passport Strategy Name Provided in Callback`, {
             strategy: strategyName,
             reasonBy: 'self',
           });
@@ -186,19 +252,26 @@ export class Passport implements IPassport {
         if (!strategy) {
           ctx.throw(
             500,
-            `No Passport Strategy provided named ${strategyName}`,
+            `No Passport Strategy provided named ${strategyName} in Callback`,
             { strategy: strategyName, reasonBy: 'self' },
           );
         }
 
-        const { token, profile } = await strategy.callback(ctx);
+        // const { token, profile } = await strategy.callback(ctx);
+        const token = await strategy.callback(ctx);
+        const profile = await strategy.getProfile(ctx, token);
+        
+        const standardToken = await strategy.transformToStandardToken(ctx, token, strategyName);
 
-        const user = await strategy.verify(ctx, token, profile);
+        // set token should before user, because you should use token for user
+        await this._setToken(ctx, token);
+
+        const user = await strategy.verify(ctx, standardToken, profile);
 
         const id = await this._serializeUser(user, ctx);
 
         // @session
-        this.session.set(id);
+        this.session.set(id, strategyName);
 
         // readonly, use it instead of ctx.user = user
         defineReadonlyProperties(ctx, { user });
@@ -218,6 +291,18 @@ export class Passport implements IPassport {
     this._deserializeUser = fn;
   }
 
+  public getToken(fn: GetToken) {
+    this._getToken = fn;
+  }
+
+  public setToken(fn: SetToken) {
+    this._setToken = fn;
+  }
+
+  // public transformToStandardToken(fn: TransformToStandardToken) {
+  //   this._transformToStandardToken = fn;
+  // }
+
   public login(options?: LoginOptions): Middleware<Context> {
     return async (ctx) => {
       if (options && options.render) {
@@ -225,7 +310,8 @@ export class Passport implements IPassport {
       }
 
       const redirect = (options && options.redirect) || '/login/local'; // @TODO
-      ctx.redirect(redirect);
+      console.log('visit login:', redirect);
+      return ctx.redirect(redirect);
     };
   }
 

@@ -227,7 +227,7 @@ export interface IGetAuthorizeUrlData {
   state?: string;
 }
 
-export interface IGetAccessTokenData {
+export interface CommonAccessTokenData {
   /**
    * Client ID
    */
@@ -239,15 +239,25 @@ export interface IGetAccessTokenData {
   client_secret: string;
 
   /**
+   * Grant Type
+   *  default: authorization_code
+   *  all:
+   *    1.authorization_code
+   *    2.refresh_token
+   *    3.password
+   *    4.client_credentials
+   */
+  grant_type?: string;
+}
+
+// @MODE authorization_code
+export interface AuthorizationCodeAccessTokenData extends CommonAccessTokenData {
+  grant_type: 'authorization_code';
+
+  /**
    * Redirect URI (callback url)
    */
   redirect_uri: string;
-
-  /**
-   * Grant Type
-   *  default: authorization_code
-   */
-  grant_type?: string;
 
   /**
    * Scope / Permission
@@ -259,3 +269,41 @@ export interface IGetAccessTokenData {
    */
   code: string;
 }
+
+// @MODE refresh_token
+export interface RefreshTokenAccessTokenData extends CommonAccessTokenData {
+  grant_type: 'refresh_token';
+
+  /**
+   * Refresh Token
+   */
+  refresh_token: string;
+}
+
+// @MODE password
+export interface PasswordAccessTokenData extends CommonAccessTokenData {
+  grant_type: 'password';
+
+  /**
+   * Username
+   */
+  username: string;
+
+  /**
+   * Password
+   */
+  password: string;
+}
+
+// @MODE client_credentails
+export interface ClientCredentialsAccessTokenData extends CommonAccessTokenData {
+  grant_type: 'client_credentails';
+
+  /**
+   * client_credentails
+   */
+  client_credentails: string;
+}
+
+
+export type IGetAccessTokenData = AuthorizationCodeAccessTokenData | RefreshTokenAccessTokenData | PasswordAccessTokenData | ClientCredentialsAccessTokenData;

@@ -2,7 +2,7 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap && npm run build",
     "build": "lerna run build",
     "test": "lerna run test",
     "coverage": "codecov",

@@ -1,4 +1,4 @@
-import { Strategy, IVerify, Config } from '@koex/passport-oauth2-config';
+import { Strategy, IVerify, ITransformToStandardToken, Config } from '@koex/passport-oauth2-config';
 
 export interface GithubStrategyOptions {
   client_id: string;
@@ -21,7 +21,7 @@ export interface Profile {
 export class GithubStrategy extends Strategy<Token, Profile> {
   constructor(
     private readonly _options: GithubStrategyOptions,
-    public readonly verify: IVerify<Token, Profile>,
+    public readonly verify: IVerify<Profile>,
   ) {
     super(
       {

@@ -1,4 +1,4 @@
-export { IVerify } from '@koex/passport';
+export { IVerify, ITransformToStandardToken } from '@koex/passport';
 import { OauthStrategy } from './strategy';
 
 import {

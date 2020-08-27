@@ -1,10 +1,24 @@
 import { Context } from '@koex/core';
-import { User } from './passport';
+
+import { User, StandardToken } from './passport';
 
 export type IStrategyCallback<IStrategyToken, IStrategyProfile> = {
   token: IStrategyToken;
   profile: IStrategyProfile;
 };
+
+// export type IStandardToken = {
+//   // // @Github
+//   // access_token: string;
+//   // scope?: string;
+//   // token_type?: string; // bearer
+//   // //
+//   // refresh_token?: string;
+  
+//   accessToken: string;
+
+//   refreshToken?: string;
+// };
 
 /**
  * get user by strategy unique id, used for ctx.user when authorized
@@ -29,14 +43,42 @@ export type IStrategyCallback<IStrategyToken, IStrategyProfile> = {
  *     },
  *   });
  */
-export type IVerify<IToken, IProfile> = (
+export type IVerify<IProfile> = (
   ctx: Context,
-  token: IToken,
+  token: StandardToken,
   profile: IProfile,
 ) => Promise<User>;
 
+export type ITransformToStandardToken<StrategyToken = any> = (ctx: Context, token: StrategyToken, strategy: string) => Promise<StandardToken>;
+
+const DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN: ITransformToStandardToken = async (ctx, token, strategy) => {
+  if (!('access_token' in token)) {
+    return ctx.throw(500, {
+      code: 5000000,
+      message: `access_token not in token object, maybe you should custom transformToStandardToken function for strategy(${strategy})`,
+    });
+  }
+
+  return {
+    accessToken: (token as any).access_token,
+    refreshToken: (token as any).refresh_token,
+  };
+};
+
 export abstract class Strategy<IToken = any, IProfile = any> {
-  constructor(public readonly verify: IVerify<IToken, IProfile>) {}
+  public transformToStandardToken: ITransformToStandardToken<IToken> = DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN;
+
+  constructor(
+    public readonly verify: IVerify<IProfile>,
+    // @TODO this will cause error
+    // public readonly transformToStandardToken?: ITransformToStandardToken<IToken> = DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN, 
+    // public transformToStandardToken?: ITransformToStandardToken<IToken>, 
+  ) {
+    // // @TODO
+    // this.transformToStandardToken = transformToStandardToken || DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN;
+
+    // console.log('Strategy.transformToStandardToken:', transformToStandardToken, DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN, this.transformToStandardToken)
+  }
 
   /**
    * authenticate logic, will go to the real auth server
@@ -53,5 +95,27 @@ export abstract class Strategy<IToken = any, IProfile = any> {
    */
   public abstract callback(
     ctx: Context,
-  ): Promise<IStrategyCallback<IToken, IProfile>>;
+  ): Promise<IToken>;
+
+  /**
+   * use token to get user profile
+   * 
+   * @param token token
+   */
+  public abstract getProfile(ctx: Context, token: IToken): Promise<IProfile>;
+
+  /**
+   * refresh token logic by refresh_token grant
+   * 
+   * @param ctx context
+   * @return refreshed token
+   */
+  // public abstract refreshToken?(
+  //   ctx: Context,
+  //   refreshTokenString: string,
+  // ): Promise<IToken>;
+  public refreshToken?(
+    ctx: Context,
+    refreshTokenString: string,
+  ): Promise<IToken>;
 }
