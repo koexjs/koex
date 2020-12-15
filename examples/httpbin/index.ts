@@ -594,6 +594,22 @@ app.post('/upload', async (ctx) => {
   });
 });
 
+// jsonp
+app.get('/jsonp', async (ctx) => {
+  const { callback } = ctx.query;
+
+  const data = {
+    code: 200,
+    message: null,
+    result: {
+      name: 'jsonp method',
+      callback,
+      message: 'You have made a successful jsonp call.',
+    },
+  };
+
+  ctx.body = `${callback}(${JSON.stringify(data)})`;
+});
 
 const port = +process.env.PORT || 8080;
 
