@@ -5,7 +5,7 @@ import * as qs from '@zcorky/query-string';
 import { format } from '@zodash/format';
 import { get } from '@zodash/get';
 
-import { Strategy, IVerify } from '@koex/passport';
+import { Strategy, IVerify, ITransformToStandardToken } from '@koex/passport';
 
 import {
   IOauthStrategyOptions,
@@ -55,7 +55,8 @@ export abstract class OauthStrategy<
 > extends Strategy<IToken, IProfile> {
   constructor(
     protected readonly oauthStrategyOptions: IOauthStrategyOptions,
-    public readonly verify: IVerify<IToken, IProfile>,
+    public readonly verify: IVerify<IProfile>,
+    // public readonly transformToStandardToken?: ITransformToStandardToken<IToken>,
   ) {
     super(verify);
   }
@@ -82,7 +83,7 @@ export abstract class OauthStrategy<
    * @param token_url base token url
    * @param data the data required to get access token
    */
-  private async getAccessToken(
+  protected async getAccessToken(
     token_url: string,
     data: IGetAccessTokenData,
   ): Promise<IToken> {
@@ -233,7 +234,6 @@ export abstract class OauthStrategy<
   public async callback(ctx: Context) {
     const {
       token_url,
-      user_profile_url,
       client_id,
       client_secret,
       redirect_uri,
@@ -248,20 +248,40 @@ export abstract class OauthStrategy<
       client_id,
       client_secret,
       redirect_uri,
-      grant_type,
+      grant_type: 'authorization_code' as 'authorization_code',
       scope,
       code,
     };
 
     const token = await this.getAccessToken(token_url, accessTokenData);
 
-    const profile = await this.getAccessUser(user_profile_url, token);
-
-    return {
-      token,
-      profile,
-    };
+    return token;
   }
+
+  public async getProfile(ctx: Context, token: IToken) {
+    const { user_profile_url } = this.oauthStrategyOptions;
+
+    return this.getAccessUser(user_profile_url, token);
+  }
+
+  // public async refreshToken(ctx: Context, refreshTokenString: string) {
+  //   const {
+  //     token_url,
+  //     client_id,
+  //     client_secret,
+  //   } = this.oauthStrategyOptions;
+
+  //   const refreshTokenData = {
+  //     client_id,
+  //     client_secret,
+  //     grant_type: 'refresh_token' as 'refresh_token',
+  //     refresh_token: refreshTokenString,
+  //   };
+
+  //   const token = await this.getAccessToken(token_url, refreshTokenData);
+
+  //   return token;
+  // }
 
   protected readonly utils = {
     fetch,

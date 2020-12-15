@@ -3,7 +3,7 @@ import { Context } from '@koex/core';
 import fetch from 'node-fetch';
 import * as qs from '@zcorky/query-string';
 
-import { Strategy, IVerify } from '@koex/passport';
+import { Strategy, IVerify, ITransformToStandardToken } from '@koex/passport';
 
 export interface IOauthStrategyOptions {
   /**
@@ -140,7 +140,8 @@ export abstract class OauthStrategy<
 > extends Strategy<IToken, Profile> {
   constructor(
     protected readonly oauthStrategyOptions: IOauthStrategyOptions,
-    public readonly verify: IVerify<IToken, Profile>,
+    public readonly verify: IVerify<Profile>,
+    // public readonly transformToStandardToken?: ITransformToStandardToken<IToken>,
   ) {
     super(verify);
   }
@@ -238,12 +239,13 @@ export abstract class OauthStrategy<
 
     const token = await this.getAccessToken(token_url, accessTokenData);
 
-    const profile = await this.getAccessUser(user_profile_url, token);
+    return token;
+  }
 
-    return {
-      token,
-      profile,
-    };
+  public async getProfile(ctx: Context, token: IToken) {
+    const { user_profile_url } = this.oauthStrategyOptions;
+
+    return await this.getAccessUser(user_profile_url, token);
   }
 
   protected readonly utils = {

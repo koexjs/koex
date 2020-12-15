@@ -1,6 +1,6 @@
 {
   "name": "@koex/core",
-  "version": "0.12.4",
+  "version": "0.13.0",
   "description": "koex is a fast api",
   "keywords": [
     "koex",
@@ -60,7 +60,8 @@
     "url": "git+https://github.com/koexjs/koex.git"
   },
   "scripts": {
-    "build": "tsc",
+    "build": "npm run clean && tsc",
+    "clean": "rm -rf lib",
     "test": "jest -w 1",
     "coverage": "codecov"
   },
@@ -68,7 +69,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
-    "@koex/router": "^0.12.4",
+    "@koex/router": "^0.13.0",
     "@types/koa": "^2.0.49",
     "@types/koa-compose": "^3.2.4",
     "@zcorky/lru": "^1.0.3",

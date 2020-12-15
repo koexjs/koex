@@ -1,6 +1,6 @@
 import * as request from 'supertest';
 import App, { Context } from '@koex/core';
-import passport, { Strategy } from '../src/index';
+import passport, { Strategy, StandardToken } from '../src/index';
 
 passport.serializeUser(async (user) => {
   // serialize user to id
@@ -15,7 +15,7 @@ passport.descrializeUser(async (id) => {
 });
 
 class LocalStrategy extends Strategy<
-  null,
+  any,
   { username: string; password: string }
 > {
   public async user(id: string) {
@@ -33,17 +33,41 @@ class LocalStrategy extends Strategy<
 
   public async callback(ctx: Context) {
     return {
-      token: null,
-      profile: {
-        username: ((ctx.request as any).body || {}).username as string,
-        password: ((ctx.request as any).body || {}).password as string,
-      },
+      access_token: 'a access token',
+    };
+  }
+
+  public async getProfile(ctx: Context, token: StandardToken) {
+    return {
+      username: ((ctx.request as any).body || {}).username as string,
+      password: ((ctx.request as any).body || {}).password as string,
+    };
+  }
+
+  public async refreshToken(ctx: Context, refreshTokenString: string) {
+    return {
+      access_token: 'a refresh token',
     };
   }
 }
 
 describe('@koex/passport', () => {
   const app = new App();
+
+  passport.getToken(async (ctx) => {
+    const token = {
+      accessToken: 'accessToken',
+      refreshToken: 'refreshToken',
+    };
+
+    console.log('getToken:', token);
+
+    return token;
+  });
+
+  passport.setToken(async (ctx, token) => {
+    console.log('setToken:', token.accessToken, token.refreshToken);
+  });
 
   passport.use(
     'local',

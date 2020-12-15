@@ -1,8 +1,8 @@
 import { Context } from '@koex/core';
 
-import { Strategy, IVerify } from '@koex/passport';
+import { Strategy, IVerify, ITransformToStandardToken } from '@koex/passport';
 
-export type IToken = null;
+export type IToken = IProfile;
 
 export type IProfile = {
   type?: string;
@@ -13,7 +13,10 @@ export type IProfile = {
 export class LocalStrategy extends Strategy<IToken, IProfile> {
   public name = 'local';
 
-  constructor(public readonly verify: IVerify<IToken, IProfile>) {
+  constructor(
+    public readonly verify: IVerify<IProfile>,
+    // public readonly transformToStandardToken: ITransformToStandardToken<IToken>,
+  ) {
     super(verify);
   }
 
@@ -38,13 +41,33 @@ export class LocalStrategy extends Strategy<IToken, IProfile> {
     //   ctx.throw(400, 'username and password are required');
     // }
 
+    // return {
+    //   token: null,
+    //   profile: {
+    //     type,
+    //     username,
+    //     password,
+    //   },
+    // };
+    // console.log('callback: ', { type, username, password });
+    return { type, username, password };
+  }
+
+  public async getProfile(ctx: Context, token: any) {
+    const { type, username, password } = (ctx.request as any).body || {};
+
     return {
-      token: null,
-      profile: {
-        type,
-        username,
-        password,
-      },
+      type,
+      username,
+      password,
+    };
+  }
+
+  public transformToStandardToken = async (ctx: Context, token: IToken) => {
+    return {
+      // username: token.username,
+      // password: token.password,
+      accessToken: `${token.username}:${token.password}`,
     };
   }
 }

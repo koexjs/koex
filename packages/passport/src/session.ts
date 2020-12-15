@@ -27,16 +27,23 @@ export class Session {
     private readonly options: SessionOptions,
   ) {}
 
-  set(id: string) {
+  set(id: string, strategy: string) {
     const { ctx, key, setOption } = this;
+    const data = `${strategy}:${id}`;
 
-    ctx.cookies.set(key, id, setOption);
+    ctx.cookies.set(key, data, setOption);
   }
 
   get() {
     const { ctx, key, getOption } = this;
 
-    return ctx.cookies.get(key, getOption);
+    const data = ctx.cookies.get(key, getOption);
+    const [strategy, id] = (data || '').split(':') as [string, string];
+    
+    return {
+      id,
+      strategy,
+    };
   }
 
   remove() {
@@ -45,7 +52,9 @@ export class Session {
   }
 
   get isAuthenticated() {
-    return !!this.get();
+    const { id }= this.get();
+  
+    return !!id;
   }
 }
 

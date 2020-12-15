@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.13.0](https://github.com/koexjs/koex/compare/v0.12.4...v0.13.0) (2020-08-27)
+
+
+### Bug Fixes
+
+* **core:** fix core build by hack with rm lib before tsc ([89fdfae](https://github.com/koexjs/koex/commit/89fdfaea3f3d9123c869d5e13f8a83212dec876a))
+
+
+
+
+
 ## 0.12.4 (2020-07-25)
 
 **Note:** Version bump only for package @koex/core

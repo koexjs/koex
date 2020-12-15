@@ -1,4 +1,5 @@
-import { Strategy, IVerify, Config } from '@koex/passport-oauth2-config';
+import { Context } from '@koex/core';
+import { Strategy, IVerify, ITransformToStandardToken, Config } from '@koex/passport-oauth2-config';
 
 export interface DoreamonStrategyOptions {
   client_id: string;
@@ -19,7 +20,7 @@ export type IProfile = {
 export class DoreamonStrategy extends Strategy<IToken, IProfile> {
   constructor(
     private readonly _options: DoreamonStrategyOptions,
-    public readonly verify: IVerify<IToken, IProfile>,
+    public readonly verify: IVerify<IProfile>,
   ) {
     super(
       {
@@ -67,4 +68,23 @@ export class DoreamonStrategy extends Strategy<IToken, IProfile> {
       },
     },
   };
+
+  public async refreshToken(ctx: Context, refreshTokenString: string) {
+    const {
+      token_url,
+      client_id,
+      client_secret,
+    } = this.oauthStrategyOptions;
+
+    const refreshTokenData = {
+      client_id,
+      client_secret,
+      grant_type: 'refresh_token' as 'refresh_token',
+      refresh_token: refreshTokenString,
+    };
+
+    const token = await this.getAccessToken(token_url, refreshTokenData);
+
+    return token;
+  }
 }
