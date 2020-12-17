@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-local",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "description": "koex passport-local",
   "keywords": [
     "koex",
@@ -79,6 +79,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@koex/passport": "^0.13.0"
+    "@koex/passport": "^0.13.1"
   }
 }
