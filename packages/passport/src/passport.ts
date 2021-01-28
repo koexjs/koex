@@ -20,7 +20,6 @@ export type StandardToken = {
   [key: string]: any;
 };
 
-
 declare module '@koex/core' {
   export interface Context {
     readonly user: User;
@@ -64,7 +63,7 @@ export interface LogoutOptions extends LoginOptions {}
 export interface IPassport {
   use(name: string, strategy: Strategy): void;
   initialize(options: InitializeOptions): Middleware<Context>;
-  authenticate(): Middleware<Context>;
+  authenticate(strategy?: string): Middleware<Context>;
   callback(options: CallbackOptions): Middleware<Context>;
   login(options?: LoginOptions): Middleware<Context>;
   logout(options?: LogoutOptions): Middleware<Context>;
@@ -77,7 +76,6 @@ export type DeserializeUser = (id: string, ctx: Context) => Promise<User>;
 // export type TransformToStandardToken = <StrategyToken = any>(ctx: Context, token: StrategyToken, strategy: string) => Promise<StandardToken>;
 export type GetToken = (ctx: Context) => Promise<StandardToken>;
 export type SetToken = (ctx: Context, token: StandardToken) => Promise<void>;
-
 
 // const DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN: TransformToStandardToken = async (ctx, token, strategy) => {
 //   if (!('access_token' in token)) {
@@ -127,7 +125,7 @@ export class Passport implements IPassport {
   private _deserializeUser: DeserializeUser;
 
   //
-  // private _transformToStandardToken: TransformToStandardToken = DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN; 
+  // private _transformToStandardToken: TransformToStandardToken = DEFAULT_TRANSFORM_TO_STANDARD_TOKEN_FN;
   private _getToken: GetToken;
   private _setToken: SetToken;
 
@@ -141,7 +139,10 @@ export class Passport implements IPassport {
     );
 
     assert(this._serializeUser, 'You should call passport.serializeUser first');
-    assert(this._deserializeUser, 'You should call passport.deserializeUser first');
+    assert(
+      this._deserializeUser,
+      'You should call passport.deserializeUser first',
+    );
     assert(this._getToken, 'You should call passport.getToken first');
     assert(this._setToken, 'You should call passport.setT_setToken first');
 
@@ -181,31 +182,41 @@ export class Passport implements IPassport {
             const { refreshToken } = await this._getToken(ctx);
             const strategy = this.strategies[strategyName];
 
-            ctx.logger.debug('try to get refresh_token:', !!refreshToken && 'found', refreshToken, strategyName, 'has refreshToken fn:', !!strategy.refreshToken);
+            ctx.logger.debug(
+              'try to get refresh_token:',
+              !!refreshToken && 'found',
+              refreshToken,
+              strategyName,
+              'has refreshToken fn:',
+              !!strategy.refreshToken,
+            );
 
             if (refreshToken && strategy && strategy.refreshToken) {
               const token = await strategy.refreshToken!(ctx, refreshToken);
               const profile = await strategy.getProfile(ctx, token);
-              ctx.logger.debug('current profile by refresh token: ', JSON.stringify(profile));
+              ctx.logger.debug(
+                'current profile by refresh token: ',
+                JSON.stringify(profile),
+              );
 
               // set token should before user, because you should use token for user
               await this._setToken(ctx, token);
-              
+
               const user = await strategy.verify(ctx, token, profile);
-  
+
               const id = await this._serializeUser(user, ctx);
-  
+
               // @session
               this.session.set(id, strategyName);
-  
+
               // readonly, use it instead of ctx.user = user
               defineReadonlyProperties(ctx, { user });
-  
+
               return await next();
             }
           } catch (error) {
             ctx.logger.debug('refreshToken error:', error.message);
-            
+
             const acceptJSON = ctx.accepts(['html', 'json']) === 'json';
             return options.onUnauthorized(ctx, acceptJSON);
           }
@@ -219,9 +230,9 @@ export class Passport implements IPassport {
     };
   }
 
-  public authenticate(): Middleware<Context> {
+  public authenticate(_strategy?: string): Middleware<Context> {
     return async (ctx, next) => {
-      const strategyName = ctx.params.strategy; // @TODO
+      const strategyName = _strategy || ctx.params.strategy; // @TODO
       const strategy = this.strategies[strategyName];
 
       if (!strategyName) {
@@ -229,7 +240,10 @@ export class Passport implements IPassport {
       }
 
       if (!strategy) {
-        ctx.throw(500, `No Passport Strategy provided named ${strategyName} in Authencate`);
+        ctx.throw(
+          500,
+          `No Passport Strategy provided named ${strategyName} in Authencate`,
+        );
       }
 
       await strategy.authenticate(ctx);
@@ -260,8 +274,12 @@ export class Passport implements IPassport {
         // const { token, profile } = await strategy.callback(ctx);
         const token = await strategy.callback(ctx);
         const profile = await strategy.getProfile(ctx, token);
-        
-        const standardToken = await strategy.transformToStandardToken(ctx, token, strategyName);
+
+        const standardToken = await strategy.transformToStandardToken(
+          ctx,
+          token,
+          strategyName,
+        );
 
         // set token should before user, because you should use token for user
         await this._setToken(ctx, token);
