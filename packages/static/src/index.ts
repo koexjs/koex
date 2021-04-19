@@ -87,7 +87,10 @@ export default (prefix: string, options: Options) => {
     if (gzipOn) ctx.vary('Accept-Encoding');
 
     // lastModified
-    ctx.set('Last-Modified', `${file.mtime}`);
+    // ctx.set('Last-Modified', `${file.mtime}`);
+    // fix TypeError [ERR_INVALID_CHAR]: Invalid character in header content ["Last-Modified"]
+    //  when mtime is an utc string => 2021-03-10T12:03:53.751Z
+    ctx.response.lastModified = file.mtime;
 
     // etag
     if (md5On) ctx.set('etag', file.md5);

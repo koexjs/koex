@@ -87,9 +87,9 @@
   },
   "dependencies": {
     "@koex/core": "^0.13.3",
-    "@types/formidable": "^1.0.31",
+    "@types/formidable": "1.0.31",
     "@zcorky/is": "^1.0.6",
     "co-body": "^6.0.0",
-    "formidable": "^1.2.2"
+    "formidable": "1.2.2"
   }
 }

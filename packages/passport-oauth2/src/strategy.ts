@@ -141,8 +141,8 @@ export abstract class OauthStrategy<
   constructor(
     protected readonly oauthStrategyOptions: IOauthStrategyOptions,
     public readonly verify: IVerify<Profile>,
-    // public readonly transformToStandardToken?: ITransformToStandardToken<IToken>,
-  ) {
+  ) // public readonly transformToStandardToken?: ITransformToStandardToken<IToken>,
+  {
     super(verify);
   }
 
@@ -226,7 +226,7 @@ export abstract class OauthStrategy<
       scope,
     } = this.oauthStrategyOptions;
 
-    const code = ctx.query.code;
+    const code = (ctx.query.code as any) as string;
 
     const accessTokenData = {
       client_id,

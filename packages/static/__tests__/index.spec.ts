@@ -32,7 +32,7 @@ describe('koa static', () => {
         .expect('Content-Encoding', 'gzip')
         // .expect('Content-Length', file.length)
         .expect('Etag', file.md5)
-        .expect('Last-Modified', `${file.mtime}`)
+        .expect('Last-Modified', new Date(file.mtime).toUTCString())
         .expect('vary', 'Accept-Encoding')
         .expect(200)
         .then((response) => {
@@ -58,7 +58,7 @@ describe('koa static', () => {
         .expect('Cache-Control', /public, max-age=0/)
         // .expect('Content-Length', file.length)
         .expect('Etag', file.md5)
-        .expect('Last-Modified', `${file.mtime}`)
+        .expect('Last-Modified', new Date(file.mtime).toUTCString())
         .expect('vary', 'Accept-Encoding')
         .expect(200)
         .expect(200);
@@ -112,7 +112,7 @@ describe('koa static', () => {
 
       await request(app.callback())
         .get('/static/package.json')
-        .set('Last-Modified', file.mtime.toString())
+        .set('Last-Modified', file.mtime.toUTCString())
         .expect(200);
     });
 
