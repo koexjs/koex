@@ -16,8 +16,7 @@
     "test": "__tests__"
   },
   "files": [
-    "lib",
-    "yarn.lock"
+    "lib"
   ],
   "jest": {
     "roots": [
