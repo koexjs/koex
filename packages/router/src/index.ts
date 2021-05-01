@@ -6,8 +6,8 @@ declare module '@koex/core' {
 }
 
 import { Context, Middleware } from '@koex/core';
-import * as compose from 'koa-compose';
-import * as pathToRegexp from 'path-to-regexp';
+import compose from 'koa-compose';
+import pathToRegexp from 'path-to-regexp';
 
 import { match, decode } from './utils';
 

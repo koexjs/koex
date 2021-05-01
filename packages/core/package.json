@@ -44,10 +44,10 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 80,
-        "functions": 90,
-        "lines": 80,
-        "statements": -10
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
+        "statements": 0
       }
     },
     "preset": "ts-jest"
@@ -60,7 +60,7 @@
     "url": "git+https://github.com/koexjs/koex.git"
   },
   "scripts": {
-    "build": "npm run clean && tsc",
+    "build": "npm run clean && tsc -p tsconfig.build.json",
     "clean": "rm -rf lib",
     "test": "jest -w 1",
     "coverage": "codecov"

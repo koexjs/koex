@@ -2,7 +2,7 @@ import { bootstrap } from '../src/index';
 
 describe('@koex/logger', () => {
   it('ok', async () => {
-    await new Promise((resolve) => {
+    await new Promise<void>((resolve) => {
       bootstrap()
         .loadConfig(async () => {
           return {
