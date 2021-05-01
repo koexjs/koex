@@ -1,6 +1,6 @@
 {
   "name": "@koex/router",
-  "version": "0.13.3",
+  "version": "0.13.4",
   "description": "router for koa extend",
   "main": "lib/index.js",
   "repository": "https://github.com/koexjs/router",
