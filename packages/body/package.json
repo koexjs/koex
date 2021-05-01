@@ -15,6 +15,7 @@
     "prepublish": "npm run build"
   },
   "devDependencies": {
+    "@koex/core": "^0.13.5",
     "@koex/onerror": "^0.0.3",
     "@types/co-body": "^5.1.0",
     "@types/debug": "^0.0.31",
