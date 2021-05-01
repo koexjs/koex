@@ -1,5 +1,4 @@
-import App from './index';
-import { Context } from './types';
+import App, { Context } from './index';
 
 const ServiceSymbol = Symbol('Service');
 

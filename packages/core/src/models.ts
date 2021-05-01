@@ -1,4 +1,4 @@
-import { Context } from './types';
+import type { Context } from './index';
 import autoBind from 'auto-bind';
 
 declare module '.' {
