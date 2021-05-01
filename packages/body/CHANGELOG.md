@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.6](https://github.com/koexjs/router/compare/v0.13.5...v0.13.6) (2021-05-01)
+
+
+### Bug Fixes
+
+* fix lerna build and test error ([d41f54f](https://github.com/koexjs/router/commit/d41f54fc77d44329f751310fbd065ac631eea626))
+* **ci:** body use @koex/core Context ([7e0538e](https://github.com/koexjs/router/commit/7e0538e8b254efb4f22cf846467512e0682017db))
+* **ratelimit:** fix test ([b10d7c9](https://github.com/koexjs/router/commit/b10d7c99421976cb4f12fa1247d2d91e478e50f2))
+
+
+
+
+
 ## [0.13.5](https://github.com/koexjs/router/compare/v0.13.4...v0.13.5) (2021-05-01)
 
 
