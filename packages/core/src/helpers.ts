@@ -6,7 +6,7 @@ import { lru as LRU } from '@zcorky/lru';
 import { extendsApplication, extendsContext } from './utils';
 
 declare module '.' {
-  export interface Koex {
+  export interface Application {
     logger: Logger;
     cache: LRU<string, any>;
   }
