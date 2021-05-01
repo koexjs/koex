@@ -61,7 +61,7 @@
   },
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.build.json",
-    "clean": "rimraf -rf lib",
+    "clean": "rm -rf lib",
     "test": "jest -w 1",
     "coverage": "codecov"
   },

@@ -1,15 +1,15 @@
-declare module '@koex/core' {
+import type { Context, Middleware } from '@koex/type';
+import compose from 'koa-compose';
+import pathToRegexp from 'path-to-regexp';
+
+import { match, decode } from './utils';
+
+declare module '@koex/type' {
   export interface Context {
     params?: any;
     routePath?: string;
   }
 }
-
-import { Context, Middleware } from '@koex/core';
-import compose from 'koa-compose';
-import pathToRegexp from 'path-to-regexp';
-
-import { match, decode } from './utils';
 
 const debug = require('debug')('koa-router');
 

@@ -1,6 +1,12 @@
 import Koa from 'koa';
-import { Middleware } from 'koa-compose';
-import { Context, Request, Response, Options } from './types';
+import {
+  Middleware,
+  //
+  Context,
+  Request,
+  Response,
+  Options,
+} from '@koex/type';
 import { router } from './router';
 
 import { Controller, Service } from './models';

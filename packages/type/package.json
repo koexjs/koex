@@ -1,10 +1,10 @@
 {
-  "name": "@koex/passport",
+  "name": "@koex/type",
   "version": "0.13.5",
-  "description": "koex passport",
+  "description": "koex is a fast api",
   "keywords": [
     "koex",
-    "passport"
+    "type"
   ],
   "author": "zero <tobewhatwewant@gmail.com>",
   "homepage": "https://github.com/koexjs/koex#readme",
@@ -44,9 +44,9 @@
     ],
     "coverageThreshold": {
       "global": {
-        "branches": 40,
-        "functions": 40,
-        "lines": 40,
+        "branches": 0,
+        "functions": 0,
+        "lines": 0,
         "statements": 0
       }
     },
@@ -68,20 +68,13 @@
   "bugs": {
     "url": "https://github.com/koexjs/koex/issues"
   },
+  "dependencies": {
+    "@types/koa-compose": "^3.2.4"
+  },
   "devDependencies": {
-    "@koex/core": "^0.13.5",
-    "@types/cookies": "^0.7.4",
     "@types/jest": "^24.0.19",
-    "@types/node-fetch": "^2.5.2",
-    "@types/supertest": "^2.0.8",
     "jest": "^24.9.0",
-    "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "typescript": "^3.6.3"
-  },
-  "dependencies": {
-    "@zcorky/query-string": "^1.0.2",
-    "@zodash/format": "^1.0.1-alpha.13",
-    "node-fetch": "^2.6.0"
   }
 }

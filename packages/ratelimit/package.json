@@ -9,7 +9,7 @@
   "license": "MIT",
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.build.json",
-    "clean": "rimraf -rf lib",
+    "clean": "rm -rf lib",
     "test": "jest",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "prepublishOnly": "npm run build"
