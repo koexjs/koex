@@ -1,4 +1,4 @@
-import * as Koa from 'koa';
+import Koa from 'koa';
 import { Middleware } from 'koa-compose';
 import { Context, Request, Response, Options } from './types';
 import { router } from './router';

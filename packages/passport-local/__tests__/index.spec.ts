@@ -1,4 +1,4 @@
-import * as request from 'supertest';
+import request from 'supertest';
 import App, { Context } from '@koex/core';
 import passport from '@koex/passport';
 import { LocalStrategy } from '../src/index';

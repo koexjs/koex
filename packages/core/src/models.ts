@@ -1,5 +1,5 @@
 import { Context } from './types';
-import * as autoBind from 'auto-bind';
+import autoBind from 'auto-bind';
 
 declare module '.' {
   export interface Context {
