@@ -56,8 +56,8 @@ export abstract class OauthStrategy<
   constructor(
     protected readonly oauthStrategyOptions: IOauthStrategyOptions,
     public readonly verify: IVerify<IProfile>,
-    // public readonly transformToStandardToken?: ITransformToStandardToken<IToken>,
-  ) {
+  ) // public readonly transformToStandardToken?: ITransformToStandardToken<IToken>,
+  {
     super(verify);
   }
 
@@ -242,7 +242,7 @@ export abstract class OauthStrategy<
     } = this.oauthStrategyOptions;
 
     const code_string_key = get(this.config, 'callback.code.name', 'code');
-    const code = ctx.query[code_string_key]; // @TODO
+    const code = (ctx.query[code_string_key] as any) as string; // @TODO
 
     const accessTokenData = {
       client_id,
