@@ -6,13 +6,13 @@ import onerror from '@koex/onerror';
 import request from 'supertest';
 
 // @TODO
-declare module 'koa' {
-  export interface Request {
-    body: any;
-    rawBody: any;
-    files: any;
-  }
-}
+// declare module 'koa' {
+//   export interface Request {
+//     body: any;
+//     rawBody: any;
+//     files: any;
+//   }
+// }
 
 import bodyParser, { Options } from '../src';
 
