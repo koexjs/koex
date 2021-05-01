@@ -188,7 +188,7 @@ export class Bootstrap {
       const port = ~~process.env.PORT || (app.config as any).port || 8080;
       const host = process.env.HOST || (app.config as any).host || '127.0.0.1';
 
-      const server = this.app.listen(port, host, () => {
+      const server = (this.app as any).listen(port, host, () => {
         defineReadonlyProperties(app.bootInfo, {
           bootTime: (new Date() as any) - (app.bootInfo.bootStartedAt as any),
           runningStartedAt: new Date(),
