@@ -1,0 +1,81 @@
+{
+  "name": "@koex/ratelimit",
+  "version": "0.0.6",
+  "description": "ratelimit for koa extend",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
+  "repository": "https://github.com/koexjs/ratelimit",
+  "author": "Zero",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "clean": "rimraf -rf lib",
+    "test": "jest -w 1",
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/debug": "^0.0.31",
+    "@types/jest": "^26.0.23",
+    "@types/mocha": "^5.2.5",
+    "@types/ms": "^0.7.30",
+    "@types/node": "^10.9.4",
+    "@zcorky/delay": "^1.0.1",
+    "coveralls": "^3.0.2",
+    "global": "^4.3.2",
+    "jest": "^26.6.3",
+    "rimraf": "^2.6.2",
+    "should": "^13.2.3",
+    "source-map-support": "^0.5.9",
+    "supertest": "^4.0.2",
+    "ts-jest": "^24.1.0",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.6.3"
+  },
+  "files": [
+    "lib/"
+  ],
+  "jest": {
+    "roots": [
+      "__tests__"
+    ],
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": ".*\\.(spec|test)\\.(ts|tsx)$",
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx"
+    ],
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 90,
+        "lines": 80,
+        "statements": -10
+      }
+    },
+    "preset": "ts-jest"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@koex/core": "^0.13.5",
+    "@zcorky/is": "^1.0.1",
+    "@zcorky/lru": "^1.0.2",
+    "debug": "^4.1.0",
+    "ms": "^2.1.1"
+  }
+}
