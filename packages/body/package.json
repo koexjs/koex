@@ -1,6 +1,6 @@
 {
   "name": "@koex/body",
-  "version": "0.13.11",
+  "version": "0.13.12",
   "description": "body parser for koex",
   "main": "lib/index.js",
   "repository": "https://github.com/koexjs/router",
