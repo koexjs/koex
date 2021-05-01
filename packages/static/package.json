@@ -24,7 +24,7 @@
     "@types/node": "^12.7.5",
     "@zcorky/delay": "^1.0.1",
     "@zcorky/koa-router": "^0.0.2",
-    "@zcorky/lru": "^1.0.2",
+    "@zcorky/lru": "^1.0.3",
     "chai": "^4.1.2",
     "chai-spies": "^1.0.0",
     "coveralls": "^3.0.2",

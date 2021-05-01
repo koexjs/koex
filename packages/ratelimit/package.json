@@ -16,10 +16,10 @@
   },
   "devDependencies": {
     "@types/debug": "^0.0.31",
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^24.0.19",
     "@types/mocha": "^5.2.5",
     "@types/ms": "^0.7.30",
-    "@types/node": "^10.9.4",
+    "@types/node": "^12.7.5",
     "@zcorky/delay": "^1.0.1",
     "coveralls": "^3.0.2",
     "global": "^4.3.2",
@@ -73,8 +73,8 @@
   },
   "dependencies": {
     "@koex/core": "^0.13.6",
-    "@zcorky/is": "^1.0.1",
-    "@zcorky/lru": "^1.0.2",
+    "@zcorky/is": "^1.0.6",
+    "@zcorky/lru": "^1.0.3",
     "debug": "^4.1.0",
     "ms": "^2.1.1"
   }
