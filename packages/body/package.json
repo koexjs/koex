@@ -11,8 +11,7 @@
     "build": "npm run clean && tsc -p tsconfig.build.json",
     "clean": "rimraf -rf lib",
     "test": "jest -w 1",
-    "coverage": "codecov",
-    "prepublish": "npm run build"
+    "coverage": "codecov"
   },
   "devDependencies": {
     "@koex/onerror": "^0.0.3",
