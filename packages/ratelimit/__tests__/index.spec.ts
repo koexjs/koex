@@ -47,6 +47,7 @@ describe('ratelimit middleware', () => {
     });
 
     it('should not yield downstream if ratelimit is exceeded', async () => {
+      await request(app.callback()).get('/');
       await request(app.callback()).get('/').expect(429);
 
       hitOnce();
