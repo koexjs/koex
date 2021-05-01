@@ -68,8 +68,10 @@
   "bugs": {
     "url": "https://github.com/koexjs/bootstrap/issues"
   },
+  "dependencies": {
+    "@koex/core": "^0.0.8"
+  },
   "devDependencies": {
-    "@koex/core": "^0.0.8",
     "@types/jest": "^24.0.19",
     "jest": "^24.9.0",
     "ts-jest": "^24.1.0",
