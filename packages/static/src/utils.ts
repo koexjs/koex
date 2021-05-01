@@ -2,8 +2,8 @@ import * as crypto from 'crypto';
 import LRU from '@zcorky/lru';
 
 import { fs } from 'mz';
-import * as mime from 'mime-types';
-import * as sendToWormhole from 'stream-wormhole';
+import mime from 'mime-types';
+import sendToWormhole from 'stream-wormhole';
 
 import { Options } from './typings';
 
