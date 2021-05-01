@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.5](https://github.com/koexjs/static/compare/v0.13.4...v0.13.5) (2021-05-01)
+
+
+### Bug Fixes
+
+* **bootstrap:** fix build before core ([be53221](https://github.com/koexjs/static/commit/be532212a31d99d521d0137ef56d7ac3541529d7))
+* **static:** import default with cjs on typescript esModuleInterop enable ([6ac483e](https://github.com/koexjs/static/commit/6ac483ef9fe685748796a92febd92f48cf2335c3))
+
+
+
+
+
 ## 0.13.4 (2021-05-01)
 
 

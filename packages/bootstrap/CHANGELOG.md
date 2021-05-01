@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.5](https://github.com/koexjs/bootstrap/compare/v0.13.4...v0.13.5) (2021-05-01)
+
+
+### Bug Fixes
+
+* **bootstrap:** fix build before core ([be53221](https://github.com/koexjs/bootstrap/commit/be532212a31d99d521d0137ef56d7ac3541529d7))
+* **bootstrap:** fuck typescript and lerna ([171c8da](https://github.com/koexjs/bootstrap/commit/171c8da3de6d03d1cf031ffa79e0dc53171e9162))
+
+
+
+
+
 ## 0.13.4 (2021-05-01)
 
 

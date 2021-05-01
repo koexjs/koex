@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.5](https://github.com/koexjs/koex/compare/v0.13.4...v0.13.5) (2021-05-01)
+
+
+### Bug Fixes
+
+* **bootstrap:** fix build before core ([be53221](https://github.com/koexjs/koex/commit/be532212a31d99d521d0137ef56d7ac3541529d7))
+
+
+
+
+
 ## 0.13.4 (2021-05-01)
 
 
