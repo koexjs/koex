@@ -37,7 +37,7 @@ export {
   extendsContext,
 };
 
-export class Koex extends Koa {
+export class Application extends Koa {
   constructor(private readonly options?: Options) {
     super();
 
@@ -85,4 +85,4 @@ export class Koex extends Koa {
   }
 }
 
-export default Koex;
+export default Application;

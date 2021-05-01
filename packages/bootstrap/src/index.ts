@@ -36,7 +36,7 @@ declare module '@koex/core' {
 
   export interface Routes {}
 
-  interface Koex {
+  export interface Application {
     readonly bootInfo: BootInfo;
     readonly config: Config;
     readonly helpers: Helpers;

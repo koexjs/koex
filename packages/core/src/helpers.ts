@@ -1,4 +1,4 @@
-import { Koex } from './index';
+import Application from './index';
 
 import { Logger } from '@zodash/logger';
 import { lru as LRU } from '@zcorky/lru';
@@ -17,7 +17,7 @@ declare module '.' {
   }
 }
 
-export function createHelpers(app: Koex) {
+export function createHelpers(app: Application) {
   // logger
   const appLogger = new Logger('app');
   const contextLogger = new Logger('context');
