@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.13.4 (2021-05-01)
+
+
+### Bug Fixes
+
+* **static:** TypeError [ERR_INVALID_CHAR]: Invalid character in header content ["Last-Modified"] ([d9736a0](https://github.com/koexjs/koex/commit/d9736a0fd84b064c830ded859a5e718289680915))
+
+
+
+
+
 ## [0.13.3](https://github.com/koexjs/koex/compare/v0.13.2...v0.13.3) (2021-01-28)
 
 **Note:** Version bump only for package @koex/passport-github

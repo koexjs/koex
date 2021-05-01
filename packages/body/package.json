@@ -1,6 +1,6 @@
 {
   "name": "@koex/body",
-  "version": "0.13.3",
+  "version": "0.13.4",
   "description": "body parser for koex",
   "main": "lib/index.js",
   "repository": "https://github.com/koexjs/router",
@@ -86,7 +86,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@koex/core": "^0.13.3",
+    "@koex/core": "^0.13.4",
     "@types/formidable": "1.0.31",
     "@zcorky/is": "^1.0.6",
     "co-body": "^6.0.0",
