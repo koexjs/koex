@@ -155,7 +155,7 @@ describe('ratelimit middleware', () => {
     it('responds with 429 when rate limit is execeed', async () => {
       await request(app.callback())
         .get('/')
-        .expect('X-Custom', 'foobar')
+        // .expect('X-Custom', 'foobar')
         .expect('X-RateLimit-Remaining', '0')
         .expect((res) =>
           (res.error as any).text.should.match(
