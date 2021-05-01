@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport",
-  "version": "0.13.8",
+  "version": "0.13.9",
   "description": "koex passport",
   "keywords": [
     "koex",
@@ -69,7 +69,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.13.8",
+    "@koex/core": "^0.13.9",
     "@types/cookies": "^0.7.4",
     "@types/jest": "^24.0.19",
     "@types/node-fetch": "^2.5.2",
