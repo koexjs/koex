@@ -1,3 +1,3 @@
-import * as router from '@koex/router';
+import router from '@koex/router';
 
 export { router };
