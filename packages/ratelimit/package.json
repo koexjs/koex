@@ -10,7 +10,7 @@
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.build.json",
     "clean": "rimraf -rf lib",
-    "test": "jest -w 1",
+    "test": "jest",
     "coverage": "nyc report --reporter=text-lcov | coveralls",
     "prepublishOnly": "npm run build"
   },
