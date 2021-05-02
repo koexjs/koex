@@ -1354,6 +1354,11 @@
   dependencies:
     "@types/yargs-parser" "*"
 
+"@zcorky/tsconfig@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.npmjs.org/@zcorky/tsconfig/-/tsconfig-0.0.2.tgz#bbb99bf4d3b416f71c51685a9c8e4cf66e59d9fe"
+  integrity sha512-czDFG2dUuQYCDcfhqaozw0fG5zG0BELvFds7VxmxaUuP987aOAA4z2+MDyGJjb/SVRn1kFINxi+DDlkFOExIdg==
+
 JSONStream@^1.0.4:
   version "1.3.5"
   resolved "https://registry.npm.taobao.org/JSONStream/download/JSONStream-1.3.5.tgz#3208c1f08d3a4d99261ab64f92302bc15e111ca0"

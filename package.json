@@ -36,5 +36,8 @@
   },
   "lint-staged": {
     "packages/**/*.ts": "prettier --write"
+  },
+  "dependencies": {
+    "@zcorky/tsconfig": "^0.0.2"
   }
 }

@@ -22,7 +22,7 @@ export function wrapController<T>(Controller: any): T {
       const d = Object.getOwnPropertyDescriptor(proto, key);
       // @1 skip getter, setter & non-function properties
       // @2 prevent to override sub method
-      if (typeof d.value === 'function' && !instance.hasOwnProperty(key)) {
+      if (typeof d?.value === 'function' && !instance.hasOwnProperty(key)) {
         instance[key] = methodToMiddleware(Controller, key);
       }
     }
