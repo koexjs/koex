@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.13](https://github.com/koexjs/koex/compare/v0.13.12...v0.13.13) (2021-05-02)
+
+
+### Bug Fixes
+
+* **tsconfig:** 由于习惯问题，cjs 模块默认还是使用 import * as X, remove esModuleInterop 自动添加 default，避免出错，毕竟默认还是 esModuleInterop 是关闭的，并且 @sindresorhus/tsconfig 也是关闭的 ([e3757b6](https://github.com/koexjs/koex/commit/e3757b65800f4968470dd5445c7d16a6290c5a44))
+
+
+
+
+
 ## [0.13.11](https://github.com/koexjs/koex/compare/v0.13.10...v0.13.11) (2021-05-01)
 
 **Note:** Version bump only for package @koex/passport-doreamon
