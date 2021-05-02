@@ -1,6 +1,6 @@
 import { Context, Middleware } from '@koex/core';
-import assert from 'assert';
-import pathToRegexp from 'path-to-regexp';
+import * as assert from 'assert';
+import * as pathToRegexp from 'path-to-regexp';
 
 import { Strategy } from './strategy';
 import { Session } from './session';

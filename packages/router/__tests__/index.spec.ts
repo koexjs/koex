@@ -1,5 +1,5 @@
-import Koa from 'koa';
-import request from 'supertest';
+import * as Koa from 'koa';
+import * as request from 'supertest';
 import 'should';
 
 import * as router from '../src';

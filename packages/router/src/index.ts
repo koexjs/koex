@@ -1,6 +1,6 @@
 import type { Context, Middleware } from '@koex/type';
-import compose from 'koa-compose';
-import pathToRegexp from 'path-to-regexp';
+import * as compose from 'koa-compose';
+import * as pathToRegexp from 'path-to-regexp';
 
 import { match, decode } from './utils';
 

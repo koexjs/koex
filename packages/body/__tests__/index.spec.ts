@@ -3,7 +3,7 @@ import * as path from 'path';
 import Koex, { Context } from '@koex/core';
 import onerror from '@koex/onerror';
 // import * as router from '@zcorky/koa-router';
-import request from 'supertest';
+import * as request from 'supertest';
 
 // @TODO
 // declare module 'koa' {

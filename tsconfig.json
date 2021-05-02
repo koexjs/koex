@@ -6,7 +6,8 @@
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "esModuleInterop": true,
+    // "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
     "target": "esnext",
     "sourceMap": false,
     "lib": [
