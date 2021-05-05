@@ -9,12 +9,13 @@ import {
 } from '@koex/type';
 import { router } from './router';
 
-import { Controller, Service } from './models';
+import { Controller, Service, Model } from './models';
 import { createHelpers } from './helpers';
 
 import {
   createControllers,
   createServices,
+  createModels,
   extendsApplication,
   extendsContext,
 } from './utils';
@@ -29,9 +30,11 @@ export {
   //
   Controller,
   Service,
+  Model,
   //
   createControllers,
   createServices,
+  createModels,
   //
   extendsApplication,
   extendsContext,
