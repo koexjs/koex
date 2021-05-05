@@ -1,5 +1,7 @@
+import * as mongoose from 'mongoose';
 import App, { Context } from './index';
 
+const ModelSymbol = Symbol('Model');
 const ServiceSymbol = Symbol('Service');
 
 /**
@@ -102,5 +104,175 @@ export function extendsApplication<T>(app: App, proterty: string, value: T) {
     get() {
       return value;
     },
+  });
+}
+
+// ----
+export class ModelClassLoader {
+  private cache = new Map();
+
+  constructor(
+    private ctx: Context,
+    models: Record<string, any>,
+    compatibleModels?: any,
+  ) {
+    for (const modelName in models) {
+      this.define(modelName, models[modelName]);
+    }
+
+    // @TODO
+    if (compatibleModels) {
+      for (const modelName in compatibleModels) {
+        this.defineCompatible(modelName, compatibleModels[modelName]);
+      }
+    }
+  }
+
+  private define(property: string, Cs: any) {
+    const target = this;
+
+    Object.defineProperty(target, property, {
+      get() {
+        let instance = target.cache.get(property);
+
+        if (!instance) {
+          // @TODO
+          instance = new Cs(target).build();
+          target.cache.set(property, instance);
+        }
+
+        return instance;
+      },
+    });
+  }
+
+  // @DEPRECIATED
+  private defineCompatible(property: string, model: any) {
+    const target = this;
+
+    Object.defineProperty(target, property, {
+      get() {
+        let instance = target.cache.get(property);
+
+        if (!instance) {
+          instance = model;
+          target.cache.set(property, instance);
+        }
+
+        // @TODO
+        return instance;
+      },
+    });
+  }
+}
+
+export function createModels(
+  app: App,
+  modelClasses: Record<string, any>,
+  compatibleModels?: any,
+) {
+  Object.defineProperty(app, 'models', {
+    get() {
+      if (this[ModelSymbol]) {
+        return this[ModelSymbol];
+      }
+
+      this[ModelSymbol] = new ModelClassLoader(
+        this,
+        modelClasses,
+        compatibleModels,
+      );
+
+      return this[ModelSymbol];
+    },
+  });
+
+  Object.defineProperty(app.context, 'models', {
+    get() {
+      return app.models;
+    },
+  });
+}
+
+// ------
+export type SchemaDefination = ConstructorParameters<
+  typeof mongoose.Schema
+>['0'];
+export type SchemaOptions = ConstructorParameters<typeof mongoose.Schema>['1'];
+
+export type ICreateSchema = (
+  defination: SchemaDefination,
+  options?: SchemaOptions,
+) => mongoose.Schema;
+export type IRegisterModel = <T extends mongoose.Model<any>>(
+  name: string,
+  schema: mongoose.Schema,
+) => T;
+
+export type ISchemaUtils = {
+  mongoose: typeof mongoose;
+  Schema: typeof mongoose.Schema;
+  Types: typeof mongoose.Schema.Types;
+  //
+  ObjectId: typeof mongoose.Schema.Types.ObjectId;
+  //
+};
+
+export type ICreateModel<T> = (
+  createSchema: ICreateSchema,
+  registerModel: IRegisterModel,
+  schemaUtils?: ISchemaUtils,
+) => T;
+
+export function createModel<T>(fn: ICreateModel<T>): T {
+  const Schema = mongoose.Schema;
+  const Types = Schema.Types;
+
+  const baseDefination = {
+    creator: {
+      type: Types.ObjectId,
+    },
+    modifier: {
+      type: Types.ObjectId,
+    },
+    // createdAt: {
+    //   type: Types.Date,
+    //   default: Date.now,
+    // },
+    // updatedAt: {
+    //   type: Types.Date,
+    //   default: Date.now,
+    // },
+  };
+
+  const createSchema: ICreateSchema = (
+    defination: SchemaDefination,
+    options?: SchemaOptions,
+  ) => {
+    return new Schema(
+      {
+        ...defination,
+        ...baseDefination,
+      },
+      {
+        ...options,
+        timestamps: true,
+      },
+    );
+  };
+
+  const registerModel: IRegisterModel = <T extends mongoose.Model<any>>(
+    name: string,
+    schema: mongoose.Schema,
+  ) => {
+    return mongoose.model<any, T>(name, schema);
+  };
+
+  return fn(createSchema, registerModel, {
+    mongoose,
+    Schema,
+    Types,
+    //
+    ObjectId: Types.ObjectId,
   });
 }

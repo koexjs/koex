@@ -41,8 +41,8 @@ declare module '@koex/core' {
     readonly config: Config;
     readonly helpers: Helpers;
     readonly middlewares: Middlewares;
-    readonly models: Models;
-    readonly services: Services;
+    // readonly models: Models;
+    // readonly services: Services;
     readonly applications: Applications;
     readonly routes: Routes;
   }
