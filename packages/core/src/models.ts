@@ -69,7 +69,7 @@ export abstract class Model<T extends mongoose.Model<any>> {
   onSchema?(schema: mongoose.Schema<any>): void;
 
   build() {
-    console.log('model build: ', this.name);
+    // console.log('model build: ', this.name);
     const { name, defination } = this;
 
     return createModel<T>((createSchema, registerModel) => {
