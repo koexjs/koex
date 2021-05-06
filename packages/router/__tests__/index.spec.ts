@@ -192,10 +192,10 @@ describe('koa router', () => {
 
     it('should parse one param', async () => {
       await request(app.callback())
-        .get('/xxxx')
+        .get('/xxxxx')
         .expect('X-Post-Action1', 'mid')
         .expect('X-Post-Action2', 'post')
-        .expect(200, { id: 'xxxx' });
+        .expect(200, { id: 'xxxxx' });
     });
   });
 
