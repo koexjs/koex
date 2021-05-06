@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.18](https://github.com/koexjs/router/compare/v0.13.17...v0.13.18) (2021-05-06)
+
+
+### Bug Fixes
+
+* **router:** use cached handler or error ([9bb8f61](https://github.com/koexjs/router/commit/9bb8f6142e7956ef0b41b78f2489eb2e285a091b))
+
+
+
+
+
 ## [0.13.17](https://github.com/koexjs/router/compare/v0.13.16...v0.13.17) (2021-05-06)
 
 **Note:** Version bump only for package @koex/router
