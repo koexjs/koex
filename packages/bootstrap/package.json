@@ -1,6 +1,6 @@
 {
   "name": "@koex/bootstrap",
-  "version": "0.13.16",
+  "version": "0.13.17",
   "description": "koex bootstrap",
   "keywords": [
     "koex",
@@ -68,7 +68,7 @@
     "url": "https://github.com/koexjs/bootstrap/issues"
   },
   "dependencies": {
-    "@koex/core": "^0.13.16"
+    "@koex/core": "^0.13.17"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
