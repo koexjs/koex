@@ -144,7 +144,7 @@ export class Passport implements IPassport {
       'You should call passport.deserializeUser first',
     );
     assert(this._getToken, 'You should call passport.getToken first');
-    assert(this._setToken, 'You should call passport.setT_setToken first');
+    assert(this._setToken, 'You should call passport.setToken first');
 
     return async (ctx, next) => {
       this.session = new Session(ctx, {

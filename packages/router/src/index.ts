@@ -29,12 +29,15 @@ export type Next = () => Promise<any>;
 export type Handler = (ctx: Context, next: Next) => Promise<void>;
 
 const routesCache = new Map<string, Middleware<any>>();
-const requestRoueRecord = new LRUCache<string, {
-  path: string;
-  keys: pathToRegexp.Key[],
-  re: RegExp,
-  handler: Middleware<any>;
-}>(10000);
+const requestRoueRecord = new LRUCache<
+  string,
+  {
+    path: string;
+    keys: pathToRegexp.Key[];
+    re: RegExp;
+    handler: Middleware<any>;
+  }
+>(10000);
 
 const createMethod = (method: Method) => {
   return (path: string, ...handlers: Handler[]) => {
@@ -52,14 +55,9 @@ const createMethod = (method: Method) => {
       if (requestRoueRecord.has(requestRouteKey)) {
         const cached = requestRoueRecord.get(requestRouteKey);
 
-        parseParams(
-          cached.keys,
-          cached.path,
-          ctx,
-          cached.re.exec(ctx.path),
-        );
+        parseParams(cached.keys, cached.path, ctx, cached.re.exec(ctx.path));
 
-        return await handler(ctx, next);
+        return await cached.handler(ctx, next);
       }
 
       // path
@@ -68,14 +66,18 @@ const createMethod = (method: Method) => {
         parseParams(keys, path, ctx, matched);
 
         // @TODO default 10 minutes
-        requestRoueRecord.set(requestRouteKey, {
-          path,
-          keys,
-          re,
-          handler,
-        }, {
-          maxAge: 10 * 60 * 1000,
-        });
+        requestRoueRecord.set(
+          requestRouteKey,
+          {
+            path,
+            keys,
+            re,
+            handler,
+          },
+          {
+            maxAge: 10 * 60 * 1000,
+          },
+        );
         return await handler(ctx, next);
       }
 
