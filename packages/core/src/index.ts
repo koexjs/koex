@@ -7,6 +7,9 @@ import {
   Response,
   Options,
 } from '@koex/type';
+
+import './type';
+
 import { router } from './router';
 
 import { Controller, Service, Model } from './models';
@@ -40,7 +43,9 @@ export {
   extendsContext,
 };
 
-export class Application extends Koa {
+export interface Application {}
+
+export class Application extends Koa implements Application {
   constructor(private readonly options?: Options) {
     super();
 

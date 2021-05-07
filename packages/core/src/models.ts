@@ -3,24 +3,6 @@ import * as mongoose from 'mongoose';
 import type { Context } from './index';
 import { createModel } from './utils';
 
-declare module '.' {
-  export interface Application {
-    models: Models;
-  }
-
-  export interface Context {
-    models: Models;
-    services: Services;
-    controllers: Controllers;
-  }
-
-  export interface Models {}
-
-  export interface Services {}
-
-  export interface Controllers {}
-}
-
 export class BaseClass {
   constructor(protected readonly ctx: Context) {
     autoBind(this);

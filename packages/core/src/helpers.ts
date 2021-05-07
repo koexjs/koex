@@ -5,18 +5,6 @@ import { lru as LRU } from '@zcorky/lru';
 
 import { extendsApplication, extendsContext } from './utils';
 
-declare module '.' {
-  export interface Application {
-    logger: Logger;
-    cache: LRU<string, any>;
-  }
-
-  export interface Context {
-    logger: Logger;
-    cache: LRU<string, any>;
-  }
-}
-
 export function createHelpers(app: Application) {
   // logger
   const appLogger = new Logger('app');
