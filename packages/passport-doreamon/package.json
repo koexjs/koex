@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-doreamon",
-  "version": "0.13.19",
+  "version": "0.13.20",
   "description": "koex passport-doreamon",
   "keywords": [
     "koex",
@@ -70,8 +70,8 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.13.19",
-    "@koex/passport": "^0.13.19",
+    "@koex/core": "^0.13.20",
+    "@koex/passport": "^0.13.20",
     "@types/jest": "^24.0.19",
     "@types/node-fetch": "^2.5.2",
     "@types/supertest": "^2.0.8",
@@ -81,6 +81,6 @@
     "typescript": "^3.6.3"
   },
   "dependencies": {
-    "@koex/passport-oauth2-config": "^0.13.19"
+    "@koex/passport-oauth2-config": "^0.13.20"
   }
 }
