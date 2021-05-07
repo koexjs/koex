@@ -1,32 +1,11 @@
-import type { Context, Middleware } from '@koex/type';
 import * as compose from 'koa-compose';
 import LRUCache from '@zcorky/lru';
 import * as pathToRegexp from 'path-to-regexp';
 
+import type { Context, Middleware, Method, Next, Handler } from './type';
 import { match, decode } from './utils';
 
-declare module '@koex/type' {
-  export interface Context {
-    params?: any;
-    routePath?: string;
-  }
-}
-
 const debug = require('debug')('koa-router');
-
-export type Method =
-  | 'GET'
-  | 'POST'
-  | 'PUT'
-  | 'PATCH'
-  | 'DELETE'
-  | 'HEAD'
-  | 'OPTIONS'
-  | 'ALL';
-
-export type Next = () => Promise<any>;
-
-export type Handler = (ctx: Context, next: Next) => Promise<void>;
 
 const routesCache = new Map<string, Middleware<any>>();
 const requestRoueRecord = new LRUCache<
