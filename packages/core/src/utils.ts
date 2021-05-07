@@ -81,6 +81,8 @@ export class ClassLoader {
   }
 }
 
+export class ServiceClassLoader extends ClassLoader {}
+
 export function createServices(app: App, serviceClasses: Record<string, any>) {
   Object.defineProperty(app.context, 'services', {
     get() {
@@ -88,7 +90,7 @@ export function createServices(app: App, serviceClasses: Record<string, any>) {
         return this[ServiceSymbol];
       }
 
-      this[ServiceSymbol] = new ClassLoader(this, serviceClasses);
+      this[ServiceSymbol] = new ServiceClassLoader(this, serviceClasses);
 
       return this[ServiceSymbol];
     },

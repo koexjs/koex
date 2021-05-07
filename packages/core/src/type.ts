@@ -4,19 +4,19 @@ import type { LRU } from '@zcorky/lru';
 
 declare module '.' {
   export interface Application {
-    logger: Logger;
-    cache: LRU<string, any>;
+    readonly logger: Logger;
+    readonly cache: LRU<string, any>;
     //
-    models: Models;
-    controllers: Controllers;
+    readonly models: Models;
+    readonly controllers: Controllers;
   }
 
   export interface Context {
-    logger: Logger;
-    cache: LRU<string, any>;
+    readonly logger: Logger;
+    readonly cache: LRU<string, any>;
     //
-    models: Models;
-    services: Services;
+    readonly models: Models;
+    readonly services: Services;
   }
 
   export interface Models {}
