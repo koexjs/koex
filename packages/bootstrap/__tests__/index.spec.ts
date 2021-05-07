@@ -22,7 +22,7 @@ describe('@koex/logger', () => {
         .loadServices(async () => {
           return {};
         })
-        .loadApplications(async () => {
+        .loadControllers(async () => {
           return {};
         })
         .loadRoutes(async () => {
@@ -31,11 +31,11 @@ describe('@koex/logger', () => {
         .prepare()
         .then((boot) => {
           expect(boot.app).toHaveProperty('config');
-          expect(boot.app).toHaveProperty('helpers');
+          // expect(boot.app).toHaveProperty('helpers');
           expect(boot.app).toHaveProperty('middlewares');
           expect(boot.app).toHaveProperty('models');
-          expect(boot.app).toHaveProperty('services');
-          expect(boot.app).toHaveProperty('applications');
+          // expect(boot.app).toHaveProperty('services');
+          expect(boot.app).toHaveProperty('controllers');
           expect(boot.app).toHaveProperty('routes');
 
           boot.startServer().then((server) => {
