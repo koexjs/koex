@@ -43,11 +43,15 @@ export function wrapController<T>(Controller: any): T {
   }
 }
 
-export function createControllers<T>(cts: Record<string, any>) {
-  return Object.keys(cts).reduce((all, key) => {
-    all[key] = wrapController(cts[key]);
-    return all;
-  }, {} as T);
+export function createControllers<T>(app: App, cts: Record<string, any>) {
+  Object.defineProperty(app, 'controllers', {
+    get() {
+      return Object.keys(cts).reduce((all, key) => {
+        all[key] = wrapController(cts[key]);
+        return all;
+      }, {} as T);
+    },
+  });
 }
 
 export class ClassLoader {
