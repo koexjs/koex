@@ -7,10 +7,10 @@ const ServiceSymbol = Symbol('Service');
 /**
  * @Lazy Create instance of class, make method as middleware
  *
- * @param Controller Controller Class
+ * @param ControllerClass Controller Class
  */
-export function wrapController<T>(Controller: any): T {
-  let proto = Controller.prototype;
+export function instanceController<T>(ControllerClass: T): T {
+  let proto = (ControllerClass as any).prototype;
   const instance = {} as object;
 
   while (proto !== Object.prototype) {
@@ -25,7 +25,7 @@ export function wrapController<T>(Controller: any): T {
       // @1 skip getter, setter & non-function properties
       // @2 prevent to override sub method
       if (typeof d?.value === 'function' && !instance.hasOwnProperty(key)) {
-        instance[key] = methodToMiddleware(Controller, key);
+        instance[key] = methodToMiddleware(ControllerClass, key);
       }
     }
 
@@ -43,35 +43,101 @@ export function wrapController<T>(Controller: any): T {
   }
 }
 
-export function createControllers<T>(app: App, cts: Record<string, any>) {
+/**
+ * instance Controllers
+ *
+ * @param ControllerClassesOrNest Class Or Object of Class
+ * @returns class instances
+ *
+ * @example
+ *  // plain
+ *  instanceControllers({
+ *    user: UserController,
+ *  })
+ *
+ * @example
+ *  // nest
+ *  instanceControllers({
+ *    v1: {
+ *      user: UserController,
+ *    },
+ *  });
+ */
+export function instanceControllers<T>(
+  ControllerClassesOrNest: Record<string, any>,
+) {
+  const typeOf = (v: any) => Object.prototype.toString.call(v);
+  const isFunction = (v: any) => typeOf(v) === '[object Function]';
+  const isPlainObject = (v: any) => typeOf(v) === '[object Object]';
+
+  return Object.keys(ControllerClassesOrNest).reduce((all, key) => {
+    const ClassOrObject = ControllerClassesOrNest[key];
+
+    // 1. class
+    if (isFunction(ClassOrObject)) {
+      all[key] = instanceController(ClassOrObject);
+    } else if (isPlainObject(ClassOrObject)) {
+      // nest { name: ControllerClass }
+      all[key] = instanceControllers(ClassOrObject);
+    } else {
+      // ignore
+      throw new Error(
+        `Unknown Controller Type (key: ${key}, type: ${typeOf(ClassOrObject)})`,
+      );
+    }
+
+    return all;
+  }, {} as T);
+}
+
+export function createControllers<T>(
+  app: App,
+  ControllerClassesOrNest: Record<string, any>,
+) {
   Object.defineProperty(app, 'controllers', {
     get() {
-      return Object.keys(cts).reduce((all, key) => {
-        all[key] = wrapController(cts[key]);
-        return all;
-      }, {} as T);
+      return instanceControllers<T>(ControllerClassesOrNest);
     },
   });
 }
 
-export class ClassLoader {
+export class ClassesLoader {
   private cache = new Map();
 
-  constructor(private ctx: Context, private services: Record<string, any>) {
-    for (const serviceName in services) {
-      this.define(serviceName, services[serviceName]);
+  constructor(
+    private ctx: Context,
+    private ClassesOrNest: Record<string, any>,
+  ) {
+    for (const serviceName in ClassesOrNest) {
+      this.define(serviceName, ClassesOrNest[serviceName]);
     }
   }
 
-  define(property: string, Cs: any) {
+  define(property: string, ClassOrObject: any) {
     const target = this;
+    const typeOf = (v: any) => Object.prototype.toString.call(v);
+    const isFunction = (v: any) => typeOf(v) === '[object Function]';
+    const isPlainObject = (v: any) => typeOf(v) === '[object Object]';
 
     Object.defineProperty(target, property, {
       get() {
         let instance = target.cache.get(property);
 
         if (!instance) {
-          instance = new Cs(target.ctx);
+          // 1. class
+          if (isFunction(ClassOrObject)) {
+            instance = new ClassOrObject(target.ctx);
+          } else if (isPlainObject(ClassOrObject)) {
+            instance = new ClassesLoader(this.ctx, ClassOrObject);
+          } else {
+            // ignore
+            throw new Error(
+              `Unknown Service Type (key: ${property}, type: ${typeOf(
+                ClassOrObject,
+              )})`,
+            );
+          }
+
           target.cache.set(property, instance);
         }
 
@@ -81,7 +147,7 @@ export class ClassLoader {
   }
 }
 
-export class ServiceClassLoader extends ClassLoader {}
+export class ServicesClassLoader extends ClassesLoader {}
 
 export function createServices(app: App, serviceClasses: Record<string, any>) {
   Object.defineProperty(app.context, 'services', {
@@ -90,7 +156,7 @@ export function createServices(app: App, serviceClasses: Record<string, any>) {
         return this[ServiceSymbol];
       }
 
-      this[ServiceSymbol] = new ServiceClassLoader(this, serviceClasses);
+      this[ServiceSymbol] = new ServicesClassLoader(this, serviceClasses);
 
       return this[ServiceSymbol];
     },
