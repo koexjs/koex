@@ -22,7 +22,7 @@ export class Graceful {
     this.onUncaughtException();
     this.onUnhandleRejection();
 
-    !this.silent && this.log('start.');
+    this.log('start.');
   }
 
   public onExit() {
@@ -43,15 +43,13 @@ export class Graceful {
 
   public onUncaughtException() {
     process.on('uncaughtException', function (err) {
-      !this.silent &&
-        console.error('Error caught in uncaughtException event:', err);
+      console.error('Error caught in uncaughtException event:', err);
     });
   }
 
   public onUnhandleRejection() {
     process.on('unhandledRejection', function (reason, promise) {
-      !this.silent &&
-        console.error('Unhandled Reject at:', promise, 'reason:', reason);
+      console.error('Unhandled Reject at:', promise, 'reason:', reason);
     });
   }
 }
