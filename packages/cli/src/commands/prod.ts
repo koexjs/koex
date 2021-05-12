@@ -4,6 +4,7 @@ import * as os from 'os';
 import * as cluster from 'cluster';
 import graceful from '@koex/graceful';
 import { getLogger } from '@zodash/logger';
+import { delay } from '@zodash/delay';
 
 export interface IProdOptions {
   port?: string;
@@ -44,6 +45,9 @@ export default async function prod(options?: IProdOptions) {
       logger.info(
         `worker ${worker.process.pid} died (code: ${code}, signal: ${signal})`,
       );
+
+      delay(1000);
+      cluster.fork(true);
     });
   } else {
     process.env.HOST = host;
