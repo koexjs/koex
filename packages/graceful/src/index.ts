@@ -6,52 +6,54 @@ export class Graceful {
 
   constructor(private readonly silent?: boolean) {}
 
-  private log(message: string) {
+  private log = (message: string) => {
     // process.stdout.write(`[${process.pid}]: ${message}\n`);
     this.logger.info(`[${process.pid}]: ${message}`);
-  }
+  };
 
-  private onSignal(signal: string) {
-    this.log(`Received signal: ${signal}.`);
+  private onSignal = (signal: string) => {
+    !this.silent && this.log(`Received signal: ${signal}.`);
 
     process.exit(128);
-  }
+  };
 
-  public start() {
+  public start = () => {
     this.onExit();
     this.onUncaughtException();
     this.onUnhandleRejection();
 
     this.log('start.');
-  }
+  };
 
-  public onExit() {
+  public onExit = () => {
     process.on('exit', (exitCode) => {
       !this.silent && this.log(`Exit with code ${exitCode}`);
 
       kill(process.pid);
     });
 
+    // 中断 (Ctrl + C)
     process.on('SIGINT', this.onSignal);
+    // 退出 (Ctrl + \)
+    process.on('SIGQUIT', this.onSignal);
+    // 中断断线 Terminal Close
+    process.on('SIGHUP', this.onSignal);
 
     // Windows => Ctrl + Break
     process.on('SIGBREAK', this.onSignal);
+  };
 
-    // Close terminal
-    process.on('SIGHUP', this.onSignal);
-  }
-
-  public onUncaughtException() {
+  public onUncaughtException = () => {
     process.on('uncaughtException', function (err) {
       console.error('Error caught in uncaughtException event:', err);
     });
-  }
+  };
 
-  public onUnhandleRejection() {
+  public onUnhandleRejection = () => {
     process.on('unhandledRejection', function (reason, promise) {
       console.error('Unhandled Reject at:', promise, 'reason:', reason);
     });
-  }
+  };
 }
 
 export function graceful(silent?: boolean) {
