@@ -68,6 +68,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
+    "@koex/graceful": "^0.0.0",
     "@koex/router": "^0.13.20",
     "@koex/type": "^0.13.11",
     "@types/koa": "^2.0.49",
@@ -75,7 +76,7 @@
     "@types/mongoose": "^5.10.5",
     "@zcorky/lru": "^1.0.3",
     "@zodash/compose": "^0.0.2",
-    "@zodash/logger": "^0.0.17",
+    "@zodash/logger": "^0.2.16",
     "auto-bind": "^4.0.0",
     "koa": "^2.8.1",
     "mongoose": "^5.12.7"

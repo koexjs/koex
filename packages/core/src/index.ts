@@ -7,6 +7,7 @@ import {
   Response,
   Options,
 } from '@koex/type';
+import graceful from '@koex/graceful';
 
 import './type';
 
@@ -53,6 +54,8 @@ export class Application extends Koa implements Application {
   }
 
   private setup() {
+    graceful();
+
     this.mountHelpers();
   }
 
