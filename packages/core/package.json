@@ -1,6 +1,6 @@
 {
   "name": "@koex/core",
-  "version": "0.13.21",
+  "version": "0.13.22",
   "description": "koex is a fast api",
   "keywords": [
     "koex",
@@ -68,7 +68,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
-    "@koex/graceful": "^0.13.21",
+    "@koex/graceful": "^0.13.22",
     "@koex/router": "^0.13.20",
     "@koex/type": "^0.13.11",
     "@types/koa": "^2.0.49",
