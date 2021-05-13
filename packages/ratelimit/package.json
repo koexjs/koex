@@ -15,23 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@koex/core": "^0.13.24",
-    "@types/debug": "^0.0.31",
-    "@types/jest": "^24.0.19",
-    "@types/mocha": "^5.2.5",
-    "@types/ms": "^0.7.30",
-    "@types/node": "^12.7.5",
-    "@zcorky/delay": "^1.0.1",
-    "coveralls": "^3.0.2",
-    "global": "^4.3.2",
-    "jest": "^26.6.3",
-    "rimraf": "^2.6.2",
-    "should": "^13.2.3",
-    "source-map-support": "^0.5.9",
-    "supertest": "^4.0.2",
-    "ts-jest": "^24.1.0",
-    "ts-node": "^7.0.1",
-    "typescript": "^3.6.3"
+    "@koex/core": "^0.13.24"
   },
   "files": [
     "lib/"

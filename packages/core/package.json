@@ -80,11 +80,5 @@
     "auto-bind": "^4.0.0",
     "koa": "^2.8.1",
     "mongoose": "^5.12.7"
-  },
-  "devDependencies": {
-    "@types/jest": "^24.0.19",
-    "jest": "^24.9.0",
-    "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
   }
 }

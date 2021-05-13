@@ -69,14 +69,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.13.24",
-    "@types/jest": "^24.0.19",
-    "@types/node-fetch": "^2.5.2",
-    "@types/supertest": "^2.0.8",
-    "jest": "^24.9.0",
-    "supertest": "^4.0.2",
-    "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
+    "@koex/core": "^0.13.24"
   },
   "dependencies": {
     "@koex/passport": "^0.13.24"

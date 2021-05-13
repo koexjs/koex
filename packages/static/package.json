@@ -14,31 +14,8 @@
     "coverage": "codecov"
   },
   "devDependencies": {
-    "@types/compressible": "^2.0.0",
-    "@types/debug": "^0.0.31",
-    "@types/jest": "^24.0.19",
-    "@types/koa": "^2.0.49",
-    "@types/mime-types": "^2.1.0",
-    "@types/ms": "^0.7.30",
-    "@types/mz": "^0.0.32",
-    "@types/node": "^12.7.5",
-    "@zcorky/delay": "^1.0.1",
     "@zcorky/koa-router": "^0.0.2",
-    "@zcorky/lru": "^1.0.3",
-    "chai": "^4.1.2",
-    "chai-spies": "^1.0.0",
-    "coveralls": "^3.0.2",
-    "debug": "^4.1.0",
-    "global": "^4.3.2",
-    "jest": "^24.9.0",
-    "koa": "^2.8.1",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "rimraf": "^2.6.2",
-    "should": "^13.2.3",
-    "supertest": "^4.0.2",
-    "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
+    "@zcorky/lru": "^1.0.3"
   },
   "files": [
     "lib/"

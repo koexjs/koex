@@ -71,11 +71,5 @@
     "@koex/core": "^0.13.24",
     "boxen": "^5.0.1",
     "chalk": "^4.1.1"
-  },
-  "devDependencies": {
-    "@types/jest": "^24.0.19",
-    "jest": "^24.9.0",
-    "ts-jest": "^24.1.0",
-    "typescript": "^3.6.3"
   }
 }
