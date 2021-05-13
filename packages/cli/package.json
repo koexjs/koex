@@ -12,7 +12,7 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "bin": {
-    "koex": "./lib/cli"
+    "koex": "lib/cli.js"
   },
   "directories": {
     "lib": "lib",

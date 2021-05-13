@@ -25,14 +25,14 @@ program
   .option('--project <project>', 'Project directory')
   .option('-e, --entry <entry>', 'Specify entry')
   .action(({ options }) => {
-    dev(options);
+    return dev(options);
   });
 
 program
   .command('build', 'Compiles the application for production deployment')
   .option('-p, --project <project>', 'Project directory')
   .action(({ options }) => {
-    prod(options);
+    return build(options);
   });
 
 program
@@ -49,7 +49,7 @@ program
   .option('-e, --entry <entry>', 'Specify entry')
   .option('-c, --cpu <cpu>', 'Specify cpu number')
   .action(({ options }) => {
-    prod(options);
+    return prod(options);
   });
 
-program.run();
+program.run().catch((e) => {});
