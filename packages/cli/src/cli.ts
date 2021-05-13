@@ -4,10 +4,11 @@ import { program } from '@caporal/core';
 import dev from './commands/dev';
 import build from './commands/build';
 import prod from './commands/prod';
+import pkg from './commands/pkg';
 
-const pkg = require('../package.json');
+const { version } = require('../package.json');
 
-program.version(pkg.version);
+program.version(version);
 
 program
   .command(
@@ -50,6 +51,16 @@ program
   .option('-c, --cpu <cpu>', 'Specify cpu number')
   .action(({ options }) => {
     return prod(options);
+  });
+
+program
+  .command(
+    'pkg',
+    'Packages the application into an executable that can be run even on devices without Node.js installed',
+  )
+  .option('-p, --project <project>', 'Project directory')
+  .action(({ options }) => {
+    return pkg(options);
   });
 
 program.run();
