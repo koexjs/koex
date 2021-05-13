@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.25](https://github.com/koexjs/koex/compare/v0.13.24...v0.13.25) (2021-05-13)
+
+
+### Bug Fixes
+
+* **cli:** npm bin should use .js ([e27dcac](https://github.com/koexjs/koex/commit/e27dcacc32ed802d70421e2583e7a15da7d9ca9d))
+
+
+
+
+
 ## [0.13.24](https://github.com/koexjs/koex/compare/v0.13.23...v0.13.24) (2021-05-13)
 
 
