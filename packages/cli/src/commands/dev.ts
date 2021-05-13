@@ -23,6 +23,8 @@ export default async function dev(options?: IDevOptions) {
     process.env.PORT = options.port;
   }
 
+  process.env.NODE_ENV = 'development';
+
   const watch = new TSCWatchClient();
 
   watch.on('first_sucess', () => {});
