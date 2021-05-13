@@ -55,6 +55,7 @@ export default async function prod(options?: IProdOptions) {
   } else {
     process.env.HOST = host;
     process.env.PORT = port;
+    process.env.NODE_ENV = 'production';
 
     logger.info(`Worker ${process.pid} started`);
     require(path.join(project, entry));
