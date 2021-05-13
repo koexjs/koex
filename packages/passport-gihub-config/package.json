@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-github-config",
-  "version": "0.13.28",
+  "version": "0.13.29",
   "description": "koex passport-github",
   "keywords": [
     "koex",
@@ -70,10 +70,10 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^0.13.24",
-    "@koex/passport": "^0.13.24"
+    "@koex/core": "^0.13.29",
+    "@koex/passport": "^0.13.29"
   },
   "dependencies": {
-    "@koex/passport-oauth2-config": "^0.13.28"
+    "@koex/passport-oauth2-config": "^0.13.29"
   }
 }

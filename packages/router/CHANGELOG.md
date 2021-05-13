@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.29](https://github.com/koexjs/router/compare/v0.13.28...v0.13.29) (2021-05-13)
+
+**Note:** Version bump only for package @koex/router
+
+
+
+
+
 ## 0.13.28 (2021-05-13)
 
 **Note:** Version bump only for package @koex/router
