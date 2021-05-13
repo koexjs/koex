@@ -25,6 +25,7 @@ program
   )
   .option('--project <project>', 'Project directory')
   .option('-e, --entry <entry>', 'Specify entry')
+  .option('--exec <exec>', 'Specify exec command')
   .action(({ options }) => {
     return dev(options);
   });

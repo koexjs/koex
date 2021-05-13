@@ -9,6 +9,7 @@ export interface IDevOptions {
   host?: string;
   project?: string;
   entry?: string;
+  exec?: string;
 }
 
 export default async function dev(options?: IDevOptions) {
@@ -16,6 +17,7 @@ export default async function dev(options?: IDevOptions) {
 
   const { main } = await api.fs.loadJSON(path.resolve(project, 'package.json'));
   const entry = options.entry ?? main;
+  const exec = options.exec ?? `node ${path.join(project, entry)}`;
 
   if (options.host) {
     process.env.HOST = options.host;
@@ -39,7 +41,7 @@ export default async function dev(options?: IDevOptions) {
     '--project',
     project,
     '--onSuccess',
-    `node ${path.join(project, entry)}`,
+    exec,
     '--onFailure',
     'echo Beep! Compilation Failed',
   );
