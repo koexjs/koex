@@ -1,4 +1,4 @@
-#!/usr/bin/env zx
+#!/usr/bin/env node
 import { program } from '@caporal/core';
 
 import dev from './commands/dev';
