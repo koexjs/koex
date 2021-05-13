@@ -61,6 +61,11 @@ export default async function prod(options?: IProdOptions) {
     process.env.NODE_ENV = 'production';
 
     logger.info(`Worker ${process.pid} started`);
-    require(path.resolve(project, entry));
+
+    run(path.resolve(project, entry));
+  }
+
+  function run(entry: string) {
+    require(entry);
   }
 }
