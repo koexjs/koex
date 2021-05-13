@@ -36,6 +36,8 @@ export default async function pkg(options?: IProdOptions) {
   //   process.exit(0);
   // }
 
+  process.env.NODE_ENV = 'production';
+
   await exec([
     '--out-path',
     'pkg',
