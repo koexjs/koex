@@ -14,7 +14,7 @@ export interface IProdOptions {
 
 export default async function pkg(options?: IProdOptions) {
   const project = options.project ?? process.cwd();
-  const entry = require(path.join(project, 'package.json'));
+  // const entry = require(require.resolve(path.join(project, 'package.json')));
 
   const logger = getLogger('pkg');
 

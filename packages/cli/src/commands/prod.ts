@@ -1,10 +1,12 @@
 import * as path from 'path';
 import * as os from 'os';
+import * as fs from 'fs';
 // import { spawn } from 'child_process';
 import * as cluster from 'cluster';
 import graceful from '@koex/graceful';
 import { getLogger } from '@zodash/logger';
 import { delay } from '@zodash/delay';
+import api from '@cliz/core';
 
 export interface IProdOptions {
   port?: string;
@@ -18,8 +20,9 @@ export default async function prod(options?: IProdOptions) {
   const host = process.env.HOST ?? options.host ?? '0.0.0.0';
   const port = process.env.PORT ?? options.port ?? '';
   const project = options.project ?? process.cwd();
-  const entry =
-    options.entry ?? require(path.join(project, 'package.json')).main;
+
+  const { main } = await api.fs.loadJSON(path.resolve(project, 'package.json'));
+  const entry = options.entry ?? main;
 
   const logger = getLogger('cluster');
 
@@ -58,6 +61,6 @@ export default async function prod(options?: IProdOptions) {
     process.env.NODE_ENV = 'production';
 
     logger.info(`Worker ${process.pid} started`);
-    require(path.join(project, entry));
+    require(path.resolve(project, entry));
   }
 }

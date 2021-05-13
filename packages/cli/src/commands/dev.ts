@@ -1,4 +1,5 @@
 import * as path from 'path';
+import api from '@cliz/core';
 
 const TSCWatchClient = require('tsc-watch/client');
 // const run = require('tsc-watch/lib/runner');
@@ -12,8 +13,9 @@ export interface IDevOptions {
 
 export default async function dev(options?: IDevOptions) {
   const project = options.project ?? process.cwd();
-  const entry =
-    options.entry ?? require(path.join(project, 'package.json')).main;
+
+  const { main } = await api.fs.loadJSON(path.resolve(project, 'package.json'));
+  const entry = options.entry ?? main;
 
   if (options.host) {
     process.env.HOST = options.host;
