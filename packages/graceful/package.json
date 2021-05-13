@@ -1,6 +1,6 @@
 {
   "name": "@koex/graceful",
-  "version": "0.13.22",
+  "version": "0.13.23",
   "description": "Exist NodeJs process gracefully",
   "keywords": [
     "koex"
