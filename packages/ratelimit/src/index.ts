@@ -1,4 +1,4 @@
-import { Context } from '@koex/core';
+import { Context } from '@koex/type';
 import LRU, { LRU as ILRU } from '@zcorky/lru';
 import { undefined as isUndefined } from '@zcorky/is';
 

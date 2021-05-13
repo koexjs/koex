@@ -15,6 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
+    "@koex/core": "^0.13.24",
     "@types/debug": "^0.0.31",
     "@types/jest": "^24.0.19",
     "@types/mocha": "^5.2.5",
@@ -72,7 +73,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@koex/core": "^0.13.24",
+    "@koex/type": "^0.13.24",
     "@zcorky/is": "^1.0.6",
     "@zcorky/lru": "^1.0.3",
     "debug": "^4.1.0",
