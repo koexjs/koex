@@ -9,8 +9,8 @@
   "author": "zero <tobewhatwewant@gmail.com>",
   "homepage": "https://github.com/koexjs/koex#readme",
   "license": "MIT",
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/cli.js",
+  "typings": "lib/cli.d.ts",
   "bin": {
     "koex": "lib/cli.js"
   },
