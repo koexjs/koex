@@ -15,6 +15,7 @@ export default async function build(options?: IProdOptions) {
   const project = options.project ?? process.cwd();
   const logger = getLogger('build');
 
+  graceful(true);
   logger.info('start to build');
   const { stderr, exitCode } = await execa('tsc', {
     cwd: project,
@@ -26,5 +27,3 @@ export default async function build(options?: IProdOptions) {
 
   logger.info('build done');
 }
-
-graceful(true);

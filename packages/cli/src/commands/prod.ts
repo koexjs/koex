@@ -33,6 +33,8 @@ export default async function prod(options?: IProdOptions) {
   //   },
   // });
 
+  graceful(true);
+
   if (cluster.isMaster) {
     logger.info(`Master ${process.pid} is running`);
 
@@ -58,5 +60,3 @@ export default async function prod(options?: IProdOptions) {
     require(path.join(project, entry));
   }
 }
-
-graceful(true);

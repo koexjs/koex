@@ -52,4 +52,4 @@ program
     return prod(options);
   });
 
-program.run().catch((e) => {});
+program.run();
