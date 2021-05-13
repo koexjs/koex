@@ -36,7 +36,7 @@ export default async function prod(options?: IProdOptions) {
     logger.info(`Master ${process.pid} is running`);
 
     // Fork workers.
-    const numCPUs = +options.cpu ?? os.cpus().length;
+    const numCPUs = +options.cpu || os.cpus().length;
     for (let i = 0; i < numCPUs; i++) {
       cluster.fork();
     }
