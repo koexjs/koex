@@ -9,7 +9,7 @@ import { delay } from '@zodash/delay';
 export interface IProdOptions {
   port?: string;
   host?: string;
-  dir?: string;
+  project?: string;
   entry?: string;
   cpu?: number;
 }
@@ -17,8 +17,9 @@ export interface IProdOptions {
 export default async function prod(options?: IProdOptions) {
   const host = process.env.HOST ?? options.host ?? '0.0.0.0';
   const port = process.env.PORT ?? options.port ?? '';
-  const dir = options.dir ?? process.cwd();
-  const entry = options.entry ?? require(path.join(dir, 'package.json')).main;
+  const project = options.project ?? process.cwd();
+  const entry =
+    options.entry ?? require(path.join(project, 'package.json')).main;
 
   const logger = getLogger('cluster');
 
@@ -54,7 +55,7 @@ export default async function prod(options?: IProdOptions) {
     process.env.PORT = port;
 
     logger.info(`Worker ${process.pid} started`);
-    require(path.join(dir, entry));
+    require(path.join(project, entry));
   }
 }
 

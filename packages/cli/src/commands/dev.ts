@@ -6,13 +6,14 @@ const TSCWatchClient = require('tsc-watch/client');
 export interface IDevOptions {
   port?: string;
   host?: string;
-  dir?: string;
+  project?: string;
   entry?: string;
 }
 
 export default async function dev(options?: IDevOptions) {
-  const dir = options.dir ?? process.cwd();
-  const entry = options.entry ?? require(path.join(dir, 'package.json')).main;
+  const project = options.project ?? process.cwd();
+  const entry =
+    options.entry ?? require(path.join(project, 'package.json')).main;
 
   if (options.host) {
     process.env.HOST = options.host;
@@ -32,9 +33,9 @@ export default async function dev(options?: IDevOptions) {
 
   watch.start(
     '--project',
-    dir,
+    project,
     '--onSuccess',
-    `node ${path.join(dir, entry)}`,
+    `node ${path.join(project, entry)}`,
     '--onFailure',
     'echo Beep! Compilation Failed',
   );
