@@ -74,6 +74,7 @@
     "@caporal/core": "^2.0.2",
     "@cliz/core": "^0.2.2",
     "@koex/graceful": "^0.13.29",
+    "@zeit/ncc": "^0.22.3",
     "@zodash/delay": "^0.1.6",
     "@zodash/logger": "^0.2.16",
     "debug": "^4.3.1",

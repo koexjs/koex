@@ -19,7 +19,7 @@ export async function dev(options?: IDevOptions) {
 
   const { main } = await api.fs.loadJSON(path.resolve(project, 'package.json'));
   const entry = options.entry ?? main;
-  const exec = options.exec ?? `node ${path.join(project, entry)}`;
+  const exec = options.exec ?? `node ${path.resolve(project, entry)}`;
 
   if (options.host) {
     process.env.HOST = options.host;
