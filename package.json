@@ -4,6 +4,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "build": "lerna run build",
+    "build:one": "yarn build -- --scope",
     "build:dep": "lerna run build --include-dependencies --stream",
     "test": "lerna run test",
     "coverage": "codecov",
