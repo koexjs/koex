@@ -49,7 +49,11 @@ program
   )
   .option('--project <project>', 'Project directory')
   .option('-e, --entry <entry>', 'Specify entry')
-  .option('-c, --cpu <cpu>', 'Specify cpu number')
+  .option('--cluster', 'Use cluster mode, Default: false')
+  .option(
+    '-c, --cpu <cpu>',
+    'Specify cpu number, only works with cluster enabled',
+  )
   .action(({ options }) => {
     return prod(options);
   });

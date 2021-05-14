@@ -13,6 +13,7 @@ export interface IProdOptions {
   host?: string;
   project?: string;
   entry?: string;
+  cluster?: boolean;
   cpu?: number;
 }
 
@@ -20,9 +21,11 @@ export default async function prod(options?: IProdOptions) {
   const host = process.env.HOST ?? options.host ?? '0.0.0.0';
   const port = process.env.PORT ?? options.port ?? '';
   const project = options.project ?? process.cwd();
+  const useCluster = !!options.cluster;
 
   const { main } = await api.fs.loadJSON(path.resolve(project, 'package.json'));
   const entry = options.entry ?? main;
+  const absoluteEntryPath = path.resolve(project, entry);
 
   const logger = getLogger('cluster');
 
@@ -37,6 +40,10 @@ export default async function prod(options?: IProdOptions) {
   // });
 
   graceful(true);
+
+  if (!useCluster) {
+    return run(absoluteEntryPath);
+  }
 
   if (cluster.isMaster) {
     logger.info(`Master ${process.pid} is running`);
@@ -56,16 +63,15 @@ export default async function prod(options?: IProdOptions) {
       cluster.fork(true);
     });
   } else {
+    run(absoluteEntryPath);
+  }
+
+  function run(entry: string) {
     process.env.HOST = host;
     process.env.PORT = port;
     process.env.NODE_ENV = 'production';
 
     logger.info(`Worker ${process.pid} started`);
-
-    run(path.resolve(project, entry));
-  }
-
-  function run(entry: string) {
     require(entry);
   }
 }
