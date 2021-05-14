@@ -12,6 +12,59 @@ import { exec } from 'pkg';
 
 export interface IProdOptions {
   project?: string;
+  targets?: string;
+}
+
+export type OS = 'linux' | 'macos' | 'win';
+export type ARCH = 'x64' | 'arm';
+
+const NODE_VERSION = '14';
+const DEFAULT_TARGETS = [
+  getTarget('linux', 'x64'),
+  getTarget('macos', 'x64'),
+  getTarget('win', 'x64'),
+].join(',');
+
+/**
+ * Get Bin Target
+ *
+ * @param os system os
+ * @param arch device arch
+ * @returns
+ *
+ * @example
+ *   node14-linux-x64
+ *   node14-macos-x64
+ *   node14-win-x64
+ */
+function getTarget(os: OS, arch: ARCH) {
+  return `node${NODE_VERSION}-${os}-${arch}`;
+}
+
+/**
+ * Get pkg support targets
+ *
+ * @param targets OS-ARCH
+ * @returns NODE-OS-ARCH
+ *
+ * @example
+ *    linux-x64
+ *    macos-x64
+ *    macos-arm
+ *    win-x64
+ */
+function getTargets(targets?: string) {
+  if (!targets) {
+    return DEFAULT_TARGETS;
+  }
+
+  return targets
+    .split(',')
+    .map((target) => {
+      const [os, arch] = target.trim().split('-') as [OS, ARCH];
+      return getTarget(os, arch);
+    })
+    .join(',');
 }
 
 export async function pkg(options?: IProdOptions) {
@@ -40,13 +93,9 @@ export async function pkg(options?: IProdOptions) {
 
   process.env.NODE_ENV = 'production';
 
-  await exec([
-    '--out-path',
-    'pkg',
-    '--targets',
-    'node14-linux-x64,node14-macos-x64,node14-win-x64',
-    '.',
-  ]);
+  const targets = getTargets(options.targets);
+
+  await exec(['--out-path', 'pkg', '--targets', targets, '.']);
 
   logger.info('pkg done');
 }
@@ -56,6 +105,10 @@ export default ({ createCommand }: CreateCommandParameters): Command => {
     'Packages the application into an executable that can be run even on devices without Node.js installed',
   )
     .option('-p, --project <project>', 'Project directory')
+    .option(
+      '-t, --targets <targets>',
+      'Comma-separated list of targets (Ex: linux-x64,macos-x64,macos-arm,win-x64)',
+    )
     .action(({ options }) => {
       return pkg(options);
     });
