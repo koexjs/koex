@@ -1,3 +1,5 @@
+import { CreateCommandParameters, Command } from '@caporal/core';
+
 import * as path from 'path';
 import * as os from 'os';
 // import { spawn } from 'child_process';
@@ -12,7 +14,7 @@ export interface IProdOptions {
   project?: string;
 }
 
-export default async function pkg(options?: IProdOptions) {
+export async function pkg(options?: IProdOptions) {
   const project = options.project ?? process.cwd();
   // const entry = require(require.resolve(path.join(project, 'package.json')));
 
@@ -48,3 +50,13 @@ export default async function pkg(options?: IProdOptions) {
 
   logger.info('pkg done');
 }
+
+export default ({ createCommand }: CreateCommandParameters): Command => {
+  return createCommand(
+    'Packages the application into an executable that can be run even on devices without Node.js installed',
+  )
+    .option('-p, --project <project>', 'Project directory')
+    .action(({ options }) => {
+      return pkg(options);
+    });
+};

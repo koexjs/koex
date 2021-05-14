@@ -1,3 +1,5 @@
+import { CreateCommandParameters, Command } from '@caporal/core';
+
 import * as path from 'path';
 import api from '@cliz/core';
 
@@ -12,7 +14,7 @@ export interface IDevOptions {
   exec?: string;
 }
 
-export default async function dev(options?: IDevOptions) {
+export async function dev(options?: IDevOptions) {
   const project = options.project ?? process.cwd();
 
   const { main } = await api.fs.loadJSON(path.resolve(project, 'package.json'));
@@ -46,3 +48,23 @@ export default async function dev(options?: IDevOptions) {
     'echo Beep! Compilation Failed',
   );
 }
+
+export default ({ createCommand }: CreateCommandParameters): Command => {
+  return createCommand(
+    'Starts the application in development mode (hot-code reloading, error reporting, etc)',
+  )
+    .option(
+      '-p, --port <port>',
+      'A port number on which to start the application',
+    )
+    .option(
+      '-h, --host <host>',
+      'Hostname on which to start the application (default: 0.0.0.0)',
+    )
+    .option('--project <project>', 'Project directory')
+    .option('-e, --entry <entry>', 'Specify entry')
+    .option('--exec <exec>', 'Specify exec command')
+    .action(({ options }) => {
+      return dev(options);
+    });
+};

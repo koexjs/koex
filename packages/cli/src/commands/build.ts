@@ -1,3 +1,5 @@
+import { CreateCommandParameters, Command } from '@caporal/core';
+
 import * as path from 'path';
 import * as os from 'os';
 // import { spawn } from 'child_process';
@@ -11,7 +13,7 @@ export interface IProdOptions {
   project?: string;
 }
 
-export default async function build(options?: IProdOptions) {
+export async function build(options?: IProdOptions) {
   const project = options.project ?? process.cwd();
   const logger = getLogger('build');
 
@@ -27,3 +29,11 @@ export default async function build(options?: IProdOptions) {
 
   logger.info('build done');
 }
+
+export default ({ createCommand }: CreateCommandParameters): Command => {
+  return createCommand('Compiles the application for production deployment')
+    .option('-p, --project <project>', 'Project directory')
+    .action(({ options }) => {
+      return build(options);
+    });
+};

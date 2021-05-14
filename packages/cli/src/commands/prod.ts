@@ -1,3 +1,5 @@
+import { CreateCommandParameters, Command } from '@caporal/core';
+
 import * as path from 'path';
 import * as os from 'os';
 import * as fs from 'fs';
@@ -17,7 +19,7 @@ export interface IProdOptions {
   cpu?: number;
 }
 
-export default async function prod(options?: IProdOptions) {
+export async function prod(options?: IProdOptions) {
   const host = process.env.HOST ?? options.host ?? '0.0.0.0';
   const port = process.env.PORT ?? options.port ?? '';
   const project = options.project ?? process.cwd();
@@ -75,3 +77,25 @@ export default async function prod(options?: IProdOptions) {
     require(entry);
   }
 }
+
+export default ({ createCommand }: CreateCommandParameters): Command => {
+  return createCommand('Starts the application in production mode.')
+    .option(
+      '-p, --port <port>',
+      'A port number on which to start the application',
+    )
+    .option(
+      '-h, --host <host>',
+      'Hostname on which to start the application (default: 0.0.0.0)',
+    )
+    .option('--project <project>', 'Project directory')
+    .option('-e, --entry <entry>', 'Specify entry')
+    .option('--cluster', 'Use cluster mode, Default: false')
+    .option(
+      '-c, --cpu <cpu>',
+      'Specify cpu number, only works with cluster enabled',
+    )
+    .action(({ options }) => {
+      return prod(options);
+    });
+};
