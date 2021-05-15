@@ -1,4 +1,5 @@
-import { CreateCommandParameters, Command } from '@caporal/core';
+// import { CreateCommandParameters, Command } from '@caporal/core';
+import { defineSubCommand } from '@cliz/cli';
 
 import * as path from 'path';
 import api from '@cliz/core';
@@ -49,7 +50,7 @@ export async function dev(options?: IDevOptions) {
   );
 }
 
-export default ({ createCommand }: CreateCommandParameters): Command => {
+export default defineSubCommand((createCommand) => {
   return createCommand(
     'Starts the application in development mode (hot-code reloading, error reporting, etc)',
   )
@@ -67,4 +68,4 @@ export default ({ createCommand }: CreateCommandParameters): Command => {
     .action(({ options }) => {
       return dev(options);
     });
-};
+});

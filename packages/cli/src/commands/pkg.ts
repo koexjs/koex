@@ -1,4 +1,5 @@
-import { CreateCommandParameters, Command } from '@caporal/core';
+// import { CreateCommandParameters, Command } from '@caporal/core';
+import { defineSubCommand } from '@cliz/cli';
 
 import { resolve } from 'path';
 import { promises as fs } from 'fs';
@@ -182,7 +183,7 @@ export async function pkg(options?: IProdOptions) {
   logger.info('pkg done');
 }
 
-export default ({ createCommand }: CreateCommandParameters): Command => {
+export default defineSubCommand((createCommand) => {
   return createCommand(
     'Packages the application into an executable that can be run even on devices without Node.js installed',
   )
@@ -198,4 +199,4 @@ export default ({ createCommand }: CreateCommandParameters): Command => {
     .action(({ options }) => {
       return pkg(options);
     });
-};
+});

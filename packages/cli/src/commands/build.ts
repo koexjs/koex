@@ -1,4 +1,5 @@
-import { CreateCommandParameters, Command } from '@caporal/core';
+// import { CreateCommandParameters, Command } from '@caporal/core';
+import { defineSubCommand } from '@cliz/cli';
 
 import * as path from 'path';
 import * as os from 'os';
@@ -30,10 +31,10 @@ export async function build(options?: IProdOptions) {
   logger.info('build done');
 }
 
-export default ({ createCommand }: CreateCommandParameters): Command => {
+export default defineSubCommand((createCommand) => {
   return createCommand('Compiles the application for production deployment')
     .option('-p, --project <project>', 'Project directory')
     .action(({ options }) => {
       return build(options);
     });
-};
+});

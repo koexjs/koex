@@ -1,4 +1,5 @@
-import { CreateCommandParameters, Command } from '@caporal/core';
+// import { CreateCommandParameters, Command } from '@caporal/core';
+import { defineSubCommand } from '@cliz/cli';
 
 import * as path from 'path';
 import * as os from 'os';
@@ -78,7 +79,7 @@ export async function prod(options?: IProdOptions) {
   }
 }
 
-export default ({ createCommand }: CreateCommandParameters): Command => {
+export default defineSubCommand((createCommand) => {
   return createCommand('Starts the application in production mode.')
     .option(
       '-p, --port <port>',
@@ -98,4 +99,4 @@ export default ({ createCommand }: CreateCommandParameters): Command => {
     .action(({ options }) => {
       return prod(options);
     });
-};
+});
