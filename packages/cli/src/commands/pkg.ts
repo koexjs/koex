@@ -20,6 +20,7 @@ export interface IProdOptions {
   targets?: string;
   outPath?: string;
   useNcc?: boolean;
+  debug?: boolean;
 }
 
 export type OS = 'linux' | 'macos' | 'win';
@@ -131,21 +132,47 @@ export async function pkg(options?: IProdOptions) {
     // await api.fs.writeFile(nccOutpath, code);
     // console.log('map: ', map, assets);
 
-    await execa(
-      nccBin,
-      [
-        'build',
-        entry,
-        '-o',
-        nccOutDir,
-        '-t',
-        // '-m', '--no-source-map-register',
-      ],
-      {
-        cwd: project,
-      },
-    );
+    let nccArgs = [
+      'build',
+      entry,
+      '-o',
+      nccOutDir,
+      '-t',
+      // '-s',
+      // '-C',
+    ];
+
+    if (!options.debug) {
+      nccArgs = [...nccArgs, '-m', '--no-source-map-register'];
+    }
+
+    await execa(nccBin, nccArgs, {
+      cwd: project,
+    });
     await fs.rename(nccDefaultEntry, nccEntry);
+
+    // @fix: Error: Cannot find module 'typescript'
+    //  REASON: typescript path error
+    //  DEBUG: remove ncc -m,--minify option
+    //  CODE:
+    //    error code: require.resolve(e||"typescript",{paths:[c,__dirname]})
+    //    fixed code: require.resolve(e||__dirname+"/typescript/lib/typescript.js",{paths:[c,__dirname]})
+    //
+    //  here is an hack patch
+    const errorCode = await api.fs.readFile(nccEntry, 'utf-8');
+    const fixedCode = errorCode
+      // for unminified ncc code
+      .replace(
+        "require.resolve(name || 'typescript', { paths: [cwd, __dirname] })",
+        'require.resolve(name || __dirname + "/typescript/lib/typescript.js", { paths: [cwd, __dirname] })',
+      )
+      // for minfied ncc code
+      .replace(
+        'require.resolve(e||"typescript",{paths:[c,__dirname]})',
+        'require.resolve(e||__dirname+"/typescript/lib/typescript.js",{paths:[c,__dirname]})',
+      );
+    await api.fs.writeFile(nccEntry, fixedCode);
+    //
 
     await execPkg(['--out-path', pkgDir, '--targets', targets, nccEntry]);
   } else {
@@ -159,6 +186,7 @@ export default ({ createCommand }: CreateCommandParameters): Command => {
   return createCommand(
     'Packages the application into an executable that can be run even on devices without Node.js installed',
   )
+    .option('-d, --debug', 'Only works for ncc, no minify js')
     .option('-e, --entry <entry>', 'Specify entry')
     .option('-o, --out-path <outPath>', 'Output directory')
     .option('-p, --project <project>', 'Project directory')
