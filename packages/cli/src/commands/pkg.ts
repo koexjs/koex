@@ -18,6 +18,7 @@ export interface IProdOptions {
   entry?: string;
   project?: string;
   targets?: string;
+  outPath?: string;
   useNcc?: boolean;
 }
 
@@ -85,7 +86,9 @@ export async function pkg(options?: IProdOptions) {
   const binName = Object.keys(bin ?? {})[0] ?? 'cli';
 
   //
-  const pkgDir = resolve(project, 'pkg');
+  const pkgDir = options?.outPath
+    ? resolve(project, options.outPath)
+    : resolve(project, 'pkg');
 
   // graceful(true);
   logger.info('start to pkg');
@@ -130,7 +133,14 @@ export async function pkg(options?: IProdOptions) {
 
     await execa(
       nccBin,
-      ['build', entry, '-o', nccOutDir, '-m', '--no-source-map-register'],
+      [
+        'build',
+        entry,
+        '-o',
+        nccOutDir,
+        '-t',
+        // '-m', '--no-source-map-register',
+      ],
       {
         cwd: project,
       },
@@ -150,6 +160,7 @@ export default ({ createCommand }: CreateCommandParameters): Command => {
     'Packages the application into an executable that can be run even on devices without Node.js installed',
   )
     .option('-e, --entry <entry>', 'Specify entry')
+    .option('-o, --out-path <outPath>', 'Output directory')
     .option('-p, --project <project>', 'Project directory')
     .option(
       '-t, --targets <targets>',
