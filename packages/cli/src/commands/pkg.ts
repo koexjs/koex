@@ -1,19 +1,13 @@
-// import { CreateCommandParameters, Command } from '@caporal/core';
 import { defineSubCommand } from '@cliz/cli';
 
 import { resolve } from 'path';
 import { promises as fs } from 'fs';
-import * as os from 'os';
-// import { spawn } from 'child_process';
-import * as cluster from 'cluster';
-import graceful from '@koex/graceful';
 import { getLogger } from '@zodash/logger';
-import { delay } from '@zodash/delay';
 import * as execa from 'execa';
 import api from '@cliz/core';
 
 import { exec as execPkg } from 'pkg';
-import * as execNcc from '@zeit/ncc';
+// import * as execNcc from '@zeit/ncc';
 
 export interface IProdOptions {
   entry?: string;

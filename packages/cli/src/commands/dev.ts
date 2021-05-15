@@ -1,11 +1,9 @@
-// import { CreateCommandParameters, Command } from '@caporal/core';
 import { defineSubCommand } from '@cliz/cli';
 
 import * as path from 'path';
 import api from '@cliz/core';
 
 const TSCWatchClient = require('tsc-watch/client');
-// const run = require('tsc-watch/lib/runner');
 
 export interface IDevOptions {
   port?: string;

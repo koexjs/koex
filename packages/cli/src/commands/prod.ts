@@ -1,10 +1,7 @@
-// import { CreateCommandParameters, Command } from '@caporal/core';
 import { defineSubCommand } from '@cliz/cli';
 
 import * as path from 'path';
 import * as os from 'os';
-import * as fs from 'fs';
-// import { spawn } from 'child_process';
 import * as cluster from 'cluster';
 import graceful from '@koex/graceful';
 import { getLogger } from '@zodash/logger';

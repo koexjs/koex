@@ -71,7 +71,6 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "dependencies": {
-    "@caporal/core": "^2.0.2",
     "@cliz/cli": "^0.0.2",
     "@cliz/core": "^0.2.2",
     "@koex/graceful": "^0.13.29",
