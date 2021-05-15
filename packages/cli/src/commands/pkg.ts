@@ -111,7 +111,7 @@ export async function pkg(options?: IProdOptions) {
 
   process.env.NODE_ENV = 'production';
 
-  console.log('entry:', entry);
+  // console.log('entry:', entry);
   await api.fs.mkdirp(pkgDir);
 
   // @TODO current is broken
