@@ -1,5 +1,4 @@
 import * as compose from 'koa-compose';
-import LRUCache from '@zcorky/lru';
 import * as pathToRegexp from 'path-to-regexp';
 
 import type { Context, Middleware, Method, Next, Handler } from './type';
@@ -8,15 +7,6 @@ import { match, decode } from './utils';
 const debug = require('debug')('koa-router');
 
 const routesCache = new Map<string, Middleware<any>>();
-const requestRoueRecord = new LRUCache<
-  string,
-  {
-    path: string;
-    keys: pathToRegexp.Key[];
-    re: RegExp;
-    handler: Middleware<any>;
-  }
->(10000);
 
 const createMethod = (method: Method) => {
   return (path: string, ...handlers: Handler[]) => {
@@ -30,33 +20,10 @@ const createMethod = (method: Method) => {
       // method
       if (method !== 'ALL' && !match(ctx, method)) return next();
 
-      const requestRouteKey = `${ctx.method} ${ctx.path}`;
-      if (requestRoueRecord.has(requestRouteKey)) {
-        const cached = requestRoueRecord.get(requestRouteKey);
-
-        parseParams(cached.keys, cached.path, ctx, cached.re.exec(ctx.path));
-
-        return await cached.handler(ctx, next);
-      }
-
       // path
       const matched = re.exec(ctx.path);
       if (matched) {
         parseParams(keys, path, ctx, matched);
-
-        // @TODO default 10 minutes
-        requestRoueRecord.set(
-          requestRouteKey,
-          {
-            path,
-            keys,
-            re,
-            handler,
-          },
-          {
-            maxAge: 10 * 60 * 1000,
-          },
-        );
         return await handler(ctx, next);
       }
 
@@ -103,6 +70,6 @@ export const head = createMethod('HEAD');
 export const options = createMethod('OPTIONS');
 
 export const routes = (): ((ctx: Context, next: Next) => Promise<void>) => {
-  const routeMiddlewares = [...routesCache.values()];
+  const routeMiddlewares = [...(routesCache.values as any)()];
   return (compose as any)(routeMiddlewares);
 };
