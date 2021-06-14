@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.34](https://github.com/koexjs/koex/compare/v0.13.33...v0.13.34) (2021-06-14)
+
+**Note:** Version bump only for package @koex/passport-github
+
+
+
+
+
 ## [0.13.29](https://github.com/koexjs/koex/compare/v0.13.28...v0.13.29) (2021-05-13)
 
 **Note:** Version bump only for package @koex/passport-github

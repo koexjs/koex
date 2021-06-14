@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.13.34](https://github.com/koexjs/router/compare/v0.13.33...v0.13.34) (2021-06-14)
+
+
+### Bug Fixes
+
+* router-cache-handler-cause-header-sent-error (closes [#22](https://github.com/koexjs/router/issues/22)) ([#23](https://github.com/koexjs/router/issues/23)) ([0a4d561](https://github.com/koexjs/router/commit/0a4d561ca673272323c79619c6489ef8fa6de035))
+
+
+
+
+
 ## [0.13.29](https://github.com/koexjs/router/compare/v0.13.28...v0.13.29) (2021-05-13)
 
 **Note:** Version bump only for package @koex/router
