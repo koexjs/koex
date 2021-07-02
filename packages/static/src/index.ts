@@ -1,5 +1,5 @@
+import type { Context } from 'koa';
 import { basename, join } from 'path';
-import { Context } from 'koa';
 import { fs, zlib } from 'mz';
 
 import * as range from 'koa-range';
