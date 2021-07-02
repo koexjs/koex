@@ -2,6 +2,9 @@ import { basename, join } from 'path';
 import { Context } from 'koa';
 import { fs, zlib } from 'mz';
 
+import * as range from 'koa-range';
+import * as compose from 'koa-compose';
+
 import { Options, File } from './typings';
 import {
   FileManager,
@@ -25,7 +28,10 @@ export default (prefix: string, options: Options) => {
   debug('option.index:', index);
   debug('options.suffix: ', options.suffix);
 
-  return async function staticCache(ctx: Context, next: () => Promise<void>) {
+  const staticCache = async function staticCache(
+    ctx: Context,
+    next: () => Promise<void>,
+  ) {
     // only accept HEAD and GET
     if (ctx.method !== 'HEAD' && ctx.method !== 'GET') return await next();
 
@@ -132,4 +138,6 @@ export default (prefix: string, options: Options) => {
       ctx.body = stream.pipe(zlib.createGzip());
     }
   };
+
+  return compose([range, staticCache]);
 };
