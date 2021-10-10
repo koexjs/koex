@@ -49,7 +49,8 @@ export default (prefix: string, options: Options) => {
         fileName = indexFile;
       }
 
-      const filePath = join(dir, fileName);
+      const _dir = typeof dir === 'function' ? dir.apply(null, [ctx]) : dir;
+      const filePath = join(_dir, fileName);
 
       // basename cannot start with .
       if (!options.showHidden && basename(path)[0] === '.') {
@@ -62,7 +63,7 @@ export default (prefix: string, options: Options) => {
       }
 
       // files that can be accessd should be under options.dir
-      if (filePath.indexOf(dir) !== 0) {
+      if (filePath.indexOf(_dir) !== 0) {
         return await next();
       }
 

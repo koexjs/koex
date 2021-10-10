@@ -1,6 +1,8 @@
+// import { Context } from '@koex/type';
+import type { Context } from 'koa';
 export interface Options {
   // directory
-  dir: string;
+  dir: string | ((ctx: Context) => Promise<string>);
 
   // functions
   gzip?: boolean; // default: true
