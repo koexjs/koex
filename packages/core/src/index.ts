@@ -1,4 +1,11 @@
-import * as Koa from 'koa';
+import { Server } from 'http';
+// TS ERROR:
+//   1. Property 'listen' in type 'Application' is not assignable to the same property in base type 'Application<DefaultState, DefaultContext>'.
+//   2. Property 'use' in type 'Application' is not assignable to the same property in base type 'Application<DefaultState, DefaultContext>'
+// import * as Koa from 'koa';
+//
+const Koa = require('koa');
+
 import {
   Middleware,
   //
@@ -47,6 +54,12 @@ export {
 export interface Application {}
 
 export class Application extends Koa implements Application {
+  private _server: Server = null;
+  private _type: 'port' | 'unix' = 'port';
+  private _port?: number;
+  private _host?: string;
+  private _unix?: string;
+
   constructor(private readonly options?: Options) {
     super();
 
@@ -67,9 +80,33 @@ export class Application extends Koa implements Application {
     return router;
   }
 
+  public get server() {
+    return this._server;
+  }
+
+  public get type() {
+    return this._type;
+  }
+
+  public get unix() {
+    return this._unix;
+  }
+
+  public get host() {
+    return this._host;
+  }
+
+  public get port() {
+    return this._port;
+  }
+
   // public use(md: Middleware<Context>) {
   //   super.use(md as any);
   // }
+
+  public use(middleware: Middleware<Context>) {
+    return super.use(middleware);
+  }
 
   public all(path: string, ...middlewares: Middleware<Context>[]) {
     this.use(this.router.all(path, ...middlewares));
@@ -93,6 +130,42 @@ export class Application extends Koa implements Application {
 
   public del(path: string, ...middlewares: Middleware<Context>[]) {
     this.use(this.router.del(path, ...middlewares));
+  }
+
+  public listen(path: string, callback: () => void): Server;
+  public listen(port: number, hostname: string, callback: () => void): Server;
+  public listen(port: any, hostname: any, callback?: any): Server {
+    // listen('/var/run/koex.sock, () => { ... })
+    if (!callback) {
+      this._type = 'unix';
+      this._unix = port;
+
+      // const _path = port;
+      // callback = hostname;
+      this._server = super.listen(port, hostname);
+    } else {
+      this._host = hostname;
+      this._port = port;
+
+      // listen(8080, '0.0.0.0', () => { ... })
+      this._server = super.listen(port, hostname, callback);
+    }
+
+    return this._server;
+  }
+
+  public throw(error: Error) {
+    return super.error(error);
+  }
+
+  public on(type: 'error', callback: (error: Error) => void): void;
+  public on(type: string, callback: Function): void {
+    return super.on(type, callback);
+  }
+
+  public emit(type: 'error', callback: (error: Error) => void): void;
+  public emit(type: string, callback: Function): void {
+    return super.emit(type, callback);
   }
 }
 
