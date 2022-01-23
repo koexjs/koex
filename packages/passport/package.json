@@ -73,6 +73,6 @@
   "dependencies": {
     "@zcorky/query-string": "^1.0.2",
     "@zodash/format": "^1.0.1-alpha.13",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^3.1.1"
   }
 }

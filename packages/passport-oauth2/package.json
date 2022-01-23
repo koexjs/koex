@@ -75,6 +75,6 @@
   "dependencies": {
     "@koex/passport": "^0.13.37",
     "@zcorky/query-string": "^1.0.2",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^3.1.1"
   }
 }
