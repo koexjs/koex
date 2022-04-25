@@ -1,6 +1,6 @@
 {
   "name": "@koex/ratelimit",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "ratelimit for koa extend",
   "main": "lib/index.js",
   "module": "lib/index.js",
@@ -15,7 +15,7 @@
     "prepublishOnly": "npm run build"
   },
   "devDependencies": {
-    "@koex/core": "^1.0.1"
+    "@koex/core": "^1.0.2"
   },
   "files": [
     "lib/"
@@ -57,7 +57,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@koex/type": "^1.0.1",
+    "@koex/type": "^1.0.2",
     "@zcorky/is": "^1.0.6",
     "@zcorky/lru": "^1.0.3",
     "debug": "^4.1.0",

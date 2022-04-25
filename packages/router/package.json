@@ -1,6 +1,6 @@
 {
   "name": "@koex/router",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "router for koa extend",
   "main": "lib/index.js",
   "repository": "https://github.com/koexjs/router",
@@ -57,7 +57,7 @@
     "access": "public"
   },
   "dependencies": {
-    "@koex/type": "^1.0.1",
+    "@koex/type": "^1.0.2",
     "@zcorky/lru": "^1.0.5",
     "koa-compose": "^4.1.0",
     "path-to-regexp": "^3.1.0"

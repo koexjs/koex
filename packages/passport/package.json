@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "koex passport",
   "keywords": [
     "koex",
@@ -68,7 +68,7 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^1.0.1"
+    "@koex/core": "^1.0.2"
   },
   "dependencies": {
     "@zcorky/query-string": "^1.0.2",

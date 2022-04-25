@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-local",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "koex passport-local",
   "keywords": [
     "koex",
@@ -69,9 +69,9 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^1.0.1"
+    "@koex/core": "^1.0.2"
   },
   "dependencies": {
-    "@koex/passport": "^1.0.1"
+    "@koex/passport": "^1.0.2"
   }
 }

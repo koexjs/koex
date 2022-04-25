@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-oauth2-config",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "koex passport-oauth2-config",
   "keywords": [
     "koex",
@@ -70,11 +70,11 @@
     "url": "https://github.com/koexjs/koex/issues"
   },
   "devDependencies": {
-    "@koex/core": "^1.0.1",
+    "@koex/core": "^1.0.2",
     "@koex/passport": "^1.0.1"
   },
   "dependencies": {
-    "@koex/passport": "^1.0.1",
+    "@koex/passport": "^1.0.2",
     "@zcorky/query-string": "^1.0.2",
     "@zodash/get": "^1.0.15",
     "node-fetch": "^2.6.0"
