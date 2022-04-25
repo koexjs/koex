@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-oauth2-config",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "koex passport-oauth2-config",
   "keywords": [
     "koex",
