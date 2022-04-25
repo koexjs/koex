@@ -1,6 +1,6 @@
 {
   "name": "@koex/cli",
-  "version": "0.13.33",
+  "version": "1.0.1",
   "description": "Koex CLI",
   "keywords": [
     "koex",
@@ -73,7 +73,7 @@
   "dependencies": {
     "@cliz/cli": "^0.0.2",
     "@cliz/core": "^0.2.2",
-    "@koex/graceful": "^0.13.29",
+    "@koex/graceful": "^1.0.1",
     "@zeit/ncc": "^0.22.3",
     "@zodash/delay": "^0.1.6",
     "@zodash/logger": "^0.2.16",
