@@ -1,6 +1,6 @@
 {
   "name": "@koex/ratelimit",
-  "version": "0.13.37",
+  "version": "1.0.0",
   "description": "ratelimit for koa extend",
   "main": "lib/index.js",
   "module": "lib/index.js",

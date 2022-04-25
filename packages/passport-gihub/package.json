@@ -1,6 +1,6 @@
 {
   "name": "@koex/passport-github",
-  "version": "0.13.37",
+  "version": "1.0.0",
   "description": "koex passport-github",
   "keywords": [
     "koex",
