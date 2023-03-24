@@ -229,7 +229,9 @@ describe('ratelimit middleware', () => {
         .set('foo', 'fiz')
         .expect(200, 'fiz');
 
+      await request(app.callback()).get('/').set('foo', 'biz').expect(200);
       await request(app.callback()).get('/').set('foo', 'biz').expect(429);
+      await request(app.callback()).get('/').set('foo', 'fiz').expect(429);
     });
   });
 
