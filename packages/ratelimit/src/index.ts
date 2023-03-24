@@ -85,7 +85,7 @@ const createRateLimit = (options?: Options<string, Limit>) => {
 
     // @initial, no limiter for key
     if (!limiter) {
-      limiter = initialLimiter;
+      limiter = { ...initialLimiter };
       await db.set(key, limiter);
     }
 
