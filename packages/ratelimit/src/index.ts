@@ -93,7 +93,7 @@ const createRateLimit = (options?: Options<string, Limit>) => {
     const calls = limiter.remaining > 0 ? limiter.remaining - 1 : 0;
 
     // @reset
-    const delta = (limiter.reset - Date.now()) | 0;
+    const delta = limiter.reset - Date.now();
     if (delta < 0) {
       reset(limiter);
     }
