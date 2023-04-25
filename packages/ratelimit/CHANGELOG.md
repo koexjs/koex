@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.4](https://github.com/koexjs/ratelimit/compare/v1.0.3...v1.0.4) (2023-04-25)
+
+
+### Bug Fixes
+
+* **ratelimit:** reset bug ([a7dd193](https://github.com/koexjs/ratelimit/commit/a7dd1936a18eccca9068d07323e995bde6cdc817))
+
+
+
+
+
 ## [1.0.3](https://github.com/koexjs/ratelimit/compare/v1.0.2...v1.0.3) (2023-03-24)
 
 
